@@ -75,4 +75,28 @@ INVESTING = {"nav": "Investing", "title": "Investing", "accent": "green", "blurb
 # Artifacts. 'src' is the folder under artifacts_src/. 'places' is a list of (course, chapter id) pairs;
 # the first is the primary home (back link). 'role': "review" is the main chapter review (tracked on the
 # Profile page); anything else is a supplementary resource. 'at': spec reference, e.g. "1.2.3".
-ARTIFACTS = []
+A = "a-econ"
+ARTIFACTS = [
+    {"src": "revenue-costs-profits", "role": "review", "at": "3.3", "title": "Business Objectives, Revenues, Costs and Profits", "kind": "Interactive",
+     "desc": "Spec 3.2 and 3.3: TR, AR and MR, cost curves, economies of scale, profit and shut-down points, objectives, with diagram walkthroughs, flashcards, a quiz and printable class notes.",
+     "places": [(A, "3-3"), (A, "3-2")]},
+
+    {"src": "technique-command-words", "title": "Command Words and Mark Allocation", "kind": "Exam technique",
+     "desc": "What each Edexcel command word asks for and how marks are split across knowledge, application, analysis and evaluation.",
+     "places": [(A, "exam-technique")]},
+    {"src": "technique-chain-of-reasoning", "title": "Chain of Reasoning", "kind": "Exam technique",
+     "desc": "Build analysis one linked step at a time, spot the errors that lose marks, and practise ordering chains.",
+     "places": [(A, "exam-technique")]},
+    {"src": "technique-evaluation", "title": "Evaluation and Judgement", "kind": "Exam technique",
+     "desc": "How to weigh arguments, use evaluation criteria and reach a justified judgement.",
+     "places": [(A, "exam-technique"), (A, "paper-3")]},
+    {"src": "technique-diagrams", "title": "Diagrams", "kind": "Exam technique",
+     "desc": "Drawing and annotating the required diagrams so they earn application and analysis marks.",
+     "places": [(A, "exam-technique")]},
+    {"src": "technique-data-response", "title": "Data Response", "kind": "Exam technique",
+     "desc": "Using extracts and figures: quoting, calculating and applying data in every answer.",
+     "places": [(A, "exam-technique")]},
+    {"src": "technique-25-mark-essays", "title": "25-Mark Essay Structure", "kind": "Exam technique",
+     "desc": "Planning, paragraph structure and timing for the 25-mark extended response.",
+     "places": [(A, "exam-technique"), (A, "paper-3")]},
+]

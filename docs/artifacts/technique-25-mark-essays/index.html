@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en"><head><script>try{var t=localStorage.getItem("site.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><script>document.documentElement.classList.add("gated")</script><style>html.gated{visibility:hidden!important}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Structuring a 25-mark essay - Edexcel Economics</title><style>:root { --ink:#1d2433; --muted:#5b6478; --line:#e3e6ee; --accent:#2f5bd3; --bg:#f7f8fb; --navy:#0b1f4b; --gold:#ffd166; }
+* { box-sizing:border-box; }
+body { margin:0; font:16px/1.6 system-ui,-apple-system,sans-serif; color:var(--ink); background:var(--bg); }
+a { color:var(--accent); }
+
+.nav { position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:10px 20px; background:var(--navy); }
+.nav .brand { color:#fff; font-weight:700; text-decoration:none; }
+.nav nav { display:flex; gap:4px; flex-wrap:wrap; }
+.nav nav a { color:#cbd5f5; text-decoration:none; padding:6px 12px; border-radius:6px; font-size:.95rem; }
+.nav nav a:hover { background:rgba(255,255,255,.12); color:#fff; }
+
+.hero { height:25vh; min-height:150px; background:linear-gradient(rgba(11,31,75,.35),rgba(11,31,75,.55)),var(--navy) url(images/hero.jpg) center 55%/cover; display:flex; align-items:center; justify-content:center; padding:0 16px; }
+.hero h1 { margin:0; color:#fff; font-size:clamp(1.6rem,5vw,3rem); text-align:center; text-shadow:0 2px 12px rgba(0,0,0,.4); }
+
+.tabs { display:flex; justify-content:center; gap:8px; padding:20px 16px 0; }
+.tabs button { font:inherit; font-weight:600; padding:10px 22px; border:1px solid var(--line); background:#fff; border-radius:999px; cursor:pointer; color:var(--muted); }
+.tabs button[aria-selected="true"] { background:var(--navy); color:#fff; border-color:var(--navy); }
+.panel { max-width:1100px; margin:0 auto; padding:24px 16px 64px; }
+.panel[hidden] { display:none; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:16px; }
+.tile { position:relative; display:block; aspect-ratio:3/2; border-radius:14px; overflow:hidden; text-decoration:none; box-shadow:0 2px 8px rgba(11,31,75,.15); transition:transform .15s, box-shadow .15s; }
+.tile:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(11,31,75,.25); }
+.tile img { width:100%; height:100%; object-fit:cover; display:block; }
+.tile span { position:absolute; left:0; right:0; bottom:0; padding:28px 14px 12px; color:#fff; font-weight:600; line-height:1.25; background:linear-gradient(transparent,rgba(0,0,0,.7)); }
+
+#cover { position:fixed; inset:0; z-index:100; background:#07122e url(images/cover.svg) center/cover; display:flex; align-items:center; justify-content:center; transition:opacity 3s ease, filter 3s ease; }
+#cover.dissolve { opacity:0; filter:blur(14px); pointer-events:none; }
+#cover button { font:inherit; font-size:1.3rem; font-weight:700; padding:16px 44px; border:2px solid #fff; background:rgba(11,31,75,.55); color:#fff; border-radius:999px; cursor:pointer; backdrop-filter:blur(4px); transition:background .2s, transform .2s; }
+#cover button:hover { background:var(--gold); color:var(--navy); border-color:var(--gold); transform:scale(1.05); }
+
+.lesson { max-width:820px; margin:0 auto; padding:24px 16px 64px; }
+.lesson h1 { margin:8px 0 16px; }
+.back { text-decoration:none; font-size:.95rem; }
+.tools { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.tools button { font:inherit; font-size:.9rem; padding:6px 14px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; }
+.tools button:hover { border-color:var(--accent); color:var(--accent); }
+.lesson details { background:#fff; border:1px solid var(--line); border-radius:10px; margin-bottom:8px; }
+.lesson summary { padding:14px 16px; cursor:pointer; font-weight:600; }
+.lesson .content { padding:0 16px 16px; }
+.soon { color:var(--muted); font-style:italic; margin:0; }
+.dl-link { margin-top:32px; }
+
+@media print {
+  .nav, .tools, .back, .dl-link, #cover { display:none; }
+  body { background:#fff; }
+  .lesson details { border:none; }
+  .lesson details > .content { display:block; }
+  .lesson summary { padding-left:0; font-size:1.15rem; }
+}
+
+/* Lesson components */
+.lesson h3 { margin:20px 0 6px; font-size:1.05rem; }
+.lesson p, .lesson li { max-width:68ch; }
+.lesson table { border-collapse:collapse; margin:12px 0; font-size:.95rem; }
+.lesson th, .lesson td { border:1px solid var(--line); padding:6px 12px; text-align:left; vertical-align:top; }
+.lesson th { background:#eef1f8; }
+.formula { background:#eef1f8; border-left:4px solid var(--accent); padding:8px 14px; margin:10px 0; border-radius:0 8px 8px 0; font-family:ui-monospace,Menlo,monospace; font-size:.95rem; }
+.tip { background:#fff8e1; border-left:4px solid var(--gold); padding:10px 14px; margin:14px 0; border-radius:0 8px 8px 0; }
+.tip b:first-child { display:block; margin-bottom:2px; }
+.stepper, .widget { background:#fafbfe; border:1px solid var(--line); border-radius:12px; padding:12px; margin:16px 0; }
+.chart { width:100%; height:auto; display:block; }
+.chart .axis { stroke:#333; stroke-width:2; fill:none; }
+.chart .axlab, .chart .lab { font:12px system-ui,sans-serif; fill:#333; }
+.chart .line { fill:none; stroke-width:3; stroke-linecap:round; }
+.chart .mc { stroke:#d9480f; } .chart .ac { stroke:#2f5bd3; } .chart .avc { stroke:#7c3aed; } .chart .mr { stroke:#0f766e; } .chart .ar { stroke:#c2255c; } .chart .tr { stroke:#2f5bd3; } .chart .sr { stroke:#94a3b8; stroke-width:2; } .chart .lr { stroke:#d9480f; }
+.chart text.mc { fill:#d9480f; } .chart text.ac { fill:#2f5bd3; } .chart text.avc { fill:#7c3aed; } .chart text.mr { fill:#0f766e; } .chart text.ar { fill:#c2255c; } .chart text.tr { fill:#2f5bd3; } .chart text.lr { fill:#d9480f; }
+.chart .guide { stroke:#666; stroke-width:1.5; stroke-dasharray:5 4; fill:none; }
+.chart .dot { fill:#111; }
+.chart .profit { fill:#2f9e44; fill-opacity:.35; } .chart .loss { fill:#e03131; fill-opacity:.35; }
+.cap { min-height:3.2em; margin:8px 4px; }
+.ctl { display:flex; align-items:center; gap:10px; }
+.ctl button, .reveal-ctl button { font:inherit; padding:6px 16px; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:8px; cursor:pointer; }
+.ctl button:disabled, .reveal-ctl button:disabled { opacity:.35; cursor:default; }
+.ctl .count { color:var(--muted); font-size:.9rem; }
+.allcaps { display:none; }
+.slider-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:8px 0; }
+.slider-row input[type=range] { flex:1; min-width:160px; }
+.readout { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin:8px 0; }
+.readout div { background:#fff; border:1px solid var(--line); border-radius:8px; padding:6px 10px; font-size:.9rem; }
+.readout b { display:block; font-size:1.1rem; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:700px) { .two { grid-template-columns:1fr; } }
+.reveal { list-style:none; padding:0; margin:8px 0; }
+.reveal li { background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:8px; padding:8px 12px; margin-bottom:6px; }
+.reveal li b { color:var(--accent); }
+.reveal-ctl { display:flex; gap:8px; margin-bottom:8px; }
+.reveal-ctl [data-reset] { background:#fff; color:var(--ink); border-color:var(--line); }
+.q { margin:14px 0; }
+.opt { display:block; width:100%; text-align:left; font:inherit; padding:8px 12px; margin:4px 0; background:#fff; border:1px solid var(--line); border-radius:8px; cursor:pointer; }
+.opt:hover { border-color:var(--accent); }
+.opt.right { background:#d3f9d8; border-color:#2f9e44; } .opt.wrong { background:#ffe3e3; border-color:#e03131; }
+.fb { font-size:.95rem; color:var(--muted); margin:4px 0; }
+.score { font-weight:600; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin:12px 0; }
+.card { font:inherit; min-height:110px; padding:12px; border:1px solid var(--line); border-radius:10px; background:#fff; cursor:pointer; text-align:left; }
+.card .back { display:none; font-size:.9rem; } .card.flipped .front { display:none; } .card.flipped .back { display:block; }
+.card .front { font-weight:600; color:var(--accent); } .card.flipped { background:#eef1f8; }
+@media print {
+  .stepper .ctl, .cap, .reveal-ctl, .card .front { display:none; }
+  .chart [data-step] { display:inline !important; }
+  .allcaps { display:block; font-size:.9rem; }
+  .reveal li[hidden] { display:block !important; }
+  .card .back { display:block; }
+  .widget .slider-row { display:none; }
+  .stepper, .widget { break-inside:avoid-page; }
+}
+
+.chart text.srlab { fill:#475569; font-weight:600; }
+
+/* Chain of reasoning */
+.chain { display:flex; flex-wrap:wrap; align-items:center; gap:6px 4px; margin:10px 0; }
+.chain .link { background:#fff; border:1px solid var(--accent); color:var(--ink); border-radius:8px; padding:6px 10px; font-size:.92rem; }
+.chain .arrow { color:var(--accent); font-weight:700; font-size:.85rem; }
+.chain .link.start { background:var(--accent); color:#fff; } .chain .link.end { background:#d3f9d8; border-color:#2f9e44; }
+.chain .link.gap { background:#ffe3e3; border-color:#e03131; border-style:dashed; }
+.order .pool { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+.order .chip { font:inherit; font-size:.92rem; padding:7px 12px; background:#fff; border:1px solid var(--line); border-radius:8px; cursor:pointer; }
+.order .chip:hover { border-color:var(--accent); }
+.order .chip:disabled { opacity:.3; }
+.order .msg { min-height:1.6em; font-size:.92rem; color:var(--muted); }
+.order button.reset { font:inherit; padding:5px 12px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; }
+.bad, .good { border-radius:8px; padding:10px 14px; margin:8px 0; }
+.bad { background:#fff0f0; border-left:4px solid #e03131; } .good { background:#ebfbee; border-left:4px solid #2f9e44; }
+.bad b:first-child, .good b:first-child { display:block; }
+@media print { .order .pool { display:none; } }
+
+.qline { background:#eef1f8; border-radius:8px; padding:8px 12px; margin:6px 0; }
+
+.nocover #cover { display:none; }
+
+/* Calculation practice */
+.calc input[type=number] { font:inherit; padding:6px 10px; border:1px solid var(--line); border-radius:8px; width:9em; }
+.calc .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0; }
+.calc button { font:inherit; padding:6px 14px; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:8px; cursor:pointer; }
+.calc button.alt { background:#fff; color:var(--ink); border-color:var(--line); }
+.calc .work { background:#eef1f8; border-radius:8px; padding:8px 12px; margin-top:8px; }
+.calc .work[hidden] { display:none; }
+
+@media print {
+  .screen-only, .order, .calc, details:has(.order), details:has(#ord1) { display:none !important; }
+  .lesson h1 { font-size:20pt; margin-top:0; }
+  .lesson { max-width:none; padding:0; }
+  .lesson details > summary { list-style:none; font-weight:700; font-size:13pt; border-bottom:2px solid #0b1f4b; margin-top:12pt; padding:0 0 2pt; }
+  .lesson details > summary::-webkit-details-marker { display:none; }
+  .qline { break-inside:avoid; }
+  @page { size:A4; margin:16mm 15mm; }
+}
+
+.section-head { font-size:1.2rem; margin:24px 0 10px; padding-bottom:4px; border-bottom:2px solid var(--navy); }
+.section-head.gap-top { margin-top:48px; }
+.dl-list { list-style:none; padding:0; margin:0; }
+.dl-list li { padding:8px 0; border-top:1px solid var(--line); } .dl-list li:first-child { border-top:0; }
+.dl-list a { font-weight:500; text-decoration:none; }
+@media print { .section-head.gap-top { margin-top:18pt; } .dl-list { display:none; } details:has(.dl-list) { display:none; } }
+@media print { .section-head.gap-top, .section-head.gap-top ~ details { display:none !important; } .section-head { margin-top:14pt; } }
+</style></head>
+<body><main class="lesson"><h1>Structuring a 25-mark essay</h1>
+<div class="tools"><button data-expand>Expand all</button><button data-collapse>Collapse all</button><button data-print>Download PDF</button></div>
+<h2 class="section-head">Content</h2>
+<details><summary>1. The plan: your first five minutes</summary><div class="content">
+<p>Plan before you write. Five minutes of planning is worth more than five extra minutes of writing. A 25-mark essay rewards analysis, evaluation, application to the extracts and a judgement, so the plan must cover all four.</p>
+<ol class="reveal">
+<li><b>Decode the question.</b> Command word (evaluate, assess, discuss), theory needed, and what the extracts refer to. See <a href="../technique-command-words/">command words</a>.</li>
+<li><b>Choose your two lines of analysis.</b> Pick two effects, ideally opposite in direction (or one micro and one macro), that answer the question.</li>
+<li><b>Write the evaluation for each.</b> One weak link or condition per analysis point: short run versus long run, it depends on..., maybe not because...</li>
+<li><b>Mark the extract evidence.</b> Note the figures and facts you will drop into each paragraph.</li>
+<li><b>Decide your judgement now.</b> Which side is stronger, and what does it depend on? Write one line. Every paragraph then builds towards it.</li>
+</ol>
+<div class="reveal-ctl"><button>Show next</button><button data-reset>Reset</button></div>
+<h3>Content you can use in analysis and evaluation</h3>
+<p><b>Micro effects:</b> price, quantity, quality, elasticity, demand and supply, costs of production, consumer and producer surplus, revenue and profit, government revenue and costs, stakeholders, market failure and government failure, competition and market structure, efficiency and productivity, wages and employment, equity and inequality.</p>
+<p><b>Macro effects:</b> AD/AS, growth, unemployment, inflation and deflation, the current account, income inequality, government finances, the multiplier, exchange rates, protectionism, competitiveness, living standards, macroeconomic objectives and policy, the circular flow.</p>
+</div></details>
+<details><summary>2. Paragraph structure</summary><div class="content">
+<table><tr><th>#</th><th>Paragraph</th><th>What it does</th></tr>
+<tr><td>1</td><td>Definitions</td><td>Define the key terms in the question, briefly.</td></tr>
+<tr><td>2</td><td>Analysis</td><td>A chain of reasoning on the micro or macro effects, applied to the extract.</td></tr>
+<tr><td>3</td><td>Evaluation of the analysis</td><td>Challenge paragraph 2 with natural evaluation.</td></tr>
+<tr><td>4</td><td>Analysis</td><td>A second chain, the opposite of paragraph 2 (micro if 2 was macro, or the other side).</td></tr>
+<tr><td>5</td><td>Evaluation of the analysis</td><td>Challenge paragraph 4.</td></tr>
+<tr><td>6</td><td>Judgement</td><td>Answer the question and justify.</td></tr></table>
+<p>Natural evaluation means it arises from the point you have just made. Do not bolt on "on the other hand" generalities. Attach each evaluation to the exact link it tests.</p>
+<h3>Ways to evaluate a chain</h3>
+<ul>
+<li><b>Maybe not:</b> the effect might not happen. More exports might not follow because there is no capacity or no demand; fewer imports might not follow because the goods are essential with no substitutes.</li>
+<li><b>Short run versus long run:</b> a firm with spare funds can absorb a cost rise now, but not if it lasts.</li>
+<li><b>It depends:</b> on elasticity, size of the change, market structure, who bears the cost.</li>
+<li><b>The business cycle:</b> the effect differs in a boom and a recession.</li>
+<li><b>Government policy or intervention</b> may change the outcome.</li>
+</ul>
+<div class="tip"><b>Application</b>Use the extracts a lot. Every paragraph should contain at least one figure, name or fact from them.</div>
+</div></details>
+<details><summary>3. Introduction and judgement</summary><div class="content">
+<h3>Introduction (paragraph 1)</h3>
+<p>Keep it short. Define the key terms and, if useful, say which two lines of argument you will follow. No long scene-setting.</p>
+<h3>Judgement (paragraph 6)</h3>
+<p>The specification asks for a balanced, well-reasoned, effective answer to the question. The best judgements:</p>
+<ul>
+<li>Answer the question explicitly, straight away.</li>
+<li>Justify why by weighing up the points you have already made, not by introducing new ones.</li>
+<li>Show your strongest viewpoint and lean towards it.</li>
+<li>Stay balanced. Nothing in economics is guaranteed, so avoid "will".</li>
+<li>Consider the short run and long run.</li>
+<li>Use the extract evidence to back the case.</li>
+</ul>
+<h3>Sentence starters</h3>
+<ul>
+<li>As long as ________ happens, then ________ should ________.</li>
+<li>Because of ________, ________ should happen.</li>
+<li>The intended consequence of this action would be ________.</li>
+<li>The unintended consequences of this policy may be ________.</li>
+<li>In the short run ________, but in the long run ________.</li>
+</ul>
+</div></details>
+<details><summary>4. Timing</summary><div class="content">
+<p>Aim for about 30 minutes per 25-mark essay. Two essays and a data section fill a 2-hour paper, so the time has to be held.</p>
+<table><tr><th>Stage</th><th>Minutes</th></tr>
+<tr><td>Plan</td><td>5</td></tr><tr><td>Definitions</td><td>2</td></tr>
+<tr><td>Analysis 1 (with diagram if useful)</td><td>5</td></tr><tr><td>Evaluation 1</td><td>3</td></tr>
+<tr><td>Analysis 2</td><td>5</td></tr><tr><td>Evaluation 2</td><td>3</td></tr>
+<tr><td>Judgement</td><td>4</td></tr><tr><td>Check</td><td>3</td></tr></table>
+<p>If you are running late, protect the judgement. Cut a diagram, not the conclusion.</p>
+</div></details>
+<details><summary>5. Model answer walkthrough</summary><div class="content">
+<p><b>Question:</b> Evaluate the view that profit maximisation should be a firm's main objective. (25)</p>
+<p>This is an outline model on a Theme 3 topic. In the exam you would weave in figures and facts from the extracts throughout. Click to reveal each paragraph and its label.</p>
+<ol class="reveal">
+<li><b>1. Definitions.</b> Profit maximisation means producing where marginal cost equals marginal revenue, which gives the largest gap between total revenue and total cost. Other objectives include revenue maximisation (MR = 0), sales maximisation (AC = AR) and satisficing, where managers aim for a satisfactory rather than maximum profit.</li>
+<li><b>2. Analysis: for profit maximisation.</b> Producing at MC = MR gives the highest profit because up to that output each extra unit adds more to revenue than to cost. Higher profit means the firm can pay shareholders, reinvest in capacity and research, and fund a cushion against downturns. Reinvestment can lower long-run average costs through economies of scale, so the firm can cut price and still make a margin, which raises its competitiveness and market share over time.</li>
+<li><b>3. Evaluation of paragraph 2.</b> But this depends on the firm knowing its MC and MR, which is hard in practice, so few firms find the exact maximum. Profit may also not be reinvested: if managers are not the owners, the principal-agent problem means profits may go on perks or empire-building. In a competitive market with low margins there may be little supernormal profit to reinvest at all.</li>
+<li><b>4. Analysis: against profit maximisation.</b> A manager whose pay depends on firm size may prefer revenue or sales maximisation. Sales maximisation, where AC = AR, gives higher output at a lower price with only normal profit, so consumers benefit from lower prices and more choice. A firm that chases long-run market share may accept low profit now to deter entry, as with limit pricing, which safeguards later profits.</li>
+<li><b>5. Evaluation of paragraph 4.</b> However, this cannot last. If the firm earns only normal profit, shareholders may sell shares and the share price falls, and a takeover becomes more likely. Satisficing is only sustainable if profit stays above the level owners will tolerate. It also depends on the market: in a regulated or state-owned firm, other aims such as service quality can genuinely outweigh profit.</li>
+<li><b>6. Judgement.</b> Profit maximisation should be the main objective for a private firm in a competitive market, because without profit it cannot survive or invest. As long as owners can monitor managers, profit-seeking should also serve consumers through lower long-run costs. However, in the short run, and where the firm is publicly owned or facing regulation, other objectives may rightly come first. Overall, profit should be the primary but not sole objective, and how strongly depends on ownership and the time horizon.</li>
+</ol>
+<div class="reveal-ctl"><button>Show next paragraph</button><button data-reset>Reset</button></div>
+</div></details>
+<h2 class="section-head gap-top">Resources</h2>
+<details><summary>Quiz: name that paragraph</summary><div class="content"><div id="quiz"></div></div></details>
+<details><summary>Downloads (PDF)</summary><div class="content"><ul class="dl-list"><li><a href="25-Mark Essay Structure - Class Notes.pdf" download>25-Mark Essay Structure - Class Notes (PDF)</a></li></ul></div></details>
+
+
+</main><script>document.querySelectorAll('[data-expand]').forEach(b => b.onclick = () => document.querySelectorAll('details').forEach(d => d.open = true));
+document.querySelectorAll('[data-collapse]').forEach(b => b.onclick = () => document.querySelectorAll('details').forEach(d => d.open = false));
+document.querySelectorAll('[data-print]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('details').forEach(d => d.open = true);
+  window.print();
+});
+
+if (location.hash === '#print') document.querySelectorAll('details').forEach(d => d.open = true);
+
+</script><script>// Shared interactive components: charts, steppers, reveal lists, quizzes, flashcards.
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs = {}, parent) => {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+
+// Axes-based chart. x and y run from 0 to xmax / ymax.
+function makeChart(host, o) {
+  const W = 520, H = 340, L = 52, B = 44, T = 16, R = 20;
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': o.label || 'Economics diagram' });
+  host.appendChild(svg);
+  const X = x => L + (x / o.xmax) * (W - L - R);
+  const Y = y => H - B - (y / o.ymax) * (H - B - T);
+  el('path', { d: `M${L} ${T}V${H - B}H${W - R}`, class: 'axis' }, svg);
+  const xt = el('text', { x: (W + L) / 2, y: H - 8, class: 'axlab', 'text-anchor': 'middle' }, svg); xt.textContent = o.xlab || 'Quantity';
+  const yt = el('text', { x: 14, y: (H - B + T) / 2, class: 'axlab', 'text-anchor': 'middle', transform: `rotate(-90 14 ${(H - B + T) / 2})` }, svg); yt.textContent = o.ylab || 'Price / costs (£)';
+  const api = { svg, X, Y, W, H, L, B, T, R };
+  api.curve = (fn, cls, step, from = 0, to = o.xmax, label, lx) => {
+    let d = '';
+    for (let i = 0; i <= 120; i++) {
+      const x = from + (to - from) * i / 120, y = fn(x);
+      if (y < -0.001 || y > o.ymax) { if (d) d += ' '; d += '\u0000'; continue; }
+      d += (d === '' || d.endsWith('\u0000') ? 'M' : 'L') + X(x).toFixed(1) + ' ' + Y(y).toFixed(1);
+    }
+    const g = el('g', step != null ? { 'data-step': step } : {}, svg);
+    el('path', { d: d.replace(/\u0000/g, ''), class: 'line ' + cls }, g);
+    if (label) {
+      const xx = lx != null ? lx : to;
+      const t = el('text', { x: X(xx) + 4, y: Y(fn(xx)) - 4, class: 'lab ' + cls }, g); t.textContent = label;
+    }
+    return g;
+  };
+  api.dash = (x, y, step, cls = 'guide') => {
+    const g = el('g', step != null ? { 'data-step': step } : {}, svg);
+    if (x != null && y != null) {
+      el('path', { d: `M${X(x)} ${Y(y)}V${Y(0)}M${X(x)} ${Y(y)}H${X(0)}`, class: cls }, g);
+    } else if (x != null) el('path', { d: `M${X(x)} ${Y(0)}V${T}`, class: cls }, g);
+    return g;
+  };
+  api.dot = (x, y, step, cls = '') => { const g = el('g', step != null ? { 'data-step': step } : {}, svg); el('circle', { cx: X(x), cy: Y(y), r: 5, class: 'dot ' + cls }, g); return g; };
+  api.tag = (x, y, text, step, dx = 0, dy = 0, cls = '') => { const g = el('g', step != null ? { 'data-step': step } : {}, svg); const t = el('text', { x: X(x) + dx, y: Y(y) + dy, class: 'lab ' + cls, 'text-anchor': 'middle' }, g); t.textContent = text; return g; };
+  api.rect = (x1, y1, x2, y2, step, cls) => { const g = el('g', step != null ? { 'data-step': step } : {}, svg); el('rect', { x: X(x1), y: Y(y2), width: X(x2) - X(x1), height: Y(y1) - Y(y2), class: cls }, g); return g; };
+  api.clear = () => svg.querySelectorAll('.dyn').forEach(n => n.remove());
+  return api;
+}
+
+// Stepper: steps = [captions]; draw(chart, state) is called once; elements with data-step <= current are shown.
+function makeStepper(id, o) {
+  const root = document.getElementById(id);
+  const host = root.querySelector('.chart-host');
+  const chart = makeChart(host, o.chart);
+  o.draw(chart, root);
+  const cap = root.querySelector('.cap'), count = root.querySelector('.count');
+  const prev = root.querySelector('[data-prev]'), next = root.querySelector('[data-next]');
+  const all = root.querySelector('.allcaps');
+  o.steps.forEach(s => { const li = document.createElement('li'); li.innerHTML = s; all.appendChild(li); });
+  let cur = 0;
+  const render = () => {
+    chart.svg.querySelectorAll('[data-step]').forEach(g => g.style.display = +g.dataset.step <= cur ? '' : 'none');
+    cap.innerHTML = o.steps[cur];
+    count.textContent = `Step ${cur + 1} of ${o.steps.length}`;
+    prev.disabled = cur === 0; next.disabled = cur === o.steps.length - 1;
+    if (o.onStep) o.onStep(cur, chart, root);
+  };
+  prev.onclick = () => { cur--; render(); };
+  next.onclick = () => { cur++; render(); };
+  render();
+  return { chart, root, render, get step() { return cur; } };
+}
+
+// Reveal list: the control bar after the list holds a "next" button and a reset button.
+function initReveals() {
+  document.querySelectorAll('.reveal').forEach(r => {
+    const items = [...r.querySelectorAll(':scope > li')];
+    const ctl = r.nextElementSibling;
+    const btn = ctl.querySelector('button:not([data-reset])');
+    const rs = ctl.querySelector('[data-reset]');
+    let n = 1;
+    items.forEach((li, i) => li.hidden = i >= 1);
+    btn.onclick = () => {
+      if (n < items.length) items[n++].hidden = false;
+      if (n >= items.length) btn.disabled = true;
+    };
+    rs.onclick = () => { items.forEach((li, i) => li.hidden = i >= 1); n = 1; btn.disabled = false; };
+  });
+}
+
+// Quiz: questions = [{q, options[], answer, why}]
+function makeQuiz(id, questions) {
+  const root = document.getElementById(id);
+  let score = 0, answered = 0;
+  const board = document.createElement('p'); board.className = 'score';
+  questions.forEach((q, qi) => {
+    const box = document.createElement('div'); box.className = 'q';
+    box.innerHTML = `<p><strong>${qi + 1}.</strong> ${q.q}</p>`;
+    const fb = document.createElement('p'); fb.className = 'fb'; fb.hidden = true;
+    q.options.forEach((opt, oi) => {
+      const b = document.createElement('button'); b.className = 'opt'; b.innerHTML = opt;
+      b.onclick = () => {
+        if (box.dataset.done) return;
+        box.dataset.done = 1; answered++;
+        const ok = oi === q.answer; if (ok) score++;
+        b.classList.add(ok ? 'right' : 'wrong');
+        if (!ok) box.querySelectorAll('.opt')[q.answer].classList.add('right');
+        fb.hidden = false; fb.innerHTML = (ok ? 'Correct. ' : 'Not quite. ') + q.why;
+        board.textContent = `Score: ${score} / ${answered} answered (of ${questions.length})`;
+      };
+      box.appendChild(b);
+    });
+    box.appendChild(fb); root.appendChild(box);
+  });
+  root.appendChild(board);
+}
+
+function makeFlashcards(id, cards) {
+  const root = document.getElementById(id);
+  cards.forEach(([term, def]) => {
+    const c = document.createElement('button'); c.className = 'card';
+    c.innerHTML = `<span class="front">${term}</span><span class="back">${def}</span>`;
+    c.onclick = () => c.classList.toggle('flipped');
+    root.appendChild(c);
+  });
+}
+document.addEventListener('DOMContentLoaded', initReveals);
+
+// Ordering exercise: click the links in the order the reasoning runs.
+function makeOrder(id, start, links, end) {
+  const root = document.getElementById(id);
+  root.classList.add('order');
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const build = () => {
+    root.innerHTML = '';
+    const chain = document.createElement('div'); chain.className = 'chain';
+    const add = (t, cls) => { if (chain.children.length) { const a = document.createElement('span'); a.className = 'arrow'; a.textContent = '→ so'; chain.appendChild(a); } const l = document.createElement('span'); l.className = 'link ' + (cls || ''); l.textContent = t; chain.appendChild(l); };
+    add(start, 'start');
+    const pool = document.createElement('div'); pool.className = 'pool';
+    const msg = document.createElement('p'); msg.className = 'msg';
+    let next = 0;
+    shuffle(links.map((t, i) => [t, i])).forEach(([t, i]) => {
+      const b = document.createElement('button'); b.className = 'chip'; b.textContent = t;
+      b.onclick = () => {
+        if (i !== next) { msg.textContent = 'Not yet. Ask what that link needs before it can happen.'; return; }
+        add(t); b.disabled = true; next++; msg.textContent = '';
+        if (next === links.length) { add(end, 'end'); msg.textContent = 'Complete chain. Each link causes the next.'; }
+      };
+      pool.appendChild(b);
+    });
+    const rs = document.createElement('button'); rs.className = 'reset'; rs.textContent = 'Reset'; rs.onclick = build;
+    root.append(chain, pool, msg, rs);
+  };
+  build();
+}
+</script><script>makeQuiz('quiz', [
+  { q: '"But this depends on whether the firm can actually find its MC = MR output, which is hard to measure in practice." Which paragraph type is this?', options: ['Definitions', 'Analysis', 'Evaluation of the analysis', 'Judgement'], answer: 2, why: 'It challenges a link in the analysis rather than adding a new chain.' },
+  { q: '"Sales maximisation gives higher output at a lower price, so consumers pay less and firms gain market share." What is this?', options: ['Definitions', 'Analysis', 'Evaluation', 'Judgement'], answer: 1, why: 'It develops a chain of reasoning: lower price, more output, more market share.' },
+  { q: 'Which is the best opening to a judgement?', options: ['There are many arguments on both sides.', 'Profit maximisation should be the main objective, as long as owners can monitor managers.', 'In conclusion, firms have objectives.', 'Profit will always be the goal.'], answer: 1, why: 'It answers immediately, gives a reason and a condition. "Will always" is too certain.' },
+  { q: 'You are running out of time. What should you protect?', options: ['The second diagram', 'A long introduction', 'The judgement', 'The definitions'], answer: 2, why: 'A supported judgement carries marks that a diagram or long definition cannot replace.' },
+  { q: 'How many minutes should planning take?', options: ['1', '5', '10', '15'], answer: 1, why: 'Five minutes for the plan, then about 25 for the writing.' }
+]);
+</script><style id=site-pill>.site-pill{position:fixed;right:12px;bottom:12px;opacity:.8;z-index:2147483000;display:flex;gap:2px;font:600 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:rgba(20,24,28,.88);border-radius:999px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.25)}.site-pill a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:999px;white-space:nowrap}.site-pill a:hover,.site-pill button:hover{background:rgba(255,255,255,.18)}.site-pill button{font:inherit;color:#fff;background:transparent;border:0;border-left:1px solid rgba(255,255,255,.25);border-radius:0 999px 999px 0;padding:8px 12px;cursor:pointer}.site-pill button.is-done{color:#7be0a0}@media print{.site-pill{display:none}}.site-pill .pill-more{display:none}@media(max-width:700px){body{padding-bottom:64px}.site-pill{right:8px;bottom:8px;opacity:.6;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 16px)}.site-pill>*:not(.pill-more){display:none}.site-pill.open{opacity:.95}.site-pill.open>*:not(.pill-more):not([hidden]){display:inline-block}.site-pill .pill-more{display:block;border:0;border-radius:999px;width:36px;height:36px;padding:0;text-align:center;font-size:18px}.site-pill.open .pill-more{border-left:0}}</style><div class="site-pill"><button type="button" class="pill-more" aria-label="Menu" onclick="this.parentNode.classList.toggle(&#39;open&#39;)">☰</button><a href="../../a-econ/exam-prep/exam-technique/#res">← Exam technique</a><a href="../../">Home</a><button type="button" title="Light / dark" onclick="var r=document.documentElement,d=(r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';r.setAttribute('data-theme',d);try{localStorage.setItem('site.theme',d)}catch(e){}">◐</button><button data-done-slug="technique-25-mark-essays" hidden></button><button data-role-toggle="technique-25-mark-essays" hidden></button><button data-role-delete="technique-25-mark-essays" hidden></button><button data-role-restore="technique-25-mark-essays" hidden></button></div><script src="../../assets/config.js?v=1791096330"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../../assets/app.js?v=1791096330"></script><script src="../../assets/gate.js?v=1791096330" data-courses="a-econ"></script><script>document.addEventListener('click',function(e){var t=e.target.closest('[role=tab],.tab,.tabbar button,.tabs button,.section-tabs button,[data-tab],[data-panel-tab]');if(!t)return;var n=t,s=false;while(n&&n!==document.body){var p=getComputedStyle(n).position;if(p==='sticky'||p==='fixed'){s=true;break}n=n.parentElement}if(s)setTimeout(function(){window.scrollTo(0,0)},30)});</script><script>document.addEventListener('click',function(e){var p=document.querySelector('.site-pill.open');if(p&&!p.contains(e.target))p.classList.remove('open')});addEventListener('scroll',function(){var p=document.querySelector('.site-pill.open');if(p)p.classList.remove('open')},{passive:true});</script></body></html>

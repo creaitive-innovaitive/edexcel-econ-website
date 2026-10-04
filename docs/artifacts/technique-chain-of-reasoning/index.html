@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en"><head><script>try{var t=localStorage.getItem("site.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><script>document.documentElement.classList.add("gated")</script><style>html.gated{visibility:hidden!important}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Chain of reasoning - Edexcel Economics</title><style>:root { --ink:#1d2433; --muted:#5b6478; --line:#e3e6ee; --accent:#2f5bd3; --bg:#f7f8fb; --navy:#0b1f4b; --gold:#ffd166; }
+* { box-sizing:border-box; }
+body { margin:0; font:16px/1.6 system-ui,-apple-system,sans-serif; color:var(--ink); background:var(--bg); }
+a { color:var(--accent); }
+
+.nav { position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:10px 20px; background:var(--navy); }
+.nav .brand { color:#fff; font-weight:700; text-decoration:none; }
+.nav nav { display:flex; gap:4px; flex-wrap:wrap; }
+.nav nav a { color:#cbd5f5; text-decoration:none; padding:6px 12px; border-radius:6px; font-size:.95rem; }
+.nav nav a:hover { background:rgba(255,255,255,.12); color:#fff; }
+
+.hero { height:25vh; min-height:150px; background:linear-gradient(rgba(11,31,75,.35),rgba(11,31,75,.55)),var(--navy) url(images/hero.jpg) center 55%/cover; display:flex; align-items:center; justify-content:center; padding:0 16px; }
+.hero h1 { margin:0; color:#fff; font-size:clamp(1.6rem,5vw,3rem); text-align:center; text-shadow:0 2px 12px rgba(0,0,0,.4); }
+
+.tabs { display:flex; justify-content:center; gap:8px; padding:20px 16px 0; }
+.tabs button { font:inherit; font-weight:600; padding:10px 22px; border:1px solid var(--line); background:#fff; border-radius:999px; cursor:pointer; color:var(--muted); }
+.tabs button[aria-selected="true"] { background:var(--navy); color:#fff; border-color:var(--navy); }
+.panel { max-width:1100px; margin:0 auto; padding:24px 16px 64px; }
+.panel[hidden] { display:none; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:16px; }
+.tile { position:relative; display:block; aspect-ratio:3/2; border-radius:14px; overflow:hidden; text-decoration:none; box-shadow:0 2px 8px rgba(11,31,75,.15); transition:transform .15s, box-shadow .15s; }
+.tile:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(11,31,75,.25); }
+.tile img { width:100%; height:100%; object-fit:cover; display:block; }
+.tile span { position:absolute; left:0; right:0; bottom:0; padding:28px 14px 12px; color:#fff; font-weight:600; line-height:1.25; background:linear-gradient(transparent,rgba(0,0,0,.7)); }
+
+#cover { position:fixed; inset:0; z-index:100; background:#07122e url(images/cover.svg) center/cover; display:flex; align-items:center; justify-content:center; transition:opacity 3s ease, filter 3s ease; }
+#cover.dissolve { opacity:0; filter:blur(14px); pointer-events:none; }
+#cover button { font:inherit; font-size:1.3rem; font-weight:700; padding:16px 44px; border:2px solid #fff; background:rgba(11,31,75,.55); color:#fff; border-radius:999px; cursor:pointer; backdrop-filter:blur(4px); transition:background .2s, transform .2s; }
+#cover button:hover { background:var(--gold); color:var(--navy); border-color:var(--gold); transform:scale(1.05); }
+
+.lesson { max-width:820px; margin:0 auto; padding:24px 16px 64px; }
+.lesson h1 { margin:8px 0 16px; }
+.back { text-decoration:none; font-size:.95rem; }
+.tools { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.tools button { font:inherit; font-size:.9rem; padding:6px 14px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; }
+.tools button:hover { border-color:var(--accent); color:var(--accent); }
+.lesson details { background:#fff; border:1px solid var(--line); border-radius:10px; margin-bottom:8px; }
+.lesson summary { padding:14px 16px; cursor:pointer; font-weight:600; }
+.lesson .content { padding:0 16px 16px; }
+.soon { color:var(--muted); font-style:italic; margin:0; }
+.dl-link { margin-top:32px; }
+
+@media print {
+  .nav, .tools, .back, .dl-link, #cover { display:none; }
+  body { background:#fff; }
+  .lesson details { border:none; }
+  .lesson details > .content { display:block; }
+  .lesson summary { padding-left:0; font-size:1.15rem; }
+}
+
+/* Lesson components */
+.lesson h3 { margin:20px 0 6px; font-size:1.05rem; }
+.lesson p, .lesson li { max-width:68ch; }
+.lesson table { border-collapse:collapse; margin:12px 0; font-size:.95rem; }
+.lesson th, .lesson td { border:1px solid var(--line); padding:6px 12px; text-align:left; vertical-align:top; }
+.lesson th { background:#eef1f8; }
+.formula { background:#eef1f8; border-left:4px solid var(--accent); padding:8px 14px; margin:10px 0; border-radius:0 8px 8px 0; font-family:ui-monospace,Menlo,monospace; font-size:.95rem; }
+.tip { background:#fff8e1; border-left:4px solid var(--gold); padding:10px 14px; margin:14px 0; border-radius:0 8px 8px 0; }
+.tip b:first-child { display:block; margin-bottom:2px; }
+.stepper, .widget { background:#fafbfe; border:1px solid var(--line); border-radius:12px; padding:12px; margin:16px 0; }
+.chart { width:100%; height:auto; display:block; }
+.chart .axis { stroke:#333; stroke-width:2; fill:none; }
+.chart .axlab, .chart .lab { font:12px system-ui,sans-serif; fill:#333; }
+.chart .line { fill:none; stroke-width:3; stroke-linecap:round; }
+.chart .mc { stroke:#d9480f; } .chart .ac { stroke:#2f5bd3; } .chart .avc { stroke:#7c3aed; } .chart .mr { stroke:#0f766e; } .chart .ar { stroke:#c2255c; } .chart .tr { stroke:#2f5bd3; } .chart .sr { stroke:#94a3b8; stroke-width:2; } .chart .lr { stroke:#d9480f; }
+.chart text.mc { fill:#d9480f; } .chart text.ac { fill:#2f5bd3; } .chart text.avc { fill:#7c3aed; } .chart text.mr { fill:#0f766e; } .chart text.ar { fill:#c2255c; } .chart text.tr { fill:#2f5bd3; } .chart text.lr { fill:#d9480f; }
+.chart .guide { stroke:#666; stroke-width:1.5; stroke-dasharray:5 4; fill:none; }
+.chart .dot { fill:#111; }
+.chart .profit { fill:#2f9e44; fill-opacity:.35; } .chart .loss { fill:#e03131; fill-opacity:.35; }
+.cap { min-height:3.2em; margin:8px 4px; }
+.ctl { display:flex; align-items:center; gap:10px; }
+.ctl button, .reveal-ctl button { font:inherit; padding:6px 16px; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:8px; cursor:pointer; }
+.ctl button:disabled, .reveal-ctl button:disabled { opacity:.35; cursor:default; }
+.ctl .count { color:var(--muted); font-size:.9rem; }
+.allcaps { display:none; }
+.slider-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:8px 0; }
+.slider-row input[type=range] { flex:1; min-width:160px; }
+.readout { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin:8px 0; }
+.readout div { background:#fff; border:1px solid var(--line); border-radius:8px; padding:6px 10px; font-size:.9rem; }
+.readout b { display:block; font-size:1.1rem; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:700px) { .two { grid-template-columns:1fr; } }
+.reveal { list-style:none; padding:0; margin:8px 0; }
+.reveal li { background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:8px; padding:8px 12px; margin-bottom:6px; }
+.reveal li b { color:var(--accent); }
+.reveal-ctl { display:flex; gap:8px; margin-bottom:8px; }
+.reveal-ctl [data-reset] { background:#fff; color:var(--ink); border-color:var(--line); }
+.q { margin:14px 0; }
+.opt { display:block; width:100%; text-align:left; font:inherit; padding:8px 12px; margin:4px 0; background:#fff; border:1px solid var(--line); border-radius:8px; cursor:pointer; }
+.opt:hover { border-color:var(--accent); }
+.opt.right { background:#d3f9d8; border-color:#2f9e44; } .opt.wrong { background:#ffe3e3; border-color:#e03131; }
+.fb { font-size:.95rem; color:var(--muted); margin:4px 0; }
+.score { font-weight:600; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin:12px 0; }
+.card { font:inherit; min-height:110px; padding:12px; border:1px solid var(--line); border-radius:10px; background:#fff; cursor:pointer; text-align:left; }
+.card .back { display:none; font-size:.9rem; } .card.flipped .front { display:none; } .card.flipped .back { display:block; }
+.card .front { font-weight:600; color:var(--accent); } .card.flipped { background:#eef1f8; }
+@media print {
+  .stepper .ctl, .cap, .reveal-ctl, .card .front { display:none; }
+  .chart [data-step] { display:inline !important; }
+  .allcaps { display:block; font-size:.9rem; }
+  .reveal li[hidden] { display:block !important; }
+  .card .back { display:block; }
+  .widget .slider-row { display:none; }
+  .stepper, .widget { break-inside:avoid-page; }
+}
+
+.chart text.srlab { fill:#475569; font-weight:600; }
+
+/* Chain of reasoning */
+.chain { display:flex; flex-wrap:wrap; align-items:center; gap:6px 4px; margin:10px 0; }
+.chain .link { background:#fff; border:1px solid var(--accent); color:var(--ink); border-radius:8px; padding:6px 10px; font-size:.92rem; }
+.chain .arrow { color:var(--accent); font-weight:700; font-size:.85rem; }
+.chain .link.start { background:var(--accent); color:#fff; } .chain .link.end { background:#d3f9d8; border-color:#2f9e44; }
+.chain .link.gap { background:#ffe3e3; border-color:#e03131; border-style:dashed; }
+.order .pool { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+.order .chip { font:inherit; font-size:.92rem; padding:7px 12px; background:#fff; border:1px solid var(--line); border-radius:8px; cursor:pointer; }
+.order .chip:hover { border-color:var(--accent); }
+.order .chip:disabled { opacity:.3; }
+.order .msg { min-height:1.6em; font-size:.92rem; color:var(--muted); }
+.order button.reset { font:inherit; padding:5px 12px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; }
+.bad, .good { border-radius:8px; padding:10px 14px; margin:8px 0; }
+.bad { background:#fff0f0; border-left:4px solid #e03131; } .good { background:#ebfbee; border-left:4px solid #2f9e44; }
+.bad b:first-child, .good b:first-child { display:block; }
+@media print { .order .pool { display:none; } }
+
+.qline { background:#eef1f8; border-radius:8px; padding:8px 12px; margin:6px 0; }
+
+.nocover #cover { display:none; }
+
+/* Calculation practice */
+.calc input[type=number] { font:inherit; padding:6px 10px; border:1px solid var(--line); border-radius:8px; width:9em; }
+.calc .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0; }
+.calc button { font:inherit; padding:6px 14px; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:8px; cursor:pointer; }
+.calc button.alt { background:#fff; color:var(--ink); border-color:var(--line); }
+.calc .work { background:#eef1f8; border-radius:8px; padding:8px 12px; margin-top:8px; }
+.calc .work[hidden] { display:none; }
+
+@media print {
+  .screen-only, .order, .calc, details:has(.order), details:has(#ord1) { display:none !important; }
+  .lesson h1 { font-size:20pt; margin-top:0; }
+  .lesson { max-width:none; padding:0; }
+  .lesson details > summary { list-style:none; font-weight:700; font-size:13pt; border-bottom:2px solid #0b1f4b; margin-top:12pt; padding:0 0 2pt; }
+  .lesson details > summary::-webkit-details-marker { display:none; }
+  .qline { break-inside:avoid; }
+  @page { size:A4; margin:16mm 15mm; }
+}
+
+.section-head { font-size:1.2rem; margin:24px 0 10px; padding-bottom:4px; border-bottom:2px solid var(--navy); }
+.section-head.gap-top { margin-top:48px; }
+.dl-list { list-style:none; padding:0; margin:0; }
+.dl-list li { padding:8px 0; border-top:1px solid var(--line); } .dl-list li:first-child { border-top:0; }
+.dl-list a { font-weight:500; text-decoration:none; }
+@media print { .section-head.gap-top { margin-top:18pt; } .dl-list { display:none; } details:has(.dl-list) { display:none; } }
+@media print { .section-head.gap-top, .section-head.gap-top ~ details { display:none !important; } .section-head { margin-top:14pt; } }
+</style></head>
+<body><main class="lesson"><h1>Chain of reasoning</h1>
+<div class="tools"><button data-expand>Expand all</button><button data-collapse>Collapse all</button><button data-print>Download PDF</button></div>
+<h2 class="section-head">Content</h2>
+<details><summary>1. What a chain of reasoning is</summary><div class="content">
+<p>A chain of reasoning is a series of linked steps where each one causes the next, running from a starting point to the answer the question wants. It is what the exam board is looking for in analysis: not just naming an effect, but showing <em>how</em> you get there.</p>
+<div class="chain"><span class="link start">Trigger</span><span class="arrow">→ so</span><span class="link">Link 1</span><span class="arrow">→ so</span><span class="link">Link 2</span><span class="arrow">→ so</span><span class="link">Link 3</span><span class="arrow">→ so</span><span class="link end">Effect on the question</span></div>
+<div class="bad"><b>Weak: a statement</b>Economies of scale lower costs.</div>
+<div class="good"><b>Strong: a chain</b>Buying materials in bulk earns a discount, so the cost per unit falls, so long-run average cost falls. The firm can then cut price and still make the same profit per unit, so it becomes more competitive and its demand rises.</div>
+<p>Aim for at least three linked steps in each analysis paragraph. If you can replace "so" between two of your steps with "and also", you have a list, not a chain.</p>
+<p>The question's <em>command term</em> decides how far the chain must go. Explain, examine and analyse want a chain that ends at an effect. Evaluate, assess and discuss want chains on both sides, then a weighing up. See the <a href="../technique-command-words/">command words</a> page.</p>
+</div></details>
+<details><summary>2. Building a chain step by step</summary><div class="content">
+<p>Use this every time. Each step answers a short question.</p>
+<ol class="reveal">
+<li><b>Start with the trigger.</b> What changes, or what is the action in the question? A cost rise, a merger, a tax, a fall in demand.</li>
+<li><b>Ask "so what happens to...?"</b> Move to the first direct effect, in economics terms (costs, revenue, price, output, demand, wages).</li>
+<li><b>Keep asking "and so?"</b> Link the effect to the next variable. Stop when you reach something the question cares about: profit, efficiency, consumers, workers, the government.</li>
+<li><b>Anchor it.</b> Use the case study. Pull a figure, a firm or a fact from the extract into the chain at the step where it fits (application).</li>
+<li><b>Say the direction.</b> Rises or falls, more or less. Vague words like "affects" or "impacts" lose marks.</li>
+<li><b>Check the last link answers the question.</b> If the question asks about consumers, your last link must be about consumers.</li>
+</ol>
+<div class="reveal-ctl"><button>Show next step</button><button data-reset>Reset</button></div>
+<h3>Useful linking words</h3>
+<p>which means, so, therefore, this leads to, as a result, which causes, this reduces / increases, meaning that, in turn, because of this.</p>
+</div></details>
+<details><summary>3. Worked example: a Theme 3 chain</summary><div class="content">
+<p><b>Question:</b> Analyse how a fall in demand might affect a firm's profits. (spec 3.3)</p>
+<div class="chain"><span class="link start">Demand falls</span><span class="arrow">→ so</span><span class="link">AR curve shifts left</span><span class="arrow">→ so</span><span class="link">Price and MR fall at every output</span><span class="arrow">→ so</span><span class="link">Profit-max output falls (MC = MR)</span><span class="arrow">→ so</span><span class="link">AR is now closer to AC</span><span class="arrow">→ so</span><span class="link end">Supernormal profit shrinks, or becomes a loss</span></div>
+<p>To make this an 8-mark answer, tie it to the extract (say, the firm's actual sales fall from X to Y) and draw the shifted AR and MR curves. To make it a 25-mark answer, add a chain on the other side, then evaluate: the size of the fall in profit depends on how much demand falls, how much of the cost is fixed, and whether the fall is short-run or permanent. If AR stays above AVC the firm keeps producing in the short run.</p>
+<p>See the interactive profit diagram in <a href="../revenue-costs-profits/">3.2 and 3.3</a>: move the demand slider and watch the chain happen.</p>
+</div></details>
+<details><summary>4. Common errors that lose marks</summary><div class="content">
+<div class="bad"><b>Jumping</b>"Minimum wage rises, so unemployment rises." Missing links: labour costs rise, marginal cost rises, profit-max output falls, less labour demanded.</div>
+<div class="bad"><b>Listing</b>Three separate effects with no link between them. Each effect should come from the one before.</div>
+<div class="bad"><b>Repeating the question</b>"Costs rise, so costs go up." Nothing new is added by the second half.</div>
+<div class="bad"><b>Vague direction</b>"This affects profit." Say whether profit rises or falls, and why.</div>
+<div class="bad"><b>No context</b>A perfect chain with no reference to the case study caps the application mark.</div>
+<div class="bad"><b>Wrong end point</b>The chain finishes at a different variable from the one the question asks about.</div>
+<h3>Spot the error</h3>
+<div id="quiz"></div>
+</div></details>
+<details><summary>5. Building this into a 25-mark essay</summary><div class="content">
+<p>The chain is the engine of each analysis paragraph. Paragraph plan for a 25-mark essay:</p>
+<ol>
+<li>Definitions</li>
+<li>Analysis: one chain (micro or macro effects)</li>
+<li>Evaluation of that chain (natural evaluation, not a bolt-on)</li>
+<li>Analysis: a second chain (the opposite of paragraph 2)</li>
+<li>Evaluation of that chain</li>
+<li>Judgement that weighs the two</li>
+</ol>
+<p>Evaluate a chain by testing one link in it: "this might not happen because there is no spare capacity", "the effect depends on the size of the elasticity", "short run versus long run". Weak links are the easiest places to challenge.</p>
+</div></details>
+<h2 class="section-head gap-top">Resources</h2>
+<details><summary>Practice: put the chain in order</summary><div class="content">
+<p>Each button is one link. Click them in the order the reasoning runs. The last link should answer the question above each exercise. Wrong clicks do nothing, so keep trying.</p>
+<h3>Exercise 1: economies of scale</h3>
+<p class="qline"><b>Question:</b> Analyse how economies of scale might affect a firm's competitiveness. (6)</p>
+<div id="ord1"></div>
+<h3>Exercise 2: falling demand</h3>
+<p class="qline"><b>Question:</b> Analyse how a fall in demand might affect a firm's profits. (6)</p>
+<div id="ord2"></div>
+</div></details>
+<details><summary>Downloads (PDF)</summary><div class="content"><ul class="dl-list"><li><a href="Chain of Reasoning - Class Notes.pdf" download>Chain of Reasoning - Class Notes (PDF)</a></li></ul></div></details>
+
+
+</main><script>document.querySelectorAll('[data-expand]').forEach(b => b.onclick = () => document.querySelectorAll('details').forEach(d => d.open = true));
+document.querySelectorAll('[data-collapse]').forEach(b => b.onclick = () => document.querySelectorAll('details').forEach(d => d.open = false));
+document.querySelectorAll('[data-print]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('details').forEach(d => d.open = true);
+  window.print();
+});
+
+if (location.hash === '#print') document.querySelectorAll('details').forEach(d => d.open = true);
+
+</script><script>// Shared interactive components: charts, steppers, reveal lists, quizzes, flashcards.
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs = {}, parent) => {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+
+// Axes-based chart. x and y run from 0 to xmax / ymax.
+function makeChart(host, o) {
+  const W = 520, H = 340, L = 52, B = 44, T = 16, R = 20;
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': o.label || 'Economics diagram' });
+  host.appendChild(svg);
+  const X = x => L + (x / o.xmax) * (W - L - R);
+  const Y = y => H - B - (y / o.ymax) * (H - B - T);
+  el('path', { d: `M${L} ${T}V${H - B}H${W - R}`, class: 'axis' }, svg);
+  const xt = el('text', { x: (W + L) / 2, y: H - 8, class: 'axlab', 'text-anchor': 'middle' }, svg); xt.textContent = o.xlab || 'Quantity';
+  const yt = el('text', { x: 14, y: (H - B + T) / 2, class: 'axlab', 'text-anchor': 'middle', transform: `rotate(-90 14 ${(H - B + T) / 2})` }, svg); yt.textContent = o.ylab || 'Price / costs (£)';
+  const api = { svg, X, Y, W, H, L, B, T, R };
+  api.curve = (fn, cls, step, from = 0, to = o.xmax, label, lx) => {
+    let d = '';
+    for (let i = 0; i <= 120; i++) {
+      const x = from + (to - from) * i / 120, y = fn(x);
+      if (y < -0.001 || y > o.ymax) { if (d) d += ' '; d += '\u0000'; continue; }
+      d += (d === '' || d.endsWith('\u0000') ? 'M' : 'L') + X(x).toFixed(1) + ' ' + Y(y).toFixed(1);
+    }
+    const g = el('g', step != null ? { 'data-step': step } : {}, svg);
+    el('path', { d: d.replace(/\u0000/g, ''), class: 'line ' + cls }, g);
+    if (label) {
+      const xx = lx != null ? lx : to;
+      const t = el('text', { x: X(xx) + 4, y: Y(fn(xx)) - 4, class: 'lab ' + cls }, g); t.textContent = label;
+    }
+    return g;
+  };
+  api.dash = (x, y, step, cls = 'guide') => {
+    const g = el('g', step != null ? { 'data-step': step } : {}, svg);
+    if (x != null && y != null) {
+      el('path', { d: `M${X(x)} ${Y(y)}V${Y(0)}M${X(x)} ${Y(y)}H${X(0)}`, class: cls }, g);
+    } else if (x != null) el('path', { d: `M${X(x)} ${Y(0)}V${T}`, class: cls }, g);
+    return g;
+  };
+  api.dot = (x, y, step, cls = '') => { const g = el('g', step != null ? { 'data-step': step } : {}, svg); el('circle', { cx: X(x), cy: Y(y), r: 5, class: 'dot ' + cls }, g); return g; };
+  api.tag = (x, y, text, step, dx = 0, dy = 0, cls = '') => { const g = el('g', step != null ? { 'data-step': step } : {}, svg); const t = el('text', { x: X(x) + dx, y: Y(y) + dy, class: 'lab ' + cls, 'text-anchor': 'middle' }, g); t.textContent = text; return g; };
+  api.rect = (x1, y1, x2, y2, step, cls) => { const g = el('g', step != null ? { 'data-step': step } : {}, svg); el('rect', { x: X(x1), y: Y(y2), width: X(x2) - X(x1), height: Y(y1) - Y(y2), class: cls }, g); return g; };
+  api.clear = () => svg.querySelectorAll('.dyn').forEach(n => n.remove());
+  return api;
+}
+
+// Stepper: steps = [captions]; draw(chart, state) is called once; elements with data-step <= current are shown.
+function makeStepper(id, o) {
+  const root = document.getElementById(id);
+  const host = root.querySelector('.chart-host');
+  const chart = makeChart(host, o.chart);
+  o.draw(chart, root);
+  const cap = root.querySelector('.cap'), count = root.querySelector('.count');
+  const prev = root.querySelector('[data-prev]'), next = root.querySelector('[data-next]');
+  const all = root.querySelector('.allcaps');
+  o.steps.forEach(s => { const li = document.createElement('li'); li.innerHTML = s; all.appendChild(li); });
+  let cur = 0;
+  const render = () => {
+    chart.svg.querySelectorAll('[data-step]').forEach(g => g.style.display = +g.dataset.step <= cur ? '' : 'none');
+    cap.innerHTML = o.steps[cur];
+    count.textContent = `Step ${cur + 1} of ${o.steps.length}`;
+    prev.disabled = cur === 0; next.disabled = cur === o.steps.length - 1;
+    if (o.onStep) o.onStep(cur, chart, root);
+  };
+  prev.onclick = () => { cur--; render(); };
+  next.onclick = () => { cur++; render(); };
+  render();
+  return { chart, root, render, get step() { return cur; } };
+}
+
+// Reveal list: the control bar after the list holds a "next" button and a reset button.
+function initReveals() {
+  document.querySelectorAll('.reveal').forEach(r => {
+    const items = [...r.querySelectorAll(':scope > li')];
+    const ctl = r.nextElementSibling;
+    const btn = ctl.querySelector('button:not([data-reset])');
+    const rs = ctl.querySelector('[data-reset]');
+    let n = 1;
+    items.forEach((li, i) => li.hidden = i >= 1);
+    btn.onclick = () => {
+      if (n < items.length) items[n++].hidden = false;
+      if (n >= items.length) btn.disabled = true;
+    };
+    rs.onclick = () => { items.forEach((li, i) => li.hidden = i >= 1); n = 1; btn.disabled = false; };
+  });
+}
+
+// Quiz: questions = [{q, options[], answer, why}]
+function makeQuiz(id, questions) {
+  const root = document.getElementById(id);
+  let score = 0, answered = 0;
+  const board = document.createElement('p'); board.className = 'score';
+  questions.forEach((q, qi) => {
+    const box = document.createElement('div'); box.className = 'q';
+    box.innerHTML = `<p><strong>${qi + 1}.</strong> ${q.q}</p>`;
+    const fb = document.createElement('p'); fb.className = 'fb'; fb.hidden = true;
+    q.options.forEach((opt, oi) => {
+      const b = document.createElement('button'); b.className = 'opt'; b.innerHTML = opt;
+      b.onclick = () => {
+        if (box.dataset.done) return;
+        box.dataset.done = 1; answered++;
+        const ok = oi === q.answer; if (ok) score++;
+        b.classList.add(ok ? 'right' : 'wrong');
+        if (!ok) box.querySelectorAll('.opt')[q.answer].classList.add('right');
+        fb.hidden = false; fb.innerHTML = (ok ? 'Correct. ' : 'Not quite. ') + q.why;
+        board.textContent = `Score: ${score} / ${answered} answered (of ${questions.length})`;
+      };
+      box.appendChild(b);
+    });
+    box.appendChild(fb); root.appendChild(box);
+  });
+  root.appendChild(board);
+}
+
+function makeFlashcards(id, cards) {
+  const root = document.getElementById(id);
+  cards.forEach(([term, def]) => {
+    const c = document.createElement('button'); c.className = 'card';
+    c.innerHTML = `<span class="front">${term}</span><span class="back">${def}</span>`;
+    c.onclick = () => c.classList.toggle('flipped');
+    root.appendChild(c);
+  });
+}
+document.addEventListener('DOMContentLoaded', initReveals);
+
+// Ordering exercise: click the links in the order the reasoning runs.
+function makeOrder(id, start, links, end) {
+  const root = document.getElementById(id);
+  root.classList.add('order');
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const build = () => {
+    root.innerHTML = '';
+    const chain = document.createElement('div'); chain.className = 'chain';
+    const add = (t, cls) => { if (chain.children.length) { const a = document.createElement('span'); a.className = 'arrow'; a.textContent = '→ so'; chain.appendChild(a); } const l = document.createElement('span'); l.className = 'link ' + (cls || ''); l.textContent = t; chain.appendChild(l); };
+    add(start, 'start');
+    const pool = document.createElement('div'); pool.className = 'pool';
+    const msg = document.createElement('p'); msg.className = 'msg';
+    let next = 0;
+    shuffle(links.map((t, i) => [t, i])).forEach(([t, i]) => {
+      const b = document.createElement('button'); b.className = 'chip'; b.textContent = t;
+      b.onclick = () => {
+        if (i !== next) { msg.textContent = 'Not yet. Ask what that link needs before it can happen.'; return; }
+        add(t); b.disabled = true; next++; msg.textContent = '';
+        if (next === links.length) { add(end, 'end'); msg.textContent = 'Complete chain. Each link causes the next.'; }
+      };
+      pool.appendChild(b);
+    });
+    const rs = document.createElement('button'); rs.className = 'reset'; rs.textContent = 'Reset'; rs.onclick = build;
+    root.append(chain, pool, msg, rs);
+  };
+  build();
+}
+</script><script>makeOrder('ord1', 'A firm expands output and buys materials in bulk',
+  ['It receives a discount from suppliers', 'Cost per unit falls', 'Long-run average cost falls', 'It can cut price and keep profit per unit'],
+  'It becomes more price competitive and demand for its product rises');
+makeOrder('ord2', 'Demand for a firm\'s product falls',
+  ['AR curve shifts left', 'Price and MR fall at each output', 'Profit-maximising output falls', 'AR moves closer to AC'],
+  'Supernormal profit falls, or turns into a loss');
+makeQuiz('quiz', [
+  { q: '"A rise in wages will lead to higher inflation." What is wrong with this as analysis?', options: ['It is too long', 'It jumps: the links between wages and prices are missing', 'It uses the wrong term', 'Nothing is wrong'], answer: 1, why: 'Missing links: labour costs rise, so unit costs rise, so firms pass costs on as higher prices, so the price level rises.' },
+  { q: 'Which is a chain rather than a list?', options: ['Bulk buying lowers costs. Marketing is cheaper per unit. Managers specialise.', 'Bulk buying earns a discount, so unit costs fall, so profit per unit rises.', 'Costs matter. Profits matter. Scale matters.', 'Firms grow, expand and get bigger.'], answer: 1, why: 'Each step in the second option causes the next. The others are separate points.' },
+  { q: 'Which final link best answers "Analyse the effect of a merger on consumers"?', options: ['The firm makes higher profit', 'Market share rises', 'Consumers may pay higher prices as competition falls', 'Costs of the firm fall'], answer: 2, why: 'The question asks about consumers, so the chain has to end at consumers.' },
+  { q: 'Which is the best wording of direction?', options: ['This affects output', 'This impacts profit', 'This raises marginal cost, so profit-maximising output falls', 'This changes things for the firm'], answer: 2, why: 'It gives a direction and a reason. "Affects" and "impacts" do neither.' }
+]);
+</script><style id=site-pill>.site-pill{position:fixed;right:12px;bottom:12px;opacity:.8;z-index:2147483000;display:flex;gap:2px;font:600 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:rgba(20,24,28,.88);border-radius:999px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.25)}.site-pill a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:999px;white-space:nowrap}.site-pill a:hover,.site-pill button:hover{background:rgba(255,255,255,.18)}.site-pill button{font:inherit;color:#fff;background:transparent;border:0;border-left:1px solid rgba(255,255,255,.25);border-radius:0 999px 999px 0;padding:8px 12px;cursor:pointer}.site-pill button.is-done{color:#7be0a0}@media print{.site-pill{display:none}}.site-pill .pill-more{display:none}@media(max-width:700px){body{padding-bottom:64px}.site-pill{right:8px;bottom:8px;opacity:.6;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 16px)}.site-pill>*:not(.pill-more){display:none}.site-pill.open{opacity:.95}.site-pill.open>*:not(.pill-more):not([hidden]){display:inline-block}.site-pill .pill-more{display:block;border:0;border-radius:999px;width:36px;height:36px;padding:0;text-align:center;font-size:18px}.site-pill.open .pill-more{border-left:0}}</style><div class="site-pill"><button type="button" class="pill-more" aria-label="Menu" onclick="this.parentNode.classList.toggle(&#39;open&#39;)">☰</button><a href="../../a-econ/exam-prep/exam-technique/#res">← Exam technique</a><a href="../../">Home</a><button type="button" title="Light / dark" onclick="var r=document.documentElement,d=(r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';r.setAttribute('data-theme',d);try{localStorage.setItem('site.theme',d)}catch(e){}">◐</button><button data-done-slug="technique-chain-of-reasoning" hidden></button><button data-role-toggle="technique-chain-of-reasoning" hidden></button><button data-role-delete="technique-chain-of-reasoning" hidden></button><button data-role-restore="technique-chain-of-reasoning" hidden></button></div><script src="../../assets/config.js?v=1791096330"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../../assets/app.js?v=1791096330"></script><script src="../../assets/gate.js?v=1791096330" data-courses="a-econ"></script><script>document.addEventListener('click',function(e){var t=e.target.closest('[role=tab],.tab,.tabbar button,.tabs button,.section-tabs button,[data-tab],[data-panel-tab]');if(!t)return;var n=t,s=false;while(n&&n!==document.body){var p=getComputedStyle(n).position;if(p==='sticky'||p==='fixed'){s=true;break}n=n.parentElement}if(s)setTimeout(function(){window.scrollTo(0,0)},30)});</script><script>document.addEventListener('click',function(e){var p=document.querySelector('.site-pill.open');if(p&&!p.contains(e.target))p.classList.remove('open')});addEventListener('scroll',function(){var p=document.querySelector('.site-pill.open');if(p)p.classList.remove('open')},{passive:true});</script></body></html>
