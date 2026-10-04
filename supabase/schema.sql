@@ -29,7 +29,7 @@ alter table public.teachers enable row level security;
 create table if not exists public.profiles (
   email        text primary key check (email = lower(email)),
   name         text not null,
-  subjects     text[] not null default '{}',   -- any of: ig-econ, ig-cs, a-econ, a-cs
+  subjects     text[] not null default '{}',   -- any of: a-econ
   password     text not null default '',       -- assigned password, visible to admins only
   created_at   timestamptz not null default now(),
   signed_up_at timestamptz,
@@ -44,7 +44,7 @@ alter table public.profiles drop constraint if exists profiles_email2_check;
 alter table public.profiles add constraint profiles_email2_check check (email2 is null or (email2 = lower(email2) and email2 <> email));
 create unique index if not exists profiles_email2_key on public.profiles (email2) where email2 is not null;
 alter table public.profiles add column if not exists password text not null default '';
-alter table public.profiles add column if not exists classes text[] not null default '{}';    -- ig1-cs, ig2-cs, a-cs, ig2-econ, a-econ
+alter table public.profiles add column if not exists classes text[] not null default '{}';    -- a-econ
 alter table public.profiles add column if not exists requested text[] not null default '{}';  -- subjects awaiting approval
 
 create table if not exists public.progress (
@@ -165,11 +165,11 @@ begin
   select * into a from admins where email = e;
   if found then
     return json_build_object('email', e, 'name', a.name, 'is_admin', true,
-                             'subjects', array['ig-econ','ig-cs','a-econ','a-cs'], 'requested', array[]::text[]);
+                             'subjects', array['a-econ'], 'requested', array[]::text[]);
   end if;
   if exists (select 1 from teachers where email = e) then
     return json_build_object('email', e, 'name', (select name from teachers where email = e), 'is_admin', false, 'is_teacher', true,
-                             'subjects', array['ig-econ','ig-cs','a-econ','a-cs'], 'requested', array[]::text[]);
+                             'subjects', array['a-econ'], 'requested', array[]::text[]);
   end if;
   update profiles set last_seen = now() where email = e or email2 = e returning * into p;
   if not found then return null; end if;
@@ -303,7 +303,7 @@ create or replace function public.request_subject(subject text) returns void
 language plpgsql security definer set search_path = public as $$
 declare e text := my_key();
 begin
-  if subject <> all (array['ig-econ','ig-cs','a-econ','a-cs']) then raise exception 'Unknown subject'; end if;
+  if subject <> all (array['a-econ']) then raise exception 'Unknown subject'; end if;
   update profiles set requested = array_append(requested, subject)
    where email = e and not (subject = any (subjects)) and not (subject = any (requested));
 end $$;
