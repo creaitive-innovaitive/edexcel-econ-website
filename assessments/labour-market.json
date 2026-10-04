@@ -1,0 +1,165 @@
+{
+ "slug": "labour-market",
+ "title": "The Labour Market: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "Demand for labour is a derived demand because it depends on:",
+   "opts": [
+    "The wage rate only",
+    "Demand for the product workers produce",
+    "Government spending",
+    "Union power"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Demand for labour",
+   "ok": "Correct: Firms hire labour to produce goods and services people want.",
+   "fb": "Firms hire labour to produce goods and services people want. Review the Learn tab.",
+   "model": "Demand for the product workers produce"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "MRP is calculated as:",
+   "opts": [
+    "MPP ÷ MR",
+    "MPP × MR",
+    "Wage × employment",
+    "Price ÷ MPP"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Demand for labour",
+   "ok": "Correct: MRP = marginal physical product × marginal revenue.",
+   "fb": "MRP = marginal physical product × marginal revenue. Review the Learn tab.",
+   "model": "MPP × MR"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "Which would shift the demand for labour to the right?",
+   "opts": [
+    "Higher wages",
+    "A rise in demand for the product",
+    "More migration",
+    "Longer training"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Demand for labour",
+   "ok": "Correct: Derived demand rises with product demand.",
+   "fb": "Derived demand rises with product demand. Review the Learn tab.",
+   "model": "A rise in demand for the product"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "Demand for labour is likely to be less elastic when:",
+   "opts": [
+    "Labour is a large share of costs",
+    "Capital is a close substitute",
+    "Labour is a small share of costs",
+    "The time period is long"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Elasticity",
+   "ok": "Correct: A wage rise then has little effect on total costs.",
+   "fb": "A wage rise then has little effect on total costs. Review the Learn tab.",
+   "model": "Labour is a small share of costs"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "A minimum wage set above equilibrium in a competitive market causes:",
+   "opts": [
+    "A shortage of labour",
+    "A surplus of labour",
+    "No change",
+    "Lower labour supply"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Minimum wage",
+   "ok": "Correct: Quantity supplied exceeds quantity demanded.",
+   "fb": "Quantity supplied exceeds quantity demanded. Review the Learn tab.",
+   "model": "A surplus of labour"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "Geographical immobility is most likely caused by:",
+   "opts": [
+    "Skills mismatch",
+    "High house prices in job-rich areas",
+    "A lack of qualifications",
+    "Automation"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Immobility",
+   "ok": "Correct: House prices and family ties stop people moving.",
+   "fb": "House prices and family ties stop people moving. Review the Learn tab.",
+   "model": "High house prices in job-rich areas"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "A policy to reduce occupational immobility is:",
+   "opts": [
+    "Raising the minimum wage",
+    "Retraining and apprenticeship schemes",
+    "Cutting housing supply",
+    "Raising interest rates"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Immobility",
+   "ok": "Correct: It builds the skills needed to change jobs.",
+   "fb": "It builds the skills needed to change jobs. Review the Learn tab.",
+   "model": "Retraining and apprenticeship schemes"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "A worker's marginal physical product is 5 units and each unit sells for £8 (price taker). Calculate MRP (£).",
+   "ans": 40,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "MRP",
+   "hint": "Enter a number.",
+   "ok": "Correct: MRP = MPP × MR = 5 × 8 = £40.",
+   "fb": "MRP = MPP × MR = 5 × 8 = £40. Check the worked examples.",
+   "model": "40"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "Wage rises by 10% and employment falls by 5%. Calculate the elasticity of demand for labour (ignore the sign).",
+   "ans": 0.5,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Elasticity",
+   "hint": "Enter a number.",
+   "ok": "Correct: 5 ÷ 10 = 0.5.",
+   "fb": "5 ÷ 10 = 0.5. Check the worked examples.",
+   "model": "0.5"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "Employment falls from 80 to 60 after a wage floor is introduced. Calculate the percentage fall in employment.",
+   "ans": 25,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "Minimum wage",
+   "hint": "Enter a number.",
+   "ok": "Correct: 20 ÷ 80 × 100 = 25%.",
+   "fb": "20 ÷ 80 × 100 = 25%. Check the worked examples.",
+   "model": "25"
+  }
+ ]
+}

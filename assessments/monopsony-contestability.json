@@ -1,0 +1,169 @@
+{
+ "slug": "monopsony-contestability",
+ "title": "Monopsony and Contestability: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "A monopsony is a market with:",
+   "opts": [
+    "One seller",
+    "One dominant buyer",
+    "Two sellers",
+    "Many buyers and sellers"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Monopsony",
+   "ok": "Correct: A single or dominant buyer.",
+   "fb": "A single or dominant buyer. Review the Learn tab.",
+   "model": "One dominant buyer"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "A monopsony employer hires workers up to the point where:",
+   "opts": [
+    "MRP = supply",
+    "MCL = MRP",
+    "MR = MC",
+    "MRP = 0"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Monopsony",
+   "ok": "Correct: It equates marginal cost of labour with marginal revenue product.",
+   "fb": "It equates marginal cost of labour with marginal revenue product. Review the Learn tab.",
+   "model": "MCL = MRP"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "Compared with a competitive labour market, a monopsony employer pays:",
+   "opts": [
+    "A higher wage and employs more",
+    "A lower wage and employs fewer",
+    "A lower wage and employs more",
+    "The same wage"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Monopsony",
+   "ok": "Correct: It restricts employment and pays the supply-curve wage.",
+   "fb": "It restricts employment and pays the supply-curve wage. Review the Learn tab.",
+   "model": "A lower wage and employs fewer"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "A minimum wage between the monopsony wage and the competitive wage is likely to:",
+   "opts": [
+    "Reduce employment",
+    "Increase wages and employment",
+    "Have no effect",
+    "Reduce wages"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Minimum wage",
+   "ok": "Correct: MCL becomes flat at the minimum wage until the supply curve.",
+   "fb": "MCL becomes flat at the minimum wage until the supply curve. Review the Learn tab.",
+   "model": "Increase wages and employment"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "Sunk costs are:",
+   "opts": [
+    "All production costs",
+    "Costs that cannot be recovered when a firm leaves the market",
+    "Fixed costs only",
+    "Marginal costs"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Contestability",
+   "ok": "Correct: Spent and unrecoverable.",
+   "fb": "Spent and unrecoverable. Review the Learn tab.",
+   "model": "Costs that cannot be recovered when a firm leaves the market"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "Which makes a market more contestable?",
+   "opts": [
+    "High sunk costs",
+    "Strong brand loyalty",
+    "Low barriers to entry and exit",
+    "Patents"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Contestability",
+   "ok": "Correct: Low barriers allow hit-and-run entry.",
+   "fb": "Low barriers allow hit-and-run entry. Review the Learn tab.",
+   "model": "Low barriers to entry and exit"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "In a contestable market incumbents are likely to:",
+   "opts": [
+    "Raise prices",
+    "Keep price close to average cost",
+    "Reduce output",
+    "Ignore rivals"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Contestability",
+   "ok": "Correct: To deter entry.",
+   "fb": "To deter entry. Review the Learn tab.",
+   "model": "Keep price close to average cost"
+  },
+  {
+   "id": "q8",
+   "type": "mcq",
+   "q": "Which is a strategic barrier to entry?",
+   "opts": [
+    "A patent",
+    "Economies of scale",
+    "Predatory pricing",
+    "A government licence"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Barriers",
+   "ok": "Correct: Behaviour by incumbents designed to deter entry.",
+   "fb": "Behaviour by incumbents designed to deter entry. Review the Learn tab.",
+   "model": "Predatory pricing"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "MRP = 20 − 0.1L. Calculate MRP when 50 workers are employed (£).",
+   "ans": 15,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Labour market",
+   "hint": "Enter a number.",
+   "ok": "Correct: 20 − 5 = £15.",
+   "fb": "20 − 5 = £15. Check the worked examples.",
+   "model": "15"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "MCL = 4 + 0.2L. Calculate the marginal cost of labour at 50 workers (£).",
+   "ans": 14,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Labour market",
+   "hint": "Enter a number.",
+   "ok": "Correct: 4 + 10 = £14.",
+   "fb": "4 + 10 = £14. Check the worked examples.",
+   "model": "14"
+  }
+ ]
+}

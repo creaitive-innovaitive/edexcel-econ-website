@@ -31,7 +31,7 @@
     if (!courses.length) return reveal();
     if (!me) {
       try { sessionStorage.setItem("site.next", location.href); } catch (e) {}
-      return deny("Sign in to open this lesson", "Lessons are for registered students. Sign in with your school email.", "Sign in");
+      return deny("Sign in to open this lesson", "Lessons are for registered students. Sign in with the email your tutor gave you.", "Sign in");
     }
     if (me.is_admin || courses.some((c) => me.subjects.includes(c))) return reveal();
     deny("You are not registered for this subject", "Ask for it from your profile page. Your teacher will approve it.", "Go to Profile");

@@ -1,0 +1,165 @@
+{
+ "slug": "oligopoly",
+ "title": "Oligopoly: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "Which is a key characteristic of oligopoly?",
+   "opts": [
+    "Many small firms",
+    "Interdependence between firms",
+    "No barriers to entry",
+    "A single seller"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Characteristics",
+   "ok": "Correct: Each firm's decisions depend on how rivals react.",
+   "fb": "Each firm's decisions depend on how rivals react. Review the Learn tab.",
+   "model": "Interdependence between firms"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "The three-firm concentration ratio adds together:",
+   "opts": [
+    "The three smallest shares",
+    "The three largest shares",
+    "All market shares",
+    "The profits of three firms"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Concentration",
+   "ok": "Correct: It is the combined market share of the three largest firms.",
+   "fb": "It is the combined market share of the three largest firms. Review the Learn tab.",
+   "model": "The three largest shares"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "A cartel is:",
+   "opts": [
+    "A merger of two firms",
+    "A formal agreement between firms to fix price or output",
+    "A type of price war",
+    "A government regulator"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Collusion",
+   "ok": "Correct: This is overt collusion.",
+   "fb": "This is overt collusion. Review the Learn tab.",
+   "model": "A formal agreement between firms to fix price or output"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "In the prisoner's dilemma, firms end up cheating because:",
+   "opts": [
+    "Cheating is the dominant strategy",
+    "Cheating is legal",
+    "Cheating raises the price",
+    "Firms cannot calculate profits"
+   ],
+   "ans": "0",
+   "marks": 1,
+   "topic": "Game theory",
+   "ok": "Correct: Cheating pays whatever the rival does.",
+   "fb": "Cheating pays whatever the rival does. Review the Learn tab.",
+   "model": "Cheating is the dominant strategy"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "Pricing below cost to force a rival out is:",
+   "opts": [
+    "Limit pricing",
+    "Predatory pricing",
+    "Price leadership",
+    "Tacit collusion"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Pricing",
+   "ok": "Correct: Predatory pricing aims to eliminate a competitor.",
+   "fb": "Predatory pricing aims to eliminate a competitor. Review the Learn tab.",
+   "model": "Predatory pricing"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "Which is non-price competition?",
+   "opts": [
+    "A price war",
+    "Advertising and branding",
+    "Predatory pricing",
+    "Price fixing"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Competition",
+   "ok": "Correct: Branding, advertising, quality and service.",
+   "fb": "Branding, advertising, quality and service. Review the Learn tab.",
+   "model": "Advertising and branding"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "Which makes collusion harder to sustain?",
+   "opts": [
+    "Few firms",
+    "Strong barriers to entry",
+    "Many firms with different costs",
+    "Similar products"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Collusion",
+   "ok": "Correct: Agreement is harder with more, different firms.",
+   "fb": "Agreement is harder with more, different firms. Review the Learn tab.",
+   "model": "Many firms with different costs"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "Four largest firms have market shares of 30%, 25%, 15% and 10%. Calculate CR4 (%).",
+   "ans": 80,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "Concentration",
+   "hint": "Enter a number.",
+   "ok": "Correct: 30 + 25 + 15 + 10 = 80%.",
+   "fb": "30 + 25 + 15 + 10 = 80%. Check the worked examples.",
+   "model": "80"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "Shares of the five largest firms: 25%, 20%, 15%, 12% and 10%. Calculate CR3 (%).",
+   "ans": 60,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "Concentration",
+   "hint": "Enter a number.",
+   "ok": "Correct: 25 + 20 + 15 = 60%.",
+   "fb": "25 + 20 + 15 = 60%. Check the worked examples.",
+   "model": "60"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "Two colluding firms each produce 50 units and sell at £12 with marginal cost £4. Calculate each firm's profit (£).",
+   "ans": 400,
+   "tol": 0.5,
+   "marks": 1,
+   "topic": "Collusion",
+   "hint": "Enter a number.",
+   "ok": "Correct: (12 − 4) × 50 = £400.",
+   "fb": "(12 − 4) × 50 = £400. Check the worked examples.",
+   "model": "400"
+  }
+ ]
+}

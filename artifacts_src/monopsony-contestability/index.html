@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monopsony and Contestability</title>
+<style>:root{
+  --bg:#f5f3ee; --surface:#fff; --ink:#17212b; --muted:#566573; --line:#d9d4c7; --soft:#eef2f5;
+  --accent:#2b5d7c; --accent-ink:#fff; --accent-soft:#e0ecf3;
+  --good:#1d7a4c; --good-soft:#dff2e7; --bad:#b3372f; --bad-soft:#f9e2df; --warn:#a85d00; --warn-soft:#fbead2;
+  --k:#1f5fa8; --a:#1d7a4c; --n:#7a3fa0; --e:#b25a00;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+.wrap{max-width:980px;margin:0 auto;padding:22px 16px 90px}
+h1,h2,h3{font-family:var(--serif);line-height:1.18;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,5vw,2.5rem);letter-spacing:-.015em}
+h2{font-size:1.45rem;margin:26px 0 10px}
+h3{font-size:1.12rem;margin:18px 0 6px}
+p{margin:0 0 .8em}
+.eyebrow{font:700 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:68ch;margin-top:8px}
+header.top{padding:6px 0 14px}
+.tablist{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;padding-top:8px}
+.tablist button{font:600 .9rem var(--sans);padding:8px 13px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tablist button:hover{color:var(--ink)}
+.tablist button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tablist button:focus-visible,.b:focus-visible,summary:focus-visible,.chip:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[role=tabpanel][hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+.card.big{background:var(--accent-soft);border-color:var(--accent)}
+.card h3:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.grid2>.card{margin:0}
+.formula{font:600 1.05rem var(--mono);background:var(--soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;overflow-x:auto}
+.kw{font-weight:700;color:var(--accent)}
+table.t{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+table.t th,table.t td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.t th{font:700 .72rem var(--sans);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tw{overflow-x:auto}
+.b{font:700 .9rem var(--sans);padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.b:hover{background:var(--soft)}
+.b.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.b:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.88rem;color:var(--muted)}
+.pill{display:inline-block;font:700 .72rem var(--sans);padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent);vertical-align:middle}
+.tip{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.tip b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--warn)}
+.warn{border-left:4px solid var(--bad);background:var(--bad-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.warn b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--bad)}
+/* stepper */
+.stp{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0 14px}
+.stp svg{display:block;width:100%;height:auto;background:var(--surface)}
+.stp-cap{padding:12px 16px;background:var(--ink);color:var(--bg);font-size:1.02rem;min-height:3.6em}
+.stp-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px}
+.stp-dots{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.stp-dots button{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--muted);font:700 .72rem var(--sans);cursor:pointer;padding:0}
+.stp-dots button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.stp-dots button.done{border-color:var(--accent);color:var(--accent)}
+/* svg theme classes */
+svg text{font-family:var(--sans);fill:var(--ink)}
+svg .ax{stroke:var(--ink);stroke-width:2;fill:none}
+svg .gr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4;fill:none}
+svg .lbl{font-size:13px}
+svg .sm{font-size:11.5px;fill:var(--muted)}
+svg .bd{font-weight:700}
+svg .c1{stroke:var(--accent);stroke-width:3.5;fill:none}
+svg .c2{stroke:var(--bad);stroke-width:3.5;fill:none}
+svg .c3{stroke:var(--good);stroke-width:3.5;fill:none}
+svg .c4{stroke:var(--warn);stroke-width:3.5;fill:none}
+svg .f1{fill:var(--accent);opacity:.18} svg .f2{fill:var(--bad);opacity:.18} svg .f3{fill:var(--good);opacity:.2} svg .f4{fill:var(--warn);opacity:.22}
+svg .dash{stroke-dasharray:6 5}
+svg .t1{fill:var(--accent)} svg .t2{fill:var(--bad)} svg .t3{fill:var(--good)} svg .t4{fill:var(--warn)}
+svg .dot1{fill:var(--accent)} svg .dot2{fill:var(--bad)} svg .dot3{fill:var(--good)} svg .dot4{fill:var(--warn)}
+/* sliders */
+.sl{margin:10px 0}
+.sl label{display:flex;justify-content:space-between;font-weight:600;font-size:.95rem}
+.sl output{font:600 .9rem var(--mono);color:var(--accent)}
+.sl input{width:100%;accent-color:var(--accent);margin:6px 0}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.readout div{border-top:3px solid var(--accent);background:var(--surface);padding:8px 10px;border-radius:0 0 8px 8px;border:1px solid var(--line);border-top:3px solid var(--accent)}
+.readout small{display:block;font:700 .66rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.readout strong{font:700 1.25rem var(--mono);font-variant-numeric:tabular-nums}
+.verdict{padding:10px 14px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent);font-weight:600;margin:8px 0}
+/* classify / match */
+.cls .pool{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--line);border-radius:10px;min-height:54px;background:var(--soft)}
+.cls .buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.cls .bk{border:2px solid var(--line);border-radius:10px;padding:8px;min-height:84px;background:var(--surface)}
+.cls .bk h4{margin:0 0 6px;font:700 .82rem var(--sans);color:var(--accent)}
+.cls .bk .slot{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.cls .bk.over,.cls .pool.over{border-color:var(--accent);background:var(--accent-soft)}
+.chip{font:600 .88rem var(--sans);padding:6px 11px;border-radius:8px;border:1.5px solid var(--accent);background:var(--surface);color:var(--ink);cursor:grab;user-select:none;text-align:left}
+.chip.sel{background:var(--accent);color:var(--accent-ink)}
+.chip.ok{border-color:var(--good);background:var(--good-soft)}
+.chip.no{border-color:var(--bad);background:var(--bad-soft)}
+.cls .msg,.ord .msg,.calc .msg{font-weight:700;margin:8px 0}
+.match .bk h4{font-size:.9rem;color:var(--ink)}
+/* order */
+.ord ol{list-style:none;margin:10px 0;padding:0;counter-reset:o}
+.ord li{counter-increment:o;display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:6px;border:1.5px solid var(--line);border-radius:9px;background:var(--surface);cursor:grab}
+.ord li::before{content:counter(o);font:700 .8rem var(--mono);width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.ord li.ok{border-color:var(--good);background:var(--good-soft)} .ord li.no{border-color:var(--bad);background:var(--bad-soft)}
+.ord li.drag{opacity:.4}
+.ord li span{flex:1}
+.ord li button{padding:2px 8px}
+/* quiz */
+.qz .q{margin:0 0 16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qz .q p.qt{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;font:500 .95rem var(--sans);padding:9px 12px;margin:5px 0;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.why{display:none;margin-top:8px;font-size:.92rem;padding:8px 12px;background:var(--soft);border-radius:8px}
+.q.done .why{display:block}
+.score{font:700 1.05rem var(--sans);margin:10px 0}
+/* calc */
+.calc .q{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:12px}
+.calc input[type=number],.calc input[type=text]{width:130px;padding:7px 10px;font:600 1rem var(--mono);border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.calc .sol{display:none;margin-top:8px;padding:10px 12px;background:var(--soft);border-radius:8px;font-size:.93rem}
+.calc .sol.show{display:block}
+.calc .fb{font-weight:700;margin-left:8px}
+.calc .fb.ok{color:var(--good)} .calc .fb.no{color:var(--bad)}
+/* cards */
+.fc{perspective:900px;max-width:520px}
+.fc .face{min-height:170px;display:grid;place-items:center;text-align:center;padding:20px;border-radius:14px;border:2px solid var(--accent);background:var(--surface);cursor:pointer;font-size:1.1rem}
+.fc .face.back{background:var(--accent-soft)}
+.fc .face small{display:block;font:700 .66rem var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+/* exam Qs */
+details.eq{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+details.eq>summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+details.eq>summary::-webkit-details-marker{display:none}
+details.eq>summary::before{content:"▸";color:var(--accent)}
+details.eq[open]>summary::before{content:"▾"}
+details.eq .body{padding:4px 18px 16px}
+.mark{font:700 .72rem var(--mono);background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px}
+.cmd{font:700 .72rem var(--sans);background:var(--warn-soft);color:var(--warn);padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em}
+.ans{border-left:4px solid var(--accent);padding:6px 14px;margin:10px 0;background:var(--soft);border-radius:0 8px 8px 0}
+.mk{border-bottom:2px solid currentColor;padding-bottom:1px}
+.mk[data-t]::after{content:" [" attr(data-t) "]";font:700 .64rem var(--sans);vertical-align:super;opacity:.85}
+.mk.k{color:var(--k)} .mk.a{color:var(--a)} .mk.n{color:var(--n)} .mk.e{color:var(--e)}
+.key{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin:6px 0}
+.key span{display:inline-flex;gap:5px;align-items:center}
+.key i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.key .k i{background:var(--k)} .key .a i{background:var(--a)} .key .n i{background:var(--n)} .key .e i{background:var(--e)}
+.rw{border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--surface);border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:12px}
+.rw h3{margin:0 0 4px}
+.rw .use{margin-top:8px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:.93rem}
+.rw .use b{color:var(--accent)}
+ul.tips{list-style:none;padding:0;margin:0}
+ul.tips li{padding:10px 14px;margin-bottom:8px;border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:0 10px 10px 0;background:var(--surface)}
+ul.tips li b{color:var(--warn)}
+@media (max-width:640px){.tablist{position:static}}
+@media print{.tablist{display:none}[role=tabpanel][hidden]{display:block}.stp-ctl{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.stp{scroll-margin-top:70px}
+</style></head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Edexcel A-Level Economics A · 9EC0 · Theme 3 · 3.4.6 and 3.4.7</div>
+  <h1>Monopsony and Contestability</h1>
+  <p class="lead">What happens when the power sits with the buyer, and why the threat of new entrants can discipline even a firm with a big market share.</p>
+</header>
+
+<nav class="tablist" role="tablist" aria-label="Sections">
+  <button role="tab" data-p="learn">Learn</button>
+  <button role="tab" data-p="watch">Watch</button>
+  <button role="tab" data-p="explore">Explore</button>
+  <button role="tab" data-p="practise">Practise</button>
+  <button role="tab" data-p="exam">Exam questions</button>
+  <button role="tab" data-p="tips">Tips &amp; keywords</button>
+</nav>
+
+<!-- LEARN -->
+<section id="learn" role="tabpanel">
+  <div class="card big">
+    <h3>The big idea</h3>
+    <p>A <span class="kw">monopsony</span> is a market with a <b>single (or dominant) buyer</b>. Where a monopoly is a seller with power over the price consumers pay, a monopsonist is a buyer with power over the <b>price it pays</b> to workers or suppliers. A <span class="kw">contestable market</span> is one where firms are held in check by the <b>threat of entry</b>, whatever the number of firms already in it.</p>
+  </div>
+
+  <h2>3.4.6 Monopsony</h2>
+  <div class="grid2">
+    <div class="card"><h3>Characteristics and conditions</h3><ul>
+      <li>One dominant buyer and many sellers</li>
+      <li>Sellers (workers or suppliers) have <b>few alternative buyers</b></li>
+      <li>Buyer can influence the price it pays: a <b>price maker in the buying market</b></li>
+      <li>Often large employers in small areas, or big retailers buying from many small farmers or manufacturers</li>
+      <li>Examples: supermarkets buying from farmers, a single large employer in a remote town, the NHS buying nurses' labour</li></ul></div>
+    <div class="card"><h3>Why it pays less than the competitive price</h3><p>To hire one more worker, a monopsonist must raise the wage not only for that worker but for <b>all existing workers</b>. So the <b>marginal cost of labour (MCL)</b> lies <b>above</b> the supply curve (average cost of labour). The firm hires where <b>MCL = MRP</b>, then pays only the wage <b>read off the supply curve</b>, which is lower than the competitive wage, and employs <b>fewer workers</b>.</p></div>
+  </div>
+
+  <h3>Costs and benefits (3.4.6b)</h3>
+  <div class="tw"><table class="t">
+    <tr><th></th><th>Costs</th><th>Benefits</th></tr>
+    <tr><td><b>Firms</b></td><td>Possible reputational damage; may suffer if suppliers fail or quality falls</td><td>Lower input costs and higher profit; stronger bargaining power; economies of scale</td></tr>
+    <tr><td><b>Consumers</b></td><td>Less choice and lower quality if suppliers cut corners or leave the market</td><td>Lower costs may be passed on as lower prices</td></tr>
+    <tr><td><b>Employees</b></td><td>Lower wages, fewer jobs than in a competitive market, poorer conditions</td><td>Possibly more job security with a large employer; training</td></tr>
+    <tr><td><b>Suppliers</b></td><td>Lower prices, tough terms, delayed payment; may be forced out of business</td><td>Large, regular orders and stable demand</td></tr>
+  </table></div>
+  <div class="tip"><b class="h">Link to 3.5</b>A <b>minimum wage</b> set between the monopsony wage and the competitive wage can <b>raise employment</b> as well as wages, because the firm no longer has to raise wages for existing workers to hire more. This is the opposite of the competitive-market prediction. Try it in the Explore tab.</div>
+
+  <h2>3.4.7 Contestability</h2>
+  <div class="grid2">
+    <div class="card"><h3>Characteristics of a contestable market (3.4.7a)</h3><ul>
+      <li><b>Low barriers</b> to entry and exit</li>
+      <li><b>Low or no sunk costs</b></li>
+      <li>Entrants have access to the same technology and costs as incumbents</li>
+      <li>Good information about profit opportunities</li>
+      <li>Firms can enter and leave quickly: <b>"hit-and-run"</b> entry</li></ul></div>
+    <div class="card"><h3>Implications for firms (3.4.7b)</h3><ul>
+      <li>Incumbents must keep <b>price close to average cost</b> and avoid supernormal profit, or entrants will undercut them</li>
+      <li>Incentive to be <b>productively efficient</b> and avoid X-inefficiency</li>
+      <li>May use <b>limit pricing</b> or other deterrents (advertising, capacity)</li>
+      <li>Even a monopolist may behave like a competitive firm</li></ul></div>
+  </div>
+
+  <h3>Barriers to entry and exit (3.4.7c)</h3>
+  <div class="tw"><table class="t">
+    <tr><th>Type</th><th>Examples</th></tr>
+    <tr><td><b>Legal</b></td><td>Patents, copyright, licences, regulation, government franchise</td></tr>
+    <tr><td><b>Structural / cost</b></td><td>Economies of scale, high start-up costs, control of key resources or distribution, brand loyalty, network effects, switching costs</td></tr>
+    <tr><td><b>Strategic (behaviour of incumbents)</b></td><td>Limit pricing, predatory pricing, heavy advertising, exclusive contracts, excess capacity as a threat</td></tr>
+    <tr><td><b>Exit barriers</b></td><td>Redundancy costs, specialised assets with no resale value, long contracts</td></tr>
+  </table></div>
+
+  <h3>Sunk costs (3.4.7d)</h3>
+  <p><span class="kw">Sunk costs</span> are costs that <b>cannot be recovered</b> when a firm leaves a market, such as advertising, specialised equipment or staff training. The higher the sunk costs, the <b>riskier entry is</b> and the <b>less contestable</b> the market. Leasing a plane for a route has low sunk costs; building a new factory has high sunk costs.</p>
+  <div class="warn"><b class="h">Evaluation point</b>Contestability depends on <b>potential</b> entry. A market with few firms can behave competitively if barriers are low; a market with many firms can be uncompetitive if barriers are high. Real markets sit on a spectrum.</div>
+</section>
+
+<!-- WATCH -->
+<section id="watch" role="tabpanel" hidden>
+  <p>Press Play, or click the numbered steps.</p>
+  <h2>1 · Monopsony in the labour market</h2><div id="stA"></div>
+  <h2>2 · Contestability disciplines the incumbent</h2><div id="stB"></div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore" role="tabpanel" hidden>
+  <h2>Lab 1 · A minimum wage in a monopsony</h2>
+  <p>Marginal revenue product (demand for labour) is MRP = 20 − 0.1L. Labour supply is W = 4 + 0.1L, so MCL = 4 + 0.2L. Set a minimum wage and watch employment.</p>
+  <div class="card"><div class="grid2"><div><div id="g1"></div>
+    <div class="readout"><div><small>Employment</small><strong id="a1"></strong></div><div><small>Wage</small><strong id="a2"></strong></div><div><small>Change from monopsony</small><strong id="a3"></strong></div></div><div class="verdict" id="av"></div></div>
+    <div><svg id="lab1" viewBox="0 0 760 400" role="img" aria-label="Monopsony labour market"></svg></div></div></div>
+
+  <h2>Lab 2 · How contestable?</h2>
+  <p>Click each market to see the verdict and why.</p>
+  <div id="contest"></div>
+</section>
+
+<!-- PRACTISE -->
+<section id="practise" role="tabpanel" hidden>
+  <h2>1 · Type of barrier to entry</h2>
+  <div id="cl1" class="card"></div>
+
+  <h2>2 · Monopsony or contestable market?</h2>
+  <div id="cl2" class="card"></div>
+
+  <h2>3 · Match the term</h2>
+  <div id="m1" class="card"></div>
+
+  <h2>4 · Calculations</h2>
+  <div id="c1"></div>
+
+  <h2>5 · Multiple choice</h2>
+  <div id="qz1"></div>
+</section>
+
+<!-- EXAM -->
+<section id="exam" role="tabpanel" hidden>
+  <h2>Exam-style questions</h2>
+  <p>Written in the style of Edexcel Paper 1 and Paper 3. Open each question for reminders, a model answer and common mistakes. Answers are colour-coded to the mark scheme. These are practice questions, not past-paper wording.</p>
+  <div class="key"><span class="k"><i></i>Knowledge (K)</span><span class="a"><i></i>Application (A)</span><span class="n"><i></i>Analysis (N)</span><span class="e"><i></i>Evaluation (E)</span></div>
+
+  <details class="eq"><summary>Q1 <span class="cmd">Explain</span> <span class="mark">4 marks</span> Explain what is meant by monopsony power.</summary><div class="body">
+    <div class="ans"><span class="mk k" data-t="K">Monopsony power exists when a single or dominant buyer purchases most of a market's output or labour.</span> <span class="mk n" data-t="N">Because sellers have few alternative buyers, the monopsonist can influence the price it pays, and pay less than in a competitive market.</span> <span class="mk a" data-t="A">For example, a large supermarket buying from many small farmers can push down the price it pays for milk.</span> <span class="mk n" data-t="N">The farmers may have little choice but to accept, or lose their main route to market.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q2 <span class="cmd">Explain</span> <span class="mark">4 marks</span> Explain what is meant by a sunk cost and why it affects contestability.</summary><div class="body">
+    <div class="ans"><span class="mk k" data-t="K">A sunk cost is a cost that cannot be recovered when a firm leaves the market.</span> <span class="mk a" data-t="A">Examples include specialist equipment with no resale value or money spent on advertising.</span> <span class="mk n" data-t="N">High sunk costs mean a new entrant risks losing money if it fails, which raises the risk of entry and discourages it.</span> <span class="mk n" data-t="N">The market is therefore less contestable, and incumbents are less constrained by the threat of entry and may earn supernormal profit for longer.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q3 <span class="cmd">Analyse</span> <span class="mark">6 marks</span> Analyse how a monopsony employer is likely to affect wages and employment in a local labour market.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>MCL above supply is the key step. Compare with a competitive market.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">A monopsony employer is the main buyer of labour in the area, so it faces an upward-sloping labour supply curve.</span> <span class="mk n" data-t="N">To hire an extra worker it must raise the wage for everyone, so the marginal cost of labour is above the wage.</span> <span class="mk n" data-t="N">It maximises profit by hiring where MCL = MRP, which is at a lower level of employment than the competitive equilibrium.</span> <span class="mk n" data-t="N">It then pays only the wage on the supply curve at that level of employment, below both the competitive wage and the MRP of the last worker hired.</span> <span class="mk a" data-t="A">In a small town with one large factory, workers with few other local jobs may have to accept the lower wage.</span> <span class="mk n" data-t="N">Wages and employment are therefore both likely to be lower than in a competitive market.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q4 <span class="cmd">Assess</span> <span class="mark">10 marks</span> Assess the likely effects of a supermarket's monopsony power on its suppliers and its customers. <small>(KAA 6 + evaluation 4)</small></summary><div class="body">
+    <div class="ans"><p><span class="mk k" data-t="K">A supermarket with large market share can use its power as a dominant buyer to bargain down the prices it pays to suppliers.</span> <span class="mk n" data-t="N">Suppliers such as farmers may earn lower profit, and some may be forced to cut costs, reduce quality or leave the industry, reducing supply in the long run.</span> <span class="mk n" data-t="N">Customers could benefit from the lower input costs if the supermarket passes them on as lower prices, especially in a competitive retail market.</span> <span class="mk a" data-t="A">Cheap milk or vegetables may be a result.</span></p>
+    <p><span class="mk e" data-t="E">However, if suppliers leave or quality falls, customers could face less choice, poorer quality and, eventually, higher prices. The supermarket might also keep the cost savings as profit if there is little competition at retail level.</span> <span class="mk e" data-t="E">Overall, the effect on suppliers is likely to be negative and the effect on customers depends on how competitive retailing is and how much of the saving is passed on. In the short run customers probably gain; the long-run effect is more uncertain.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q5 <span class="cmd">Discuss</span> <span class="mark">12 marks</span> A market has only two airlines on a route, but a low-cost rival could easily start flying it. Discuss whether passengers are likely to be harmed by the lack of competition. <small>(KAA 8 + evaluation 4)</small></summary><div class="body">
+    <div class="ans"><p><span class="mk k" data-t="K">The market looks like a duopoly, but if barriers to entry and exit are low it is contestable.</span> <span class="mk n" data-t="N">Aircraft can be leased, so sunk costs are low, and a rival could enter and exit quickly if fares rise (hit-and-run).</span> <span class="mk n" data-t="N">The threat of entry may force the two incumbents to keep fares close to average cost and avoid supernormal profit, so passengers may not be harmed.</span> <span class="mk a" data-t="A">The incumbents may also use limit pricing and offer good service to deter entry.</span></p>
+    <p><span class="mk n" data-t="N">However, if airport slots are limited or the airlines own most of them, or if brand loyalty and frequent-flyer schemes lock in customers, barriers may be higher than they look. The incumbents could then charge higher fares and passengers could be harmed.</span></p>
+    <p><span class="mk e" data-t="E">The conclusion depends on how real the entry threat is: slot availability, sunk costs and how quickly incumbents can react. If entry really is easy, passengers are likely to be protected; if slots are scarce, they are less so.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q6 <span class="cmd">Evaluate</span> <span class="mark">25 marks</span> "A contestable market is as good for consumers as a perfectly competitive one." Evaluate this view. <small>(KAA 16 + evaluation 9)</small></summary><div class="body">
+    <div class="tip"><b class="h">Plan</b>Use the definition of contestability and then compare outcomes: price, efficiency, choice, profit, innovation.</div>
+    <div class="ans"><ol>
+      <li><span class="mk k" data-t="K">Define contestable markets and perfect competition (price = AC, normal profit, productive efficiency).</span></li>
+      <li><span class="mk n" data-t="N">For the view: threat of entry forces normal profit and efficiency even with few firms, so prices near cost; allows economies of scale; incumbents avoid X-inefficiency.</span></li>
+      <li><span class="mk n" data-t="N">Against: contestable firms can still be allocatively inefficient (P above MC), may reduce investment for fear of sunk costs, limit pricing sacrifices some profit, less choice if products homogeneous.</span></li>
+      <li><span class="mk e" data-t="E">Real markets rarely fully contestable: sunk costs, brands and regulation matter. Strategic barriers (predatory pricing) can undermine contestability.</span></li>
+      <li><span class="mk e" data-t="E">Judgement: contestability can deliver outcomes close to competition if barriers and sunk costs are very low, otherwise not. Depends on the industry.</span></li>
+    </ol></div>
+  </div></details>
+</section>
+
+<!-- TIPS -->
+<section id="tips" role="tabpanel" hidden>
+  <h2>Top tips</h2>
+  <ul class="tips">
+    <li><b>Monopsony:</b> say "single or dominant buyer" and name what is being bought (labour or supplies).</li>
+    <li><b>Labour diagram:</b> MCL above supply, hire where MCL = MRP, pay the wage from the <b>supply</b> curve.</li>
+    <li><b>Minimum wage in monopsony</b> can raise employment: a classic evaluation point.</li>
+    <li><b>Contestable markets:</b> focus on potential entry, sunk costs and hit-and-run.</li>
+    <li><b>Name the barrier</b> (legal, structural, strategic) and explain why it deters entry.</li>
+    <li><b>Evaluate</b> with real-world barriers, how big the sunk costs are and whether the threat is credible.</li>
+  </ul>
+  <h2>Command words</h2>
+  <div class="tw"><table class="t">
+    <tr><th>Command word</th><th>What it asks for</th></tr>
+    <tr><td>Explain / Analyse</td><td>A developed chain of reasoning.</td></tr>
+    <tr><td>Assess / Discuss</td><td>Both sides then a supported judgement.</td></tr>
+    <tr><td>Evaluate</td><td>Weigh up, show what it depends on, reach a conclusion.</td></tr>
+  </table></div>
+  <h2>Keyword flashcards</h2>
+  <div id="fc1"></div>
+</section>
+</div>
+
+<script>
+const $ = (s, e = document) => e.querySelector(s), $$ = (s, e = document) => [...e.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmtN = (n, d = 2) => (Math.round(n * 10 ** d) / 10 ** d).toString();
+
+/* ---------- tabs ---------- */
+function initTabs() {
+  const list = $(".tablist"), tabs = $$("[role=tab]", list), panels = tabs.map((t) => $("#" + t.dataset.p));
+  const show = (i, focus) => {
+    tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; panels[k].hidden = k !== i; });
+    if (focus) tabs[i].focus();
+    try { history.replaceState(null, "", "#" + tabs[i].dataset.p); } catch (e) {}
+    window.dispatchEvent(new Event("resize"));
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { show(i); window.scrollTo(0, 0); });
+    t.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show((i + 1) % tabs.length, true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show((i + tabs.length - 1) % tabs.length, true); }
+    });
+  });
+  const start = tabs.findIndex((t) => "#" + t.dataset.p === location.hash);
+  show(start < 0 ? 0 : start);
+}
+
+/* ---------- svg string helpers ---------- */
+const at = (o) => Object.entries(o || {}).map(([k, v]) => ` ${k}="${v}"`).join("");
+const SV = {
+  line: (x1, y1, x2, y2, c = "ax", o) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${c}"${at(o)}/>`,
+  text: (x, y, t, c = "lbl", o) => `<text x="${x}" y="${y}" class="${c}"${at(o)}>${t}</text>`,
+  circle: (x, y, r, c = "dot1", o) => `<circle cx="${x}" cy="${y}" r="${r}" class="${c}"${at(o)}/>`,
+  rect: (x, y, w, h, c = "f1", o) => `<rect x="${x}" y="${y}" width="${Math.max(0, w)}" height="${Math.max(0, h)}" class="${c}"${at(o)}/>`,
+  path: (d, c = "c1", o) => `<path d="${d}" class="${c}"${at(o)}/>`,
+  poly: (pts, c = "f1", o) => `<polygon points="${pts.map((p) => p.join(",")).join(" ")}" class="${c}"${at(o)}/>`,
+  arrowHead: (x, y, dir, c = "dot1") => { const s = 7; const p = { r: [[x, y], [x - s * 1.6, y - s], [x - s * 1.6, y + s]], l: [[x, y], [x + s * 1.6, y - s], [x + s * 1.6, y + s]], u: [[x, y], [x - s, y + s * 1.6], [x + s, y + s * 1.6]], d: [[x, y], [x - s, y - s * 1.6], [x + s, y - s * 1.6]] }[dir]; return `<polygon points="${p.map((q) => q.join(",")).join(" ")}" class="${c}"/>`; },
+};
+const ptsPath = (pts) => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+
+/* ---------- animated stepper ---------- */
+function stepper(el, cfg) {
+  const W = cfg.w || 760, H = cfg.h || 400, steps = cfg.steps;
+  el.innerHTML = `<div class="stp"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.label || "Animated diagram")}"></svg>
+    <div class="stp-cap" aria-live="polite"></div>
+    <div class="stp-ctl"><button class="b" data-a="back">◀ Back</button><button class="b pri" data-a="play">▶ Play</button><button class="b" data-a="next">Next ▶</button><button class="b" data-a="restart" aria-label="Restart">↻</button><span class="stp-dots"></span></div></div>`;
+  const svg = $("svg", el), cap = $(".stp-cap", el), dots = $(".stp-dots", el), playBtn = $("[data-a=play]", el);
+  let cur = 0, drawn = { ...cfg.base, ...steps[0].s }, raf = 0, timer = 0, playing = false;
+  steps.forEach((_, i) => { const d = document.createElement("button"); d.textContent = i + 1; d.setAttribute("aria-label", "Step " + (i + 1)); d.onclick = () => { stop(); go(i); }; dots.appendChild(d); });
+  const interp = (a, b, t) => { const o = {}; for (const k in b) o[k] = typeof b[k] === "number" && typeof a[k] === "number" ? a[k] + (b[k] - a[k]) * t : t > 0.5 ? b[k] : a[k] !== undefined ? a[k] : b[k]; return o; };
+  const paint = (s) => { drawn = s; svg.innerHTML = cfg.draw(s); };
+  function go(i) {
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    cap.innerHTML = steps[cur].cap;
+    $$("button", dots).forEach((d, k) => { d.classList.toggle("on", k === cur); d.classList.toggle("done", k < cur); });
+    const from = drawn, to = { ...cfg.base, ...steps[cur].s }, t0 = performance.now(), dur = reduced ? 0 : cfg.tween || 900;
+    cancelAnimationFrame(raf);
+    const tick = (now) => { const t = dur ? Math.min(1, (now - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; paint(interp(from, to, e)); if (t < 1) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+  }
+  function stop() { playing = false; clearTimeout(timer); playBtn.textContent = "▶ Play"; }
+  function advance() { if (!playing) return; if (cur >= steps.length - 1) return stop(); go(cur + 1); timer = setTimeout(advance, cfg.dwell || 4800); }
+  playBtn.onclick = () => { if (playing) return stop(); if (cur >= steps.length - 1) go(0); playing = true; playBtn.textContent = "❚❚ Pause"; timer = setTimeout(advance, cfg.dwell ? Math.min(cfg.dwell, 3000) : 2500); };
+  $("[data-a=back]", el).onclick = () => { stop(); go(cur - 1); };
+  $("[data-a=next]", el).onclick = () => { stop(); go(cur + 1); };
+  $("[data-a=restart]", el).onclick = () => { stop(); go(0); };
+  paint(drawn); go(0);
+}
+
+/* ---------- slider ---------- */
+function slider(el, o) {
+  const id = o.id;
+  el.innerHTML = `<div class="sl"><label for="${id}">${o.label}<output id="${id}o"></output></label><input type="range" id="${id}" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}"></div>`;
+  const i = $("#" + id, el), out = $("#" + id + "o", el);
+  const upd = () => { out.textContent = (o.fmt || ((v) => v))(+i.value); o.onInput && o.onInput(+i.value); };
+  i.addEventListener("input", upd); upd();
+  return { get: () => +i.value, set: (v) => { i.value = v; upd(); } };
+}
+
+/* ---------- classify (also powers match) ---------- */
+function classify(el, o) {
+  const items = o.items.map((x, i) => ({ ...x, id: i })), cap = o.cap || 99;
+  el.classList.add("cls"); if (o.match) el.classList.add("match");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<div class="pool" data-b="pool" aria-label="Items to place"></div>
+    <div class="buckets">${o.buckets.map((b, i) => `<div class="bk" data-b="${i}"><h4>${b.label}</h4><div class="slot"></div></div>`).join("")}</div>
+    <div class="row"><button class="b pri" data-a="check">Check</button><button class="b" data-a="reset">Reset</button></div><div class="msg" aria-live="polite"></div>`;
+  const pool = $(".pool", el), msg = $(".msg", el);
+  let sel = null;
+  const chip = (it) => { const c = document.createElement("button"); c.className = "chip"; c.type = "button"; c.draggable = true; c.textContent = it.text; c.dataset.id = it.id;
+    c.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/plain", it.id); sel = c; });
+    c.addEventListener("click", (e) => { e.stopPropagation(); if (sel === c) { c.classList.remove("sel"); sel = null; } else { sel && sel.classList.remove("sel"); sel = c; c.classList.add("sel"); } });
+    return c; };
+  const place = (c, zone) => {
+    const slot = zone === pool ? pool : $(".slot", zone);
+    if (zone !== pool && slot.children.length >= cap) { const old = slot.firstElementChild; pool.appendChild(old); }
+    slot.appendChild(c); c.classList.remove("sel", "ok", "no"); sel = null; msg.textContent = "";
+  };
+  const fill = () => { pool.innerHTML = ""; $$(".slot", el).forEach((s) => (s.innerHTML = "")); (o.noShuffle ? items : shuffle(items)).forEach((it) => pool.appendChild(chip(it))); msg.textContent = ""; };
+  [pool, ...$$(".bk", el)].forEach((z) => {
+    z.addEventListener("dragover", (e) => { e.preventDefault(); z.classList.add("over"); });
+    z.addEventListener("dragleave", () => z.classList.remove("over"));
+    z.addEventListener("drop", (e) => { e.preventDefault(); z.classList.remove("over"); const c = $(`[data-id="${e.dataTransfer.getData("text/plain")}"]`, el); c && place(c, z); });
+    z.addEventListener("click", () => { if (sel) place(sel, z); });
+  });
+  $("[data-a=check]", el).onclick = () => {
+    let ok = 0;
+    $$(".bk", el).forEach((b) => $$(".chip", b).forEach((c) => { const good = items[+c.dataset.id].b === +b.dataset.b; c.classList.toggle("ok", good); c.classList.toggle("no", !good); if (good) ok++; }));
+    const left = $$(".chip", pool).length;
+    msg.textContent = left ? `${left} still to place. ${ok} correct so far.` : ok === items.length ? "All correct. " + (o.done || "") : `${ok} of ${items.length} correct. Red ones are in the wrong place; move them and check again.`;
+  };
+  $("[data-a=reset]", el).onclick = fill;
+  fill();
+}
+function match(el, o) {
+  classify(el, { match: true, cap: 1, prompt: o.prompt, buckets: o.pairs.map((p) => ({ label: p[0] })), items: o.pairs.map((p, i) => ({ text: p[1], b: i })), done: o.done });
+}
+
+/* ---------- ordering ---------- */
+function order(el, o) {
+  el.classList.add("ord");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<ol></ol><div class="row"><button class="b pri" data-a="check">Check order</button><button class="b" data-a="reset">Shuffle again</button></div><div class="msg" aria-live="polite"></div>`;
+  const ol = $("ol", el), msg = $(".msg", el);
+  let dragEl = null;
+  const make = (t, id) => { const li = document.createElement("li"); li.draggable = true; li.dataset.id = id; li.innerHTML = `<span>${t}</span><button class="b" type="button" aria-label="Move up">↑</button><button class="b" type="button" aria-label="Move down">↓</button>`;
+    li.addEventListener("dragstart", () => { dragEl = li; li.classList.add("drag"); });
+    li.addEventListener("dragend", () => { li.classList.remove("drag"); dragEl = null; });
+    li.addEventListener("dragover", (e) => { e.preventDefault(); if (!dragEl || dragEl === li) return; const r = li.getBoundingClientRect(); ol.insertBefore(dragEl, e.clientY < r.top + r.height / 2 ? li : li.nextSibling); });
+    $$("button", li)[0].onclick = () => { li.previousElementSibling && ol.insertBefore(li, li.previousElementSibling); };
+    $$("button", li)[1].onclick = () => { li.nextElementSibling && ol.insertBefore(li.nextElementSibling, li); };
+    return li; };
+  const fill = () => { ol.innerHTML = ""; let s; do { s = shuffle(o.items.map((t, i) => [t, i])); } while (o.items.length > 1 && s.every((x, i) => x[1] === i)); s.forEach(([t, i]) => ol.appendChild(make(t, i))); msg.textContent = ""; };
+  $("[data-a=check]", el).onclick = () => { let ok = 0; $$("li", ol).forEach((li, i) => { const g = +li.dataset.id === i; li.classList.toggle("ok", g); li.classList.toggle("no", !g); if (g) ok++; }); msg.textContent = ok === o.items.length ? "Correct order. " + (o.done || "") : `${ok} of ${o.items.length} in the right place.`; };
+  $("[data-a=reset]", el).onclick = fill; fill();
+}
+
+/* ---------- multiple choice ---------- */
+function quiz(el, o) {
+  el.classList.add("qz");
+  let score = 0, answered = 0;
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p class="qt">${i + 1}. ${q.q}</p>${q.opts.map((t, k) => `<button class="opt" data-k="${k}">${String.fromCharCode(65 + k)}. ${t}</button>`).join("")}<div class="why"><b>${"Answer: " + String.fromCharCode(65 + q.a)}.</b> ${q.why}</div></div>`).join("") + `<div class="score" aria-live="polite"></div><button class="b" data-a="again">Try again</button>`;
+  const sc = $(".score", el);
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i];
+    $$(".opt", box).forEach((b) => b.addEventListener("click", () => { if (box.classList.contains("done")) return; box.classList.add("done"); answered++; const k = +b.dataset.k; if (k === q.a) score++; b.classList.add(k === q.a ? "ok" : "no"); $$(".opt", box)[q.a].classList.add("ok"); sc.textContent = `Score: ${score} / ${answered} answered (of ${o.qs.length})`; })); });
+  $("[data-a=again]", el).onclick = () => { score = answered = 0; sc.textContent = ""; $$(".q", el).forEach((b) => { b.classList.remove("done"); $$(".opt", b).forEach((x) => x.classList.remove("ok", "no")); }); };
+}
+
+/* ---------- calculations ---------- */
+function calc(el, o) {
+  el.classList.add("calc");
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p>${i + 1}. ${q.q}</p>
+    <div class="row"><input type="text" inputmode="decimal" aria-label="Answer ${i + 1}" placeholder="${q.ph || "answer"}">${q.unit ? `<span>${q.unit}</span>` : ""}<button class="b pri" data-a="c">Check</button><button class="b" data-a="h">Hint</button><button class="b" data-a="s">Show working</button><span class="fb" aria-live="polite"></span></div>
+    <div class="sol" data-s="h">${q.hint || "Write the formula first, then substitute."}</div><div class="sol" data-s="s">${q.sol}</div></div>`).join("");
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i], inp = $("input", box), fb = $(".fb", box);
+    const check = () => { const v = parseFloat(inp.value.replace(/[,$%\s−]/g, (m) => (m === "−" ? "-" : ""))); const good = !isNaN(v) && Math.abs(v - q.a) <= (q.tol ?? 0.01); fb.textContent = good ? "✓ Correct" : "✗ Not quite"; fb.className = "fb " + (good ? "ok" : "no"); };
+    $("[data-a=c]", box).onclick = check; inp.addEventListener("keydown", (e) => e.key === "Enter" && check());
+    $("[data-a=h]", box).onclick = () => $("[data-s=h]", box).classList.toggle("show");
+    $("[data-a=s]", box).onclick = () => $("[data-s=s]", box).classList.toggle("show"); });
+}
+
+/* ---------- flashcards ---------- */
+function cards(el, o) {
+  let deck = o.cards.map((c) => c), i = 0, back = false, known = new Set();
+  el.classList.add("fc");
+  el.innerHTML = `<div class="face" tabindex="0" role="button" aria-label="Flip card"></div><div class="row" style="margin-top:10px"><button class="b" data-a="p">◀</button><button class="b" data-a="f">Flip</button><button class="b" data-a="n">▶</button><button class="b" data-a="s">Shuffle</button><button class="b pri" data-a="k">I know this</button><span class="note" data-c></span></div>`;
+  const face = $(".face", el), cnt = $("[data-c]", el);
+  const paint = () => { const c = deck[i]; face.className = "face" + (back ? " back" : ""); face.innerHTML = `<div><small>${back ? "Definition" : "Term"}</small>${back ? c[1] : "<b>" + c[0] + "</b>"}</div>`; cnt.textContent = `${i + 1} / ${deck.length} · known ${known.size}`; };
+  const flip = () => { back = !back; paint(); };
+  face.onclick = flip; face.onkeydown = (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), flip());
+  $("[data-a=f]", el).onclick = flip;
+  $("[data-a=n]", el).onclick = () => { i = (i + 1) % deck.length; back = false; paint(); };
+  $("[data-a=p]", el).onclick = () => { i = (i + deck.length - 1) % deck.length; back = false; paint(); };
+  $("[data-a=s]", el).onclick = () => { deck = shuffle(deck); i = 0; back = false; paint(); };
+  $("[data-a=k]", el).onclick = () => { known.add(deck[i][0]); i = (i + 1) % deck.length; back = false; paint(); };
+  paint();
+}
+
+window.Lib = { initTabs, SV, ptsPath, stepper, slider, classify, match, order, quiz, calc, cards, fmtN, esc };
+
+/* Generic axes-and-curves helper for micro diagrams. Plot({xmax,ymax,xl,yl}) returns mapping and drawing functions that build SVG strings. */
+function Plot(o) {
+  const W = o.W || 760, H = o.H || 400, l = o.l || 66, r = o.r || 36, t = o.t || 26, b = o.b || 50;
+  const X = (x) => l + (x / o.xmax) * (W - l - r), Y = (y) => H - b - (y / o.ymax) * (H - t - b);
+  const P = { W, H, X, Y };
+  P.axes = () => SV.line(X(0), Y(o.ymax), X(0), Y(0)) + SV.line(X(0), Y(0), X(o.xmax), Y(0))
+    + SV.text(X(0) + 8, t - 6, o.yl || "Price / costs (£)", "sm") + SV.text(X(o.xmax), Y(0) + 34, o.xl || "Quantity", "sm", { "text-anchor": "end" });
+  P.curve = (f, cls = "c1", x0 = 0, x1 = o.xmax, extra) => {
+    const pts = [];
+    for (let i = 0; i <= 80; i++) { const x = x0 + (x1 - x0) * i / 80, y = f(x); if (isFinite(y) && y >= -0.001 && y <= o.ymax) pts.push([X(x), Y(y)]); }
+    return pts.length > 1 ? SV.path(ptsPath(pts), cls, extra) : "";
+  };
+  P.seg = (xa, ya, xb, yb, cls = "c1", extra) => SV.line(X(xa), Y(ya), X(xb), Y(yb), cls, extra);
+  P.label = (x, y, txt, cls = "lbl bd t1", anchor = "start") => SV.text(X(x) + 4, Y(y) + 4, txt, cls, { "text-anchor": anchor });
+  P.guide = (x, y, extra) => SV.line(X(0), Y(y), X(x), Y(y), "gr", extra) + SV.line(X(x), Y(y), X(x), Y(0), "gr", extra);
+  P.dot = (x, y, cls = "dot1", r = 6, extra) => SV.circle(X(x), Y(y), r, cls, extra);
+  P.tx = (x, txt, cls = "sm") => SV.text(X(x), Y(0) + 18, txt, cls, { "text-anchor": "middle" });
+  P.ty = (y, txt, cls = "sm") => SV.text(X(0) - 8, Y(y) + 4, txt, cls, { "text-anchor": "end" });
+  P.rect = (xa, ya, xb, yb, cls = "f1", extra) => SV.rect(X(xa), Y(yb), X(xb) - X(xa), Y(ya) - Y(yb), cls, extra);
+  return P;
+}
+
+const op = (v) => ({ style: "opacity:" + v });
+/* Labour: MRP = 20 - 0.1L, supply S = 4 + 0.1L, MCL = 4 + 0.2L. Monopsony L = 53.3, W = 9.33; competitive L = 80, W = 12. */
+const PLb = Plot({ xmax: 160, ymax: 22, xl: "Workers (L)", yl: "Wage (£ per hour)" });
+const MRPf = (l) => 20 - 0.1 * l, Sf = (l) => 4 + 0.1 * l, MCLf = (l) => 4 + 0.2 * l;
+const LM = 160 / 3, WM = 4 + LM * 0.1, MRPM = MRPf(LM);
+function labourDraw(s) {
+  let o = PLb.axes() + PLb.curve(MRPf, "c1", 0, 160) + PLb.label(158, MRPf(158) + 1.2, "MRP = D", "lbl bd t1", "end");
+  o += PLb.curve(Sf, "c3", 0, 160, op(s.sup)) + SV.text(PLb.X(158), PLb.Y(Sf(158)) - 6, "S = ACL", "lbl bd t3", { "text-anchor": "end", style: "opacity:" + s.sup });
+  o += PLb.curve(MCLf, "c4", 0, 80, op(s.mcl)) + SV.text(PLb.X(79), PLb.Y(MCLf(79)) - 8, "MCL", "lbl bd t4", { "text-anchor": "end", style: "opacity:" + s.mcl });
+  o += PLb.rect(0, WM, LM, MRPM, "f2", { style: "opacity:" + 0.3 * s.mono }) + SV.text(PLb.X(2), PLb.Y((WM + MRPM) / 2) + 4, "Exploitation", "lbl bd t2", { style: "opacity:" + s.mono });
+  o += `<g style="opacity:${s.mono}">` + PLb.seg(LM, 0, LM, MRPM, "gr") + PLb.seg(0, WM, LM, WM, "gr") + PLb.dot(LM, MRPM, "dot4", 5) + PLb.dot(LM, WM, "dot3") + PLb.ty(WM, "£9.33") + PLb.tx(LM, "53.3") + SV.text(PLb.X(LM) + 8, PLb.Y(MRPM) - 6, "MCL = MRP", "sm bd t4") + "</g>";
+  o += `<g style="opacity:${s.comp}">` + PLb.seg(80, 0, 80, 12, "gr") + PLb.seg(0, 12, 80, 12, "gr") + PLb.dot(80, 12, "dot2") + PLb.ty(12, "£12", "sm bd t2") + PLb.tx(80, "80", "sm bd t2") + "</g>";
+  return o;
+}
+Lib.stepper($("#stA"), { w: 760, h: 400, label: "Monopsony in a labour market", base: { sup: 0, mcl: 0, mono: 0, comp: 0 }, tween: 800, draw: labourDraw, steps: [
+  { cap: "The firm's demand for labour is its <b>marginal revenue product (MRP)</b>: the extra revenue from one more worker.", s: { sup: 0, mcl: 0, mono: 0, comp: 0 } },
+  { cap: "Workers' supply to this firm slopes up. Because the firm is the <b>main employer</b>, this is the supply curve it faces, and it is also the <b>average cost of labour</b> (the wage).", s: { sup: 1, mcl: 0, mono: 0, comp: 0 } },
+  { cap: "To hire an extra worker the firm must raise the wage for <b>all</b> workers, so the <b>marginal cost of labour (MCL)</b> lies <b>above</b> the supply curve.", s: { sup: 1, mcl: 1, mono: 0, comp: 0 } },
+  { cap: "The firm hires where <b>MCL = MRP</b>: <b>53 workers</b>. It pays only the wage on the <b>supply</b> curve: <b>£9.33</b>, well below the £14.67 the last worker adds to revenue.", s: { sup: 1, mcl: 1, mono: 1, comp: 0 } },
+  { cap: "In a competitive market the wage would be £12 and employment 80 (where MRP = supply). The monopsony pays <b>less</b> and employs <b>fewer</b> workers.", s: { sup: 1, mcl: 1, mono: 1, comp: 1 } },
+] });
+
+/* ---------- contestability ---------- */
+const PCt = Plot({ xmax: 250, ymax: 22, xl: "Quantity", yl: "Price / cost (£)" });
+const Dc = (q) => 20 - 0.08 * q;
+function contDraw(s) {
+  const p = s.p, q = (20 - p) / 0.08, prof = (p - 6) * q;
+  let o = PCt.axes() + PCt.curve(Dc, "c1", 0, 250) + PCt.seg(0, 6, 250, 6, "c4") + PCt.label(249, 7.2, "AC = £6 (incl. normal profit)", "lbl bd t4", "end") + PCt.label(250, Dc(250) + 1.2, "D", "lbl bd t1", "end");
+  o += PCt.rect(0, 6, q, p, "f3", { style: "opacity:" + (prof > 1 ? 0.3 : 0) });
+  o += PCt.guide(q, p) + PCt.dot(q, p) + PCt.ty(p, "£" + Lib.fmtN(p, 2)) + PCt.tx(q, Lib.fmtN(q, 0));
+  o += SV.text(PCt.X(130), PCt.Y(20.8), "Supernormal profit = £" + Lib.fmtN(prof, 0), "lbl bd t3", { "text-anchor": "start", style: "font-size:16px" });
+  o += `<g style="opacity:${s.t}">` + SV.text(PCt.X(130), PCt.Y(18.2), "Hit-and-run entrant: can enter and leave at no cost", "lbl bd t2", { "text-anchor": "start" }) + "</g>";
+  return o;
+}
+Lib.stepper($("#stB"), { w: 760, h: 400, label: "A contestable market", base: { p: 13, t: 0 }, tween: 1000, draw: contDraw, steps: [
+  { cap: "An incumbent has the market to itself. At the profit-maximising price (£13) it earns <b>supernormal profit</b>. If barriers were high, it could keep it.", s: { p: 13, t: 0 } },
+  { cap: "But the market is <b>contestable</b>: entry costs are low, there are <b>no sunk costs</b> and entrants have the same technology. A rival could enter, undercut, and leave if things go wrong: <b>hit-and-run entry</b>.", s: { p: 13, t: 1 } },
+  { cap: "To deter entry the incumbent cuts price towards cost (<b>limit pricing</b>). Output rises and profit shrinks.", s: { p: 9, t: 1 } },
+  { cap: "At <b>P = AC (£6)</b> the incumbent earns only normal profit. There is nothing for an entrant to gain, so entry does not happen: <b>competitive outcome, without competitors</b>.", s: { p: 6, t: 1 } },
+  { cap: "<b>Contrast:</b> if entry needed large <b>sunk costs</b>, the threat would not be credible and the incumbent could keep the higher price.", s: { p: 13, t: 0 } },
+] });
+
+/* ---------- lab 1: minimum wage ---------- */
+function lab1() {
+  if (!$("#lw")) return;
+  const w = +$("#lw").value;
+  let L, W;
+  if (w <= WM) { L = LM; W = WM; } else if (w <= 12) { L = (w - 4) / 0.1; W = w; } else { L = (20 - w) / 0.1; W = w; }
+  $("#a1").textContent = Lib.fmtN(L, 1); $("#a2").textContent = "£" + Lib.fmtN(W, 2); $("#a3").textContent = (L - LM >= 0 ? "+" : "") + Lib.fmtN(L - LM, 1) + " jobs";
+  $("#av").textContent = w <= WM ? "Below the monopsony wage: the minimum wage does not bind. Employment stays at 53." : w <= 12 ? "Between £9.33 and £12: the minimum wage raises both wages and employment, because the firm no longer has to raise everyone's wage to hire another worker." : "Above £12 (the competitive wage): employment falls below the competitive level, and below the monopsony level once the wage is high enough. A minimum wage that is too high causes unemployment.";
+  const lines = PLb.axes() + PLb.curve(MRPf, "c1", 0, 160) + PLb.curve(Sf, "c3", 0, 160) + PLb.curve(MCLf, "c4", 0, 80) + PLb.seg(0, w, 160, w, "c2", { "stroke-dasharray": "6 5" });
+  $("#lab1").innerHTML = lines + PLb.guide(L, W) + PLb.dot(L, W, "dot1", 7) + PLb.ty(W, "£" + Lib.fmtN(W, 2)) + PLb.tx(L, Lib.fmtN(L, 0))
+    + PLb.label(158, w + 0.7, "Minimum wage", "lbl bd t2", "end") + PLb.label(158, MRPf(158) + 1.2, "MRP", "lbl bd t1", "end") + PLb.label(158, Sf(158) - 1.6, "S", "lbl bd t3", "end") + PLb.label(79, MCLf(79) - 1.8, "MCL", "lbl bd t4", "end");
+}
+Lib.slider($("#g1"), { id: "lw", label: "Minimum wage (£ per hour)", min: 4, max: 16, step: 0.5, value: 4, fmt: (v) => "£" + v.toFixed(2), onInput: lab1 });
+
+/* ---------- lab 2: contestable cases ---------- */
+const CASES = [
+  ["A city taxi market where licences are easy to get and cars can be leased", "Highly contestable", "Barriers and sunk costs are low, so new drivers can enter and leave quickly. Existing firms cannot hold prices well above cost."],
+  ["A drug protected by a 20-year patent", "Not contestable", "A legal barrier blocks rivals completely until the patent expires. The firm can keep price well above cost."],
+  ["Mobile networks: spectrum licences, masts and nationwide coverage needed", "Low contestability", "Very high sunk costs and regulation make entry risky and slow. Existing firms face little threat of hit-and-run entry."],
+  ["A budget airline route where airport slots are available and planes are leased", "Fairly contestable", "Aircraft can be redeployed, so sunk costs are low. If slots are scarce, contestability falls sharply."],
+];
+$("#contest").innerHTML = CASES.map((c) => `<details class="eq"><summary>${c[0]}</summary><div class="body"><p><b>Verdict:</b> <span class="kw">${c[1]}</span></p><p>${c[2]}</p></div></details>`).join("");
+
+/* ---------- practise ---------- */
+Lib.classify($("#cl1"), { prompt: "Which type of barrier to entry?", buckets: [{ label: "Legal" }, { label: "Structural / cost" }, { label: "Strategic (incumbent behaviour)" }], items: [
+  { text: "A patent", b: 0 }, { text: "A government licence", b: 0 }, { text: "Economies of scale", b: 1 }, { text: "High start-up costs", b: 1 }, { text: "Strong brand loyalty", b: 1 },
+  { text: "Control of a key resource", b: 1 }, { text: "Predatory pricing", b: 2 }, { text: "Limit pricing", b: 2 }, { text: "Exclusive contracts with retailers", b: 2 },
+] });
+Lib.classify($("#cl2"), { prompt: "Monopsony or contestable market?", buckets: [{ label: "Monopsony" }, { label: "Contestable market" }], items: [
+  { text: "A single dominant buyer", b: 0 }, { text: "Sellers have few alternative buyers", b: 0 }, { text: "MCL lies above the supply curve", b: 0 }, { text: "Wage paid below the competitive level", b: 0 },
+  { text: "Hit-and-run entry is possible", b: 1 }, { text: "Low sunk costs", b: 1 }, { text: "Incumbents keep price close to average cost for fear of entry", b: 1 }, { text: "Entrants have access to the same technology as incumbents", b: 1 },
+] });
+Lib.match($("#m1"), { prompt: "Match each term to its meaning.", pairs: [
+  ["Monopsony", "A market with one dominant buyer"],
+  ["Marginal cost of labour", "The extra cost of hiring one more worker, including higher pay to existing workers"],
+  ["Sunk cost", "A cost that cannot be recovered on leaving the market"],
+  ["Hit-and-run entry", "Entering a profitable market, taking profit, then leaving quickly"],
+  ["Contestable market", "One where the threat of entry disciplines firms"],
+  ["Exit barrier", "A cost or obstacle that makes leaving a market difficult"],
+] });
+Lib.calc($("#c1"), { qs: [
+  { q: "MRP = 20 − 0.1L. Calculate MRP when 50 workers are employed (£).", a: 15, sol: "20 − 0.1 × 50 = <b>£15</b>." },
+  { q: "Labour supply is W = 4 + 0.1L. Calculate the wage when 60 workers are employed (£).", a: 10, sol: "4 + 0.1 × 60 = <b>£10</b>." },
+  { q: "MCL = 4 + 0.2L. Calculate the marginal cost of labour at 50 workers (£).", a: 14, sol: "4 + 0.2 × 50 = <b>£14</b>." },
+  { q: "The competitive wage is £12 and the monopsony wage is £9.33. How much lower is the monopsony wage (£)?", a: 2.67, tol: 0.05, sol: "12 − 9.33 = <b>£2.67</b>." },
+  { q: "An incumbent sells 87.5 units at £13 with average cost £6. Calculate supernormal profit (£).", a: 612.5, tol: 0.1, sol: "(13 − 6) × 87.5 = <b>£612.50</b>." },
+] });
+Lib.quiz($("#qz1"), { qs: [
+  { q: "A monopsony is a market with:", opts: ["One seller", "One dominant buyer", "Two sellers", "Many buyers and sellers"], a: 1, why: "A single or dominant buyer." },
+  { q: "A monopsony employer hires where:", opts: ["MRP = supply", "MCL = MRP", "MR = MC", "MRP = 0"], a: 1, why: "It sets marginal cost of labour equal to marginal revenue product." },
+  { q: "Compared with a competitive labour market, a monopsony pays:", opts: ["A higher wage and employs more", "A lower wage and employs fewer", "A lower wage and employs more", "The same wage"], a: 1, why: "It restricts employment and pays the supply-curve wage." },
+  { q: "A minimum wage between the monopsony wage and the competitive wage is likely to:", opts: ["Reduce employment", "Increase wages and employment", "Have no effect", "Reduce wages"], a: 1, why: "MCL becomes flat at the minimum wage up to the supply curve." },
+  { q: "Sunk costs are:", opts: ["Costs of production", "Costs that cannot be recovered on exit", "Fixed costs only", "Marginal costs"], a: 1, why: "Spent and unrecoverable." },
+  { q: "Which makes a market more contestable?", opts: ["High sunk costs", "Strong brand loyalty", "Low barriers to entry and exit", "Patents"], a: 2, why: "Low barriers allow hit-and-run entry." },
+  { q: "In a contestable market incumbents are likely to:", opts: ["Raise prices", "Keep price close to average cost", "Reduce output", "Ignore rivals"], a: 1, why: "To discourage entry." },
+  { q: "Which is a strategic barrier to entry?", opts: ["A patent", "Economies of scale", "Predatory pricing", "A government licence"], a: 2, why: "Behaviour of incumbents designed to deter entry." },
+] });
+Lib.cards($("#fc1"), { cards: [
+  ["Monopsony", "A market with a single or dominant buyer."],
+  ["Monopsony power", "The ability of a dominant buyer to influence the price it pays."],
+  ["Marginal revenue product (MRP)", "The extra revenue from employing one more worker."],
+  ["Marginal cost of labour (MCL)", "The addition to total labour cost from hiring one more worker."],
+  ["Contestable market", "A market where the threat of entry disciplines firms."],
+  ["Barrier to entry", "Something that makes entering a market harder."],
+  ["Barrier to exit", "Something that makes leaving a market costly."],
+  ["Sunk cost", "A cost that cannot be recovered if the firm leaves the market."],
+  ["Hit-and-run entry", "Entering a market to take profit then leaving quickly."],
+  ["Limit pricing", "Setting price low enough to deter new entrants."],
+  ["Predatory pricing", "Pricing below cost to drive out rivals."],
+  ["Potential competition", "The threat of entry from firms not yet in the market."],
+] });
+lab1();
+
+Lib.initTabs();
+</script>
+</body></html>

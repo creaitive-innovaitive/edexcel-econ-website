@@ -1,0 +1,165 @@
+{
+ "slug": "revenue-costs-profits",
+ "title": "Objectives, Revenues, Costs and Profits: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "For a firm facing a downward-sloping demand curve, MR is:",
+   "opts": [
+    "Equal to AR",
+    "Below AR",
+    "Above AR",
+    "Always zero"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Revenue",
+   "ok": "Correct: Price must fall on all units to sell more, so MR lies below AR.",
+   "fb": "Price must fall on all units to sell more, so MR lies below AR. Review the Learn tab.",
+   "model": "Below AR"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "Total revenue is at its maximum where:",
+   "opts": [
+    "MR = MC",
+    "MR = 0",
+    "AR = AC",
+    "MC = AC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Revenue",
+   "ok": "Correct: When MR is zero, extra sales add nothing to revenue.",
+   "fb": "When MR is zero, extra sales add nothing to revenue. Review the Learn tab.",
+   "model": "MR = 0"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "Profit is maximised where:",
+   "opts": [
+    "MR = 0",
+    "MC = MR",
+    "AR = AC",
+    "MC = AC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Profit",
+   "ok": "Correct: MC = MR.",
+   "fb": "MC = MR. Review the Learn tab.",
+   "model": "MC = MR"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "Where MR is positive, demand is:",
+   "opts": [
+    "Price elastic",
+    "Price inelastic",
+    "Unit elastic",
+    "Perfectly inelastic"
+   ],
+   "ans": "0",
+   "marks": 1,
+   "topic": "Revenue and PED",
+   "ok": "Correct: A price cut raises revenue only if demand is elastic.",
+   "fb": "A price cut raises revenue only if demand is elastic. Review the Learn tab.",
+   "model": "Price elastic"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "MC cuts AC:",
+   "opts": [
+    "At its maximum",
+    "At its minimum",
+    "At any point",
+    "Never"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Costs",
+   "ok": "Correct: MC passes through the minimum of AC.",
+   "fb": "MC passes through the minimum of AC. Review the Learn tab.",
+   "model": "At its minimum"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "Normal profit occurs where:",
+   "opts": [
+    "AR > AC",
+    "AR = AC",
+    "AR < AC",
+    "MR = MC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Profit",
+   "ok": "Correct: Normal profit is the minimum to keep the firm in the industry.",
+   "fb": "Normal profit is the minimum to keep the firm in the industry. Review the Learn tab.",
+   "model": "AR = AC"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "Sales maximisation (with no loss) occurs where:",
+   "opts": [
+    "MR = 0",
+    "MC = MR",
+    "AR = AC",
+    "MC = AC"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Objectives",
+   "ok": "Correct: Output is pushed as far as AR = AC.",
+   "fb": "Output is pushed as far as AR = AC. Review the Learn tab.",
+   "model": "AR = AC"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "A firm sells 40 units at £15 each. Calculate total revenue (£).",
+   "ans": 600,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "Revenue",
+   "hint": "Enter a number.",
+   "ok": "Correct: TR = P × Q = 15 × 40 = £600.",
+   "fb": "TR = P × Q = 15 × 40 = £600. Check the worked examples.",
+   "model": "600"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "Total cost is £480 for 40 units. Calculate average cost (£).",
+   "ans": 12,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Costs",
+   "hint": "Enter a number.",
+   "ok": "Correct: AC = TC ÷ Q = 480 ÷ 40 = £12.",
+   "fb": "AC = TC ÷ Q = 480 ÷ 40 = £12. Check the worked examples.",
+   "model": "12"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "TR rises from £600 to £660 when output rises from 40 to 44 units. Calculate marginal revenue (£).",
+   "ans": 15,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Revenue",
+   "hint": "Enter a number.",
+   "ok": "Correct: MR = ΔTR ÷ ΔQ = 60 ÷ 4 = £15.",
+   "fb": "MR = ΔTR ÷ ΔQ = 60 ÷ 4 = £15. Check the worked examples.",
+   "model": "15"
+  }
+ ]
+}

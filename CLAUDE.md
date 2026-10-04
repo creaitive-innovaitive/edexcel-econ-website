@@ -12,3 +12,7 @@ Own Supabase project (edexcel-econ, separate from the Cambridge site) with the s
 - Supabase SQL: Gary pastes `supabase/schema.sql` / `assessments_seed.sql` into the SQL Editor himself. Copy with `LC_ALL=en_US.UTF-8 pbcopy < file` (plain pbcopy garbles non-ASCII). Both files are safe to rerun.
 - Model answers use hedged wording (could, may, likely to), not will/always/must, unless the question demands it.
 - Admin emails: gary.byatt@danang.sis.edu.vn, gbyatt@gmail.com. Never commit passwords.
+
+## Content status
+
+Theme 3 reviews are written (3.1, 3.4 in four parts, 3.5, 3.6); 3.2 and 3.3 are one ported page (`revenue-costs-profits`) placed under both chapters, with its PDFs. Exam technique pages and PDFs come from the old eunice-economics site. Model answers are original practice questions, not past-paper wording. Themes 1, 2 and 4 are still empty. Assessments need `supabase/assessments_seed.sql` pasted into the SQL Editor after each build that changes them.

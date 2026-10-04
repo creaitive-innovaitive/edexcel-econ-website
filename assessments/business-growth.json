@@ -1,0 +1,177 @@
+{
+ "slug": "business-growth",
+ "title": "Business Growth: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "A brewer buys a chain of pubs. This is:",
+   "opts": [
+    "Backward vertical integration",
+    "Forward vertical integration",
+    "Horizontal integration",
+    "Conglomerate integration"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Integration",
+   "ok": "Correct: Pubs are nearer the consumer, so it is forward vertical integration.",
+   "fb": "Pubs are nearer the consumer, so it is forward vertical integration. Review the Learn tab.",
+   "model": "Forward vertical integration"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "A bakery chain buys a flour mill. This is:",
+   "opts": [
+    "Forward vertical integration",
+    "Backward vertical integration",
+    "Horizontal integration",
+    "Organic growth"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Integration",
+   "ok": "Correct: Millers are suppliers, nearer the raw materials.",
+   "fb": "Millers are suppliers, nearer the raw materials. Review the Learn tab.",
+   "model": "Backward vertical integration"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "Two supermarket chains merge. This is:",
+   "opts": [
+    "Horizontal integration",
+    "Conglomerate integration",
+    "Forward vertical integration",
+    "Backward vertical integration"
+   ],
+   "ans": "0",
+   "marks": 1,
+   "topic": "Integration",
+   "ok": "Correct: They operate at the same stage in the same industry.",
+   "fb": "They operate at the same stage in the same industry. Review the Learn tab.",
+   "model": "Horizontal integration"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "A food company buys a software firm. This is:",
+   "opts": [
+    "Horizontal integration",
+    "Vertical integration",
+    "Conglomerate integration",
+    "Organic growth"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Integration",
+   "ok": "Correct: The industries are unrelated.",
+   "fb": "The industries are unrelated. Review the Learn tab.",
+   "model": "Conglomerate integration"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "The principal-agent problem arises because:",
+   "opts": [
+    "Shareholders manage the firm",
+    "Managers and shareholders may have different objectives",
+    "Firms cannot make a profit",
+    "Competition law forbids growth"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Principal-agent",
+   "ok": "Correct: Owners and managers can want different things, and managers know more.",
+   "fb": "Owners and managers can want different things, and managers know more. Review the Learn tab.",
+   "model": "Managers and shareholders may have different objectives"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "Which is a constraint on business growth?",
+   "opts": [
+    "A rapidly growing market",
+    "Easy access to finance",
+    "An owner who wants to keep control",
+    "Economies of scale"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Constraints",
+   "ok": "Correct: Owner objectives can limit growth.",
+   "fb": "Owner objectives can limit growth. Review the Learn tab.",
+   "model": "An owner who wants to keep control"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "A charity that reinvests its surplus is best described as:",
+   "opts": [
+    "Public sector",
+    "Not-for-profit",
+    "A monopoly",
+    "Conglomerate"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Types of firm",
+   "ok": "Correct: It is private-sector but not-for-profit.",
+   "fb": "It is private-sector but not-for-profit. Review the Learn tab.",
+   "model": "Not-for-profit"
+  },
+  {
+   "id": "q8",
+   "type": "mcq",
+   "q": "Which is a likely reason for a demerger?",
+   "opts": [
+    "To gain economies of scale",
+    "To refocus on the core business",
+    "To remove a competitor",
+    "To increase diversification"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Demergers",
+   "ok": "Correct: Demergers often follow lost focus or diseconomies of scale.",
+   "fb": "Demergers often follow lost focus or diseconomies of scale. Review the Learn tab.",
+   "model": "To refocus on the core business"
+  },
+  {
+   "id": "q9",
+   "type": "mcq",
+   "q": "Which is an advantage of organic growth over a takeover?",
+   "opts": [
+    "It is faster",
+    "It is usually lower risk and keeps control and culture",
+    "It always removes a rival",
+    "It needs large external finance"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Growth methods",
+   "ok": "Correct: Organic growth is gradual, lower risk, and avoids integration problems.",
+   "fb": "Organic growth is gradual, lower risk, and avoids integration problems. Review the Learn tab.",
+   "model": "It is usually lower risk and keeps control and culture"
+  },
+  {
+   "id": "q10",
+   "type": "mcq",
+   "q": "Which would reduce the principal-agent problem?",
+   "opts": [
+    "Paying managers a fixed salary regardless of results",
+    "Linking manager pay to profit or share price",
+    "Reducing audits",
+    "Hiding accounts from shareholders"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Principal-agent",
+   "ok": "Correct: Performance-linked pay aligns manager and shareholder interests.",
+   "fb": "Performance-linked pay aligns manager and shareholder interests. Review the Learn tab.",
+   "model": "Linking manager pay to profit or share price"
+  }
+ ]
+}

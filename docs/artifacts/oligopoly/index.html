@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en"><head><script>try{var t=localStorage.getItem("site.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><script>document.documentElement.classList.add("gated")</script><style>html.gated{visibility:hidden!important}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oligopoly</title>
+<style>:root{
+  --bg:#f5f3ee; --surface:#fff; --ink:#17212b; --muted:#566573; --line:#d9d4c7; --soft:#eef2f5;
+  --accent:#2b5d7c; --accent-ink:#fff; --accent-soft:#e0ecf3;
+  --good:#1d7a4c; --good-soft:#dff2e7; --bad:#b3372f; --bad-soft:#f9e2df; --warn:#a85d00; --warn-soft:#fbead2;
+  --k:#1f5fa8; --a:#1d7a4c; --n:#7a3fa0; --e:#b25a00;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+.wrap{max-width:980px;margin:0 auto;padding:22px 16px 90px}
+h1,h2,h3{font-family:var(--serif);line-height:1.18;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,5vw,2.5rem);letter-spacing:-.015em}
+h2{font-size:1.45rem;margin:26px 0 10px}
+h3{font-size:1.12rem;margin:18px 0 6px}
+p{margin:0 0 .8em}
+.eyebrow{font:700 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:68ch;margin-top:8px}
+header.top{padding:6px 0 14px}
+.tablist{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;padding-top:8px}
+.tablist button{font:600 .9rem var(--sans);padding:8px 13px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tablist button:hover{color:var(--ink)}
+.tablist button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tablist button:focus-visible,.b:focus-visible,summary:focus-visible,.chip:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[role=tabpanel][hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+.card.big{background:var(--accent-soft);border-color:var(--accent)}
+.card h3:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.grid2>.card{margin:0}
+.formula{font:600 1.05rem var(--mono);background:var(--soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;overflow-x:auto}
+.kw{font-weight:700;color:var(--accent)}
+table.t{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+table.t th,table.t td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.t th{font:700 .72rem var(--sans);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tw{overflow-x:auto}
+.b{font:700 .9rem var(--sans);padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.b:hover{background:var(--soft)}
+.b.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.b:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.88rem;color:var(--muted)}
+.pill{display:inline-block;font:700 .72rem var(--sans);padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent);vertical-align:middle}
+.tip{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.tip b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--warn)}
+.warn{border-left:4px solid var(--bad);background:var(--bad-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.warn b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--bad)}
+/* stepper */
+.stp{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0 14px}
+.stp svg{display:block;width:100%;height:auto;background:var(--surface)}
+.stp-cap{padding:12px 16px;background:var(--ink);color:var(--bg);font-size:1.02rem;min-height:3.6em}
+.stp-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px}
+.stp-dots{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.stp-dots button{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--muted);font:700 .72rem var(--sans);cursor:pointer;padding:0}
+.stp-dots button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.stp-dots button.done{border-color:var(--accent);color:var(--accent)}
+/* svg theme classes */
+svg text{font-family:var(--sans);fill:var(--ink)}
+svg .ax{stroke:var(--ink);stroke-width:2;fill:none}
+svg .gr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4;fill:none}
+svg .lbl{font-size:13px}
+svg .sm{font-size:11.5px;fill:var(--muted)}
+svg .bd{font-weight:700}
+svg .c1{stroke:var(--accent);stroke-width:3.5;fill:none}
+svg .c2{stroke:var(--bad);stroke-width:3.5;fill:none}
+svg .c3{stroke:var(--good);stroke-width:3.5;fill:none}
+svg .c4{stroke:var(--warn);stroke-width:3.5;fill:none}
+svg .f1{fill:var(--accent);opacity:.18} svg .f2{fill:var(--bad);opacity:.18} svg .f3{fill:var(--good);opacity:.2} svg .f4{fill:var(--warn);opacity:.22}
+svg .dash{stroke-dasharray:6 5}
+svg .t1{fill:var(--accent)} svg .t2{fill:var(--bad)} svg .t3{fill:var(--good)} svg .t4{fill:var(--warn)}
+svg .dot1{fill:var(--accent)} svg .dot2{fill:var(--bad)} svg .dot3{fill:var(--good)} svg .dot4{fill:var(--warn)}
+/* sliders */
+.sl{margin:10px 0}
+.sl label{display:flex;justify-content:space-between;font-weight:600;font-size:.95rem}
+.sl output{font:600 .9rem var(--mono);color:var(--accent)}
+.sl input{width:100%;accent-color:var(--accent);margin:6px 0}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.readout div{border-top:3px solid var(--accent);background:var(--surface);padding:8px 10px;border-radius:0 0 8px 8px;border:1px solid var(--line);border-top:3px solid var(--accent)}
+.readout small{display:block;font:700 .66rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.readout strong{font:700 1.25rem var(--mono);font-variant-numeric:tabular-nums}
+.verdict{padding:10px 14px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent);font-weight:600;margin:8px 0}
+/* classify / match */
+.cls .pool{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--line);border-radius:10px;min-height:54px;background:var(--soft)}
+.cls .buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.cls .bk{border:2px solid var(--line);border-radius:10px;padding:8px;min-height:84px;background:var(--surface)}
+.cls .bk h4{margin:0 0 6px;font:700 .82rem var(--sans);color:var(--accent)}
+.cls .bk .slot{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.cls .bk.over,.cls .pool.over{border-color:var(--accent);background:var(--accent-soft)}
+.chip{font:600 .88rem var(--sans);padding:6px 11px;border-radius:8px;border:1.5px solid var(--accent);background:var(--surface);color:var(--ink);cursor:grab;user-select:none;text-align:left}
+.chip.sel{background:var(--accent);color:var(--accent-ink)}
+.chip.ok{border-color:var(--good);background:var(--good-soft)}
+.chip.no{border-color:var(--bad);background:var(--bad-soft)}
+.cls .msg,.ord .msg,.calc .msg{font-weight:700;margin:8px 0}
+.match .bk h4{font-size:.9rem;color:var(--ink)}
+/* order */
+.ord ol{list-style:none;margin:10px 0;padding:0;counter-reset:o}
+.ord li{counter-increment:o;display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:6px;border:1.5px solid var(--line);border-radius:9px;background:var(--surface);cursor:grab}
+.ord li::before{content:counter(o);font:700 .8rem var(--mono);width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.ord li.ok{border-color:var(--good);background:var(--good-soft)} .ord li.no{border-color:var(--bad);background:var(--bad-soft)}
+.ord li.drag{opacity:.4}
+.ord li span{flex:1}
+.ord li button{padding:2px 8px}
+/* quiz */
+.qz .q{margin:0 0 16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qz .q p.qt{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;font:500 .95rem var(--sans);padding:9px 12px;margin:5px 0;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.why{display:none;margin-top:8px;font-size:.92rem;padding:8px 12px;background:var(--soft);border-radius:8px}
+.q.done .why{display:block}
+.score{font:700 1.05rem var(--sans);margin:10px 0}
+/* calc */
+.calc .q{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:12px}
+.calc input[type=number],.calc input[type=text]{width:130px;padding:7px 10px;font:600 1rem var(--mono);border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.calc .sol{display:none;margin-top:8px;padding:10px 12px;background:var(--soft);border-radius:8px;font-size:.93rem}
+.calc .sol.show{display:block}
+.calc .fb{font-weight:700;margin-left:8px}
+.calc .fb.ok{color:var(--good)} .calc .fb.no{color:var(--bad)}
+/* cards */
+.fc{perspective:900px;max-width:520px}
+.fc .face{min-height:170px;display:grid;place-items:center;text-align:center;padding:20px;border-radius:14px;border:2px solid var(--accent);background:var(--surface);cursor:pointer;font-size:1.1rem}
+.fc .face.back{background:var(--accent-soft)}
+.fc .face small{display:block;font:700 .66rem var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+/* exam Qs */
+details.eq{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+details.eq>summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+details.eq>summary::-webkit-details-marker{display:none}
+details.eq>summary::before{content:"▸";color:var(--accent)}
+details.eq[open]>summary::before{content:"▾"}
+details.eq .body{padding:4px 18px 16px}
+.mark{font:700 .72rem var(--mono);background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px}
+.cmd{font:700 .72rem var(--sans);background:var(--warn-soft);color:var(--warn);padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em}
+.ans{border-left:4px solid var(--accent);padding:6px 14px;margin:10px 0;background:var(--soft);border-radius:0 8px 8px 0}
+.mk{border-bottom:2px solid currentColor;padding-bottom:1px}
+.mk[data-t]::after{content:" [" attr(data-t) "]";font:700 .64rem var(--sans);vertical-align:super;opacity:.85}
+.mk.k{color:var(--k)} .mk.a{color:var(--a)} .mk.n{color:var(--n)} .mk.e{color:var(--e)}
+.key{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin:6px 0}
+.key span{display:inline-flex;gap:5px;align-items:center}
+.key i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.key .k i{background:var(--k)} .key .a i{background:var(--a)} .key .n i{background:var(--n)} .key .e i{background:var(--e)}
+.rw{border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--surface);border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:12px}
+.rw h3{margin:0 0 4px}
+.rw .use{margin-top:8px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:.93rem}
+.rw .use b{color:var(--accent)}
+ul.tips{list-style:none;padding:0;margin:0}
+ul.tips li{padding:10px 14px;margin-bottom:8px;border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:0 10px 10px 0;background:var(--surface)}
+ul.tips li b{color:var(--warn)}
+@media (max-width:640px){.tablist{position:static}}
+@media print{.tablist{display:none}[role=tabpanel][hidden]{display:block}.stp-ctl{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.stp{scroll-margin-top:70px}
+</style></head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Edexcel A-Level Economics A · 9EC0 · Theme 3 · 3.4.4</div>
+  <h1>Oligopoly</h1>
+  <p class="lead">A few big firms who watch each other: how to measure concentration, why firms collude (and why it breaks down), game theory, and the many ways oligopolists compete.</p>
+</header>
+
+<nav class="tablist" role="tablist" aria-label="Sections">
+  <button role="tab" data-p="learn">Learn</button>
+  <button role="tab" data-p="watch">Watch</button>
+  <button role="tab" data-p="explore">Explore</button>
+  <button role="tab" data-p="practise">Practise</button>
+  <button role="tab" data-p="exam">Exam questions</button>
+  <button role="tab" data-p="tips">Tips &amp; keywords</button>
+</nav>
+
+<!-- LEARN -->
+<section id="learn" role="tabpanel">
+  <div class="card big">
+    <h3>The big idea</h3>
+    <p>In an <span class="kw">oligopoly</span> a few firms dominate. Because each firm's decision on price or output affects its rivals, they are <b>interdependent</b>: before acting, each firm has to guess how the others will react. That uncertainty explains collusion, price wars, branding and game theory.</p>
+  </div>
+
+  <h2>Characteristics (3.4.4a)</h2>
+  <div class="grid2">
+    <div class="card"><h3>High barriers to entry and exit</h3><p>Economies of scale, brand loyalty, high start-up costs, patents, control of distribution. Few new firms can join.</p></div>
+    <div class="card"><h3>High concentration ratio</h3><p>A small number of firms hold most of the market share.</p></div>
+    <div class="card"><h3>Interdependence</h3><p>A firm's best strategy depends on what rivals do. Firms try to predict and respond to each other's moves.</p></div>
+    <div class="card"><h3>Product differentiation</h3><p>Products are usually differentiated (cars, smartphones, supermarkets) though some are similar (petrol, steel).</p></div>
+  </div>
+
+  <h2>Concentration ratios (3.4.4b)</h2>
+  <p>The <span class="kw">n-firm concentration ratio</span> is the <b>combined market share of the largest n firms</b>.</p>
+  <div class="formula">CR(n) = share₁ + share₂ + … + shareₙ   (the n largest firms)</div>
+  <p><b>Example:</b> shares of 30%, 25%, 15% and 10% for the four largest firms give <b>CR4 = 80%</b>. A high ratio suggests an oligopoly and may mean the firms can behave similarly or collude. A CR4 of around 60% or more is often treated as high, but there is no fixed cut-off.</p>
+  <div class="warn"><b class="h">Evaluation point</b>A concentration ratio ignores how <b>contestable</b> the market is, whether firms are competing fiercely, the size of imports and the way the market is defined. A high CR does not prove the firms are exploiting consumers.</div>
+
+  <h2>Collusion and its limits (3.4.4c, d)</h2>
+  <div class="grid2">
+    <div class="card"><h3>Why firms may collude</h3><ul><li>Joint profit maximisation: act like a monopolist</li><li>Reduces uncertainty about rivals' reactions</li><li>Avoids costly price wars</li><li>Barriers keep new entrants out</li></ul></div>
+    <div class="card"><h3>Why collusion is hard or breaks down</h3><ul><li><b>Illegal</b> in the UK and EU: heavy fines</li><li>Each firm has an <b>incentive to cheat</b> by undercutting</li><li>More firms make agreement harder</li><li>Firms have different costs and goals</li><li>New entrants or imports erode the agreement</li><li>Falling demand tempts firms to cut price</li></ul></div>
+  </div>
+  <div class="tw"><table class="t">
+    <tr><th>Type</th><th>What it is</th><th>Example</th></tr>
+    <tr><td><b>Overt (formal) collusion</b></td><td>An open agreement on price or output; a <b>cartel</b> if several firms agree</td><td>OPEC (an international cartel of oil-producing countries)</td></tr>
+    <tr><td><b>Tacit collusion</b></td><td>No explicit agreement; firms follow a pattern, e.g. <b>price leadership</b>: one dominant firm changes price and the others follow</td><td>Supermarkets or petrol stations matching each other's prices</td></tr>
+  </table></div>
+
+  <h2>Game theory: the prisoner's dilemma (3.4.4e)</h2>
+  <p>Game theory models strategic decisions where the outcome depends on what others choose. In a simple <b>two-firm, two-outcome</b> model each firm picks <i>comply</i> (keep to the agreed output) or <i>cheat</i> (produce more). A <b>payoff matrix</b> shows the profit each firm gets from every combination.</p>
+  <ul>
+    <li>If both comply they share monopoly profit.</li>
+    <li>If one cheats while the other complies, the cheat gains and the complier loses.</li>
+    <li>If both cheat, price falls and both earn less than if both complied.</li>
+  </ul>
+  <p>Whatever the rival does, cheating gives a higher payoff, so cheating is the <b>dominant strategy</b>. Both cheat and end up worse off. That is why cartels are unstable. Try it in the <b>Explore</b> tab.</p>
+
+  <h2>Competition between oligopolists (3.4.4f, g)</h2>
+  <div class="grid2">
+    <div class="card"><h3>Price competition</h3>
+      <ul><li><b>Price war:</b> rivals repeatedly cut prices; profits fall for all and weaker firms may leave.</li>
+      <li><b>Predatory pricing:</b> pricing below cost to force a rival out, then raising price. Illegal if proved.</li>
+      <li><b>Limit pricing:</b> setting price just low enough (above cost) to make entry unprofitable, sacrificing some profit to deter new firms.</li></ul></div>
+    <div class="card"><h3>Non-price competition</h3>
+      <ul><li>Branding and advertising</li><li>Product development and innovation</li><li>Quality and after-sales service</li><li>Loyalty cards and discounts for regulars</li><li>Convenience and delivery</li></ul>
+      <p class="note">Firms prefer non-price competition because price cuts are easily matched and start price wars. It can raise costs and still leave consumers with real choice.</p></div>
+  </div>
+</section>
+
+<!-- WATCH -->
+<section id="watch" role="tabpanel" hidden>
+  <p>Press Play, or click the numbered steps.</p>
+  <h2>1 · Measuring concentration</h2><div id="stA"></div>
+  <h2>2 · Cartel: the gain from collusion and the incentive to cheat</h2><div id="stB"></div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore" role="tabpanel" hidden>
+  <h2>Lab 1 · The prisoner's dilemma</h2>
+  <p>Two firms share a market. Demand is P = 20 − 0.08Q (Q is total output) and marginal cost is £4. Each firm chooses to <b>comply</b> (output 50) or <b>cheat</b> (output 70). Payoffs are profits in £ (Firm A, Firm B). Choose a move for each firm.</p>
+  <div class="card">
+    <div class="row"><b>Firm A:</b><span id="pdA"></span><b style="margin-left:14px">Firm B:</b><span id="pdB"></span></div>
+    <div class="tw"><table class="t" id="pdTable"></table></div>
+    <div class="row"><button class="b" id="pdBest">Show best responses</button></div>
+    <div class="verdict" id="pdOut"></div>
+  </div>
+
+  <h2>Lab 2 · Concentration ratio calculator</h2>
+  <p>Set the market share of five firms. The rest of the market is shared by many small firms.</p>
+  <div class="card"><div class="grid2"><div id="crSliders"></div><div>
+    <div class="readout"><div><small>CR3</small><strong id="cr3"></strong></div><div><small>CR4</small><strong id="cr4"></strong></div><div><small>Small firms</small><strong id="crRest"></strong></div></div>
+    <div class="verdict" id="crV"></div></div></div></div>
+
+  <h2>Lab 3 · Limit pricing</h2>
+  <p>An incumbent has constant cost of £4 a unit and faces the demand P = 20 − 0.08Q. A potential entrant would need a price above £9 to earn any profit. Lower the price and see when entry stops being attractive.</p>
+  <div class="card"><div class="grid2"><div><div id="g3"></div>
+    <div class="readout"><div><small>Quantity sold</small><strong id="lq"></strong></div><div><small>Incumbent profit</small><strong id="lp"></strong></div><div><small>Entry?</small><strong id="le" style="font-size:1rem"></strong></div></div><div class="verdict" id="lv"></div></div>
+    <div><svg id="lab3" viewBox="0 0 760 400" role="img" aria-label="Limit pricing diagram"></svg></div></div></div>
+</section>
+
+<!-- PRACTISE -->
+<section id="practise" role="tabpanel" hidden>
+  <h2>1 · Price or non-price competition?</h2>
+  <div id="cl1" class="card"></div>
+
+  <h2>2 · Overt or tacit collusion?</h2>
+  <div id="cl2" class="card"></div>
+
+  <h2>3 · Match the term</h2>
+  <div id="m1" class="card"></div>
+
+  <h2>4 · Calculations</h2>
+  <div id="c1"></div>
+
+  <h2>5 · Multiple choice</h2>
+  <div id="qz1"></div>
+</section>
+
+<!-- EXAM -->
+<section id="exam" role="tabpanel" hidden>
+  <h2>Exam-style questions</h2>
+  <p>Written in the style of Edexcel Paper 1 and Paper 3. Open each question for reminders, a model answer and common mistakes. Answers are colour-coded to the mark scheme. These are practice questions, not past-paper wording.</p>
+  <div class="key"><span class="k"><i></i>Knowledge (K)</span><span class="a"><i></i>Application (A)</span><span class="n"><i></i>Analysis (N)</span><span class="e"><i></i>Evaluation (E)</span></div>
+
+  <details class="eq"><summary>Q1 <span class="cmd">Calculate</span> <span class="mark">2 marks</span> The four largest firms in a market have shares of 28%, 22%, 15% and 9%. Calculate the four-firm concentration ratio.</summary><div class="body">
+    <div class="ans"><span class="mk k" data-t="K">CR4 = sum of the four largest shares.</span> <span class="mk a" data-t="A">28 + 22 + 15 + 9 = <b>74%</b>.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q2 <span class="cmd">Explain</span> <span class="mark">4 marks</span> Explain one reason why firms in an oligopoly may choose to collude.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>One reason, developed. "Higher profit" alone is not enough: show how.</div>
+    <div class="ans"><span class="mk k" data-t="K">Firms may collude to maximise joint profit by acting like a monopolist.</span> <span class="mk n" data-t="N">By agreeing to restrict output or fix a higher price, they move away from competing on price, so industry output falls and price rises.</span> <span class="mk a" data-t="A">For example, two airlines on the same route could agree to keep fares above the competitive level.</span> <span class="mk n" data-t="N">Because the market has high barriers to entry, new firms are unlikely to undercut them, so the supernormal profit could be sustained.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q3 <span class="cmd">Analyse</span> <span class="mark">6 marks</span> Analyse why cartels tend to be unstable. Use game theory in your answer.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Describe the dilemma in words: what each firm gains from cheating, what happens if both cheat, and why they cannot trust each other.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">A cartel is an agreement between firms to restrict output and raise price.</span> <span class="mk n" data-t="N">Once price is high, each firm could raise its own profit by secretly producing more or undercutting, because it earns the high price on extra units while rivals bear the fall in price.</span> <span class="mk n" data-t="N">In a prisoner's dilemma payoff matrix, cheating gives a higher profit whatever the other firm does, so cheating is a dominant strategy.</span></p>
+    <p><span class="mk n" data-t="N">If both cheat, market output rises and price falls, so both earn less than if they had kept to the agreement.</span> <span class="mk n" data-t="N">Because each firm fears the other will cheat first, the agreement is likely to collapse.</span> <span class="mk a" data-t="A">OPEC members have often exceeded their agreed quotas, for example.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q4 <span class="cmd">Assess</span> <span class="mark">10 marks</span> Assess whether a price war between supermarkets is likely to benefit consumers. <small>(KAA 6 + evaluation 4)</small></summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Benefits in the short run, risks in the long run. Remember suppliers and quality.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">A price war occurs when rival firms repeatedly cut prices to win market share.</span> <span class="mk n" data-t="N">In the short run consumers are likely to benefit from lower prices, which raises their real income and consumer surplus, particularly for essentials like food.</span> <span class="mk n" data-t="N">Firms may also compete on quality and promotions to keep customers.</span> <span class="mk a" data-t="A">Supermarkets that match prices on staples could lower household food bills.</span></p>
+    <p><span class="mk e" data-t="E">However, falling margins may mean supermarkets squeeze suppliers, who may cut quality, wages or leave the market, and smaller rivals could be forced to exit, reducing choice in the long run.</span> <span class="mk e" data-t="E">Once weaker firms have gone, remaining firms might raise prices again.</span> <span class="mk e" data-t="E">Overall, price wars tend to benefit consumers in the short run, but the longer-term outcome depends on how long the war lasts, whether firms are driven out and whether prices recover.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q5 <span class="cmd">Discuss</span> <span class="mark">12 marks</span> Smartphone manufacturers rely heavily on branding and product development. Discuss the likely effects of non-price competition for consumers. <small>(KAA 8 + evaluation 4)</small></summary><div class="body">
+    <div class="ans"><p><span class="mk k" data-t="K">Non-price competition means competing through branding, quality, innovation and service rather than price.</span> <span class="mk n" data-t="N">Consumers may gain from rapid product development, such as better cameras and batteries, as firms try to differentiate.</span> <span class="mk n" data-t="N">Wide choice and good after-sales service could improve satisfaction.</span> <span class="mk a" data-t="A">Handset makers regularly release new models with new features.</span></p>
+    <p><span class="mk n" data-t="N">However, heavy advertising and branding raise costs, which may be passed on as higher prices. Firms may also differentiate in minor ways that add little real value, and loyalty to a brand can allow firms to charge prices above marginal cost.</span> <span class="mk n" data-t="N">High costs of development can create barriers to entry for smaller firms, reducing competition.</span></p>
+    <p><span class="mk e" data-t="E">The net effect depends on how much consumers value the innovation compared with the price premium, and on whether competition between brands is intense enough to keep prices in check. On balance consumers are likely to gain where innovation is genuine and rivals are close competitors.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q6 <span class="cmd">Evaluate</span> <span class="mark">25 marks</span> "Oligopolists always act against the interests of consumers." Evaluate this view. <small>(KAA 16 + evaluation 9)</small></summary><div class="body">
+    <div class="tip"><b class="h">Plan</b>Two sides, real firms, and a judgement based on contestability and regulation.</div>
+    <div class="ans"><ol>
+      <li><span class="mk k" data-t="K">Define oligopoly and concentration. Link to efficiency and consumer surplus.</span></li>
+      <li><span class="mk n" data-t="N">Against consumers: collusion and price fixing, higher prices, limit and predatory pricing, barriers to entry, X-inefficiency, spending on advertising.</span></li>
+      <li><span class="mk n" data-t="N">For consumers: price wars, non-price competition, innovation funded by profit, economies of scale that lower costs, quality and choice.</span></li>
+      <li><span class="mk e" data-t="E">Constraints: competition authorities, fines for cartels, the threat of entry (contestability), buyer power of large retailers.</span></li>
+      <li><span class="mk e" data-t="E">Judgement: "always" is too strong. The outcome depends on whether firms collude, how contestable the market is and how effective regulators are.</span></li>
+    </ol></div>
+  </div></details>
+</section>
+
+<!-- TIPS -->
+<section id="tips" role="tabpanel" hidden>
+  <h2>Top tips</h2>
+  <ul class="tips">
+    <li><b>Concentration ratio:</b> add the n biggest shares. Show the working.</li>
+    <li><b>Interdependence</b> is the key idea. Firms think about rivals' reactions before acting.</li>
+    <li><b>Collusion:</b> say whether it is overt or tacit, and name the incentive to cheat.</li>
+    <li><b>Prisoner's dilemma:</b> describe the payoffs, name the dominant strategy, explain why both end up worse off.</li>
+    <li><b>Price versus non-price:</b> use examples from the case study (branding, loyalty, innovation).</li>
+    <li><b>Evaluate</b> with contestability, regulation, time period, and whether a high concentration ratio really means weak competition.</li>
+    <li><b>Do not draw a kinked demand curve</b> unless the question asks: it is not required for this specification.</li>
+  </ul>
+  <h2>Command words</h2>
+  <div class="tw"><table class="t">
+    <tr><th>Command word</th><th>What it asks for</th></tr>
+    <tr><td>Calculate</td><td>Formula, working and answer.</td></tr>
+    <tr><td>Explain / Analyse</td><td>A developed chain of reasoning.</td></tr>
+    <tr><td>Assess / Discuss</td><td>Both sides then a supported judgement.</td></tr>
+    <tr><td>Evaluate</td><td>Weigh up, show what it depends on, reach a conclusion.</td></tr>
+  </table></div>
+  <h2>Keyword flashcards</h2>
+  <div id="fc1"></div>
+</section>
+</div>
+
+<script>
+const $ = (s, e = document) => e.querySelector(s), $$ = (s, e = document) => [...e.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmtN = (n, d = 2) => (Math.round(n * 10 ** d) / 10 ** d).toString();
+
+/* ---------- tabs ---------- */
+function initTabs() {
+  const list = $(".tablist"), tabs = $$("[role=tab]", list), panels = tabs.map((t) => $("#" + t.dataset.p));
+  const show = (i, focus) => {
+    tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; panels[k].hidden = k !== i; });
+    if (focus) tabs[i].focus();
+    try { history.replaceState(null, "", "#" + tabs[i].dataset.p); } catch (e) {}
+    window.dispatchEvent(new Event("resize"));
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { show(i); window.scrollTo(0, 0); });
+    t.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show((i + 1) % tabs.length, true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show((i + tabs.length - 1) % tabs.length, true); }
+    });
+  });
+  const start = tabs.findIndex((t) => "#" + t.dataset.p === location.hash);
+  show(start < 0 ? 0 : start);
+}
+
+/* ---------- svg string helpers ---------- */
+const at = (o) => Object.entries(o || {}).map(([k, v]) => ` ${k}="${v}"`).join("");
+const SV = {
+  line: (x1, y1, x2, y2, c = "ax", o) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${c}"${at(o)}/>`,
+  text: (x, y, t, c = "lbl", o) => `<text x="${x}" y="${y}" class="${c}"${at(o)}>${t}</text>`,
+  circle: (x, y, r, c = "dot1", o) => `<circle cx="${x}" cy="${y}" r="${r}" class="${c}"${at(o)}/>`,
+  rect: (x, y, w, h, c = "f1", o) => `<rect x="${x}" y="${y}" width="${Math.max(0, w)}" height="${Math.max(0, h)}" class="${c}"${at(o)}/>`,
+  path: (d, c = "c1", o) => `<path d="${d}" class="${c}"${at(o)}/>`,
+  poly: (pts, c = "f1", o) => `<polygon points="${pts.map((p) => p.join(",")).join(" ")}" class="${c}"${at(o)}/>`,
+  arrowHead: (x, y, dir, c = "dot1") => { const s = 7; const p = { r: [[x, y], [x - s * 1.6, y - s], [x - s * 1.6, y + s]], l: [[x, y], [x + s * 1.6, y - s], [x + s * 1.6, y + s]], u: [[x, y], [x - s, y + s * 1.6], [x + s, y + s * 1.6]], d: [[x, y], [x - s, y - s * 1.6], [x + s, y - s * 1.6]] }[dir]; return `<polygon points="${p.map((q) => q.join(",")).join(" ")}" class="${c}"/>`; },
+};
+const ptsPath = (pts) => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+
+/* ---------- animated stepper ---------- */
+function stepper(el, cfg) {
+  const W = cfg.w || 760, H = cfg.h || 400, steps = cfg.steps;
+  el.innerHTML = `<div class="stp"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.label || "Animated diagram")}"></svg>
+    <div class="stp-cap" aria-live="polite"></div>
+    <div class="stp-ctl"><button class="b" data-a="back">◀ Back</button><button class="b pri" data-a="play">▶ Play</button><button class="b" data-a="next">Next ▶</button><button class="b" data-a="restart" aria-label="Restart">↻</button><span class="stp-dots"></span></div></div>`;
+  const svg = $("svg", el), cap = $(".stp-cap", el), dots = $(".stp-dots", el), playBtn = $("[data-a=play]", el);
+  let cur = 0, drawn = { ...cfg.base, ...steps[0].s }, raf = 0, timer = 0, playing = false;
+  steps.forEach((_, i) => { const d = document.createElement("button"); d.textContent = i + 1; d.setAttribute("aria-label", "Step " + (i + 1)); d.onclick = () => { stop(); go(i); }; dots.appendChild(d); });
+  const interp = (a, b, t) => { const o = {}; for (const k in b) o[k] = typeof b[k] === "number" && typeof a[k] === "number" ? a[k] + (b[k] - a[k]) * t : t > 0.5 ? b[k] : a[k] !== undefined ? a[k] : b[k]; return o; };
+  const paint = (s) => { drawn = s; svg.innerHTML = cfg.draw(s); };
+  function go(i) {
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    cap.innerHTML = steps[cur].cap;
+    $$("button", dots).forEach((d, k) => { d.classList.toggle("on", k === cur); d.classList.toggle("done", k < cur); });
+    const from = drawn, to = { ...cfg.base, ...steps[cur].s }, t0 = performance.now(), dur = reduced ? 0 : cfg.tween || 900;
+    cancelAnimationFrame(raf);
+    const tick = (now) => { const t = dur ? Math.min(1, (now - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; paint(interp(from, to, e)); if (t < 1) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+  }
+  function stop() { playing = false; clearTimeout(timer); playBtn.textContent = "▶ Play"; }
+  function advance() { if (!playing) return; if (cur >= steps.length - 1) return stop(); go(cur + 1); timer = setTimeout(advance, cfg.dwell || 4800); }
+  playBtn.onclick = () => { if (playing) return stop(); if (cur >= steps.length - 1) go(0); playing = true; playBtn.textContent = "❚❚ Pause"; timer = setTimeout(advance, cfg.dwell ? Math.min(cfg.dwell, 3000) : 2500); };
+  $("[data-a=back]", el).onclick = () => { stop(); go(cur - 1); };
+  $("[data-a=next]", el).onclick = () => { stop(); go(cur + 1); };
+  $("[data-a=restart]", el).onclick = () => { stop(); go(0); };
+  paint(drawn); go(0);
+}
+
+/* ---------- slider ---------- */
+function slider(el, o) {
+  const id = o.id;
+  el.innerHTML = `<div class="sl"><label for="${id}">${o.label}<output id="${id}o"></output></label><input type="range" id="${id}" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}"></div>`;
+  const i = $("#" + id, el), out = $("#" + id + "o", el);
+  const upd = () => { out.textContent = (o.fmt || ((v) => v))(+i.value); o.onInput && o.onInput(+i.value); };
+  i.addEventListener("input", upd); upd();
+  return { get: () => +i.value, set: (v) => { i.value = v; upd(); } };
+}
+
+/* ---------- classify (also powers match) ---------- */
+function classify(el, o) {
+  const items = o.items.map((x, i) => ({ ...x, id: i })), cap = o.cap || 99;
+  el.classList.add("cls"); if (o.match) el.classList.add("match");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<div class="pool" data-b="pool" aria-label="Items to place"></div>
+    <div class="buckets">${o.buckets.map((b, i) => `<div class="bk" data-b="${i}"><h4>${b.label}</h4><div class="slot"></div></div>`).join("")}</div>
+    <div class="row"><button class="b pri" data-a="check">Check</button><button class="b" data-a="reset">Reset</button></div><div class="msg" aria-live="polite"></div>`;
+  const pool = $(".pool", el), msg = $(".msg", el);
+  let sel = null;
+  const chip = (it) => { const c = document.createElement("button"); c.className = "chip"; c.type = "button"; c.draggable = true; c.textContent = it.text; c.dataset.id = it.id;
+    c.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/plain", it.id); sel = c; });
+    c.addEventListener("click", (e) => { e.stopPropagation(); if (sel === c) { c.classList.remove("sel"); sel = null; } else { sel && sel.classList.remove("sel"); sel = c; c.classList.add("sel"); } });
+    return c; };
+  const place = (c, zone) => {
+    const slot = zone === pool ? pool : $(".slot", zone);
+    if (zone !== pool && slot.children.length >= cap) { const old = slot.firstElementChild; pool.appendChild(old); }
+    slot.appendChild(c); c.classList.remove("sel", "ok", "no"); sel = null; msg.textContent = "";
+  };
+  const fill = () => { pool.innerHTML = ""; $$(".slot", el).forEach((s) => (s.innerHTML = "")); (o.noShuffle ? items : shuffle(items)).forEach((it) => pool.appendChild(chip(it))); msg.textContent = ""; };
+  [pool, ...$$(".bk", el)].forEach((z) => {
+    z.addEventListener("dragover", (e) => { e.preventDefault(); z.classList.add("over"); });
+    z.addEventListener("dragleave", () => z.classList.remove("over"));
+    z.addEventListener("drop", (e) => { e.preventDefault(); z.classList.remove("over"); const c = $(`[data-id="${e.dataTransfer.getData("text/plain")}"]`, el); c && place(c, z); });
+    z.addEventListener("click", () => { if (sel) place(sel, z); });
+  });
+  $("[data-a=check]", el).onclick = () => {
+    let ok = 0;
+    $$(".bk", el).forEach((b) => $$(".chip", b).forEach((c) => { const good = items[+c.dataset.id].b === +b.dataset.b; c.classList.toggle("ok", good); c.classList.toggle("no", !good); if (good) ok++; }));
+    const left = $$(".chip", pool).length;
+    msg.textContent = left ? `${left} still to place. ${ok} correct so far.` : ok === items.length ? "All correct. " + (o.done || "") : `${ok} of ${items.length} correct. Red ones are in the wrong place; move them and check again.`;
+  };
+  $("[data-a=reset]", el).onclick = fill;
+  fill();
+}
+function match(el, o) {
+  classify(el, { match: true, cap: 1, prompt: o.prompt, buckets: o.pairs.map((p) => ({ label: p[0] })), items: o.pairs.map((p, i) => ({ text: p[1], b: i })), done: o.done });
+}
+
+/* ---------- ordering ---------- */
+function order(el, o) {
+  el.classList.add("ord");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<ol></ol><div class="row"><button class="b pri" data-a="check">Check order</button><button class="b" data-a="reset">Shuffle again</button></div><div class="msg" aria-live="polite"></div>`;
+  const ol = $("ol", el), msg = $(".msg", el);
+  let dragEl = null;
+  const make = (t, id) => { const li = document.createElement("li"); li.draggable = true; li.dataset.id = id; li.innerHTML = `<span>${t}</span><button class="b" type="button" aria-label="Move up">↑</button><button class="b" type="button" aria-label="Move down">↓</button>`;
+    li.addEventListener("dragstart", () => { dragEl = li; li.classList.add("drag"); });
+    li.addEventListener("dragend", () => { li.classList.remove("drag"); dragEl = null; });
+    li.addEventListener("dragover", (e) => { e.preventDefault(); if (!dragEl || dragEl === li) return; const r = li.getBoundingClientRect(); ol.insertBefore(dragEl, e.clientY < r.top + r.height / 2 ? li : li.nextSibling); });
+    $$("button", li)[0].onclick = () => { li.previousElementSibling && ol.insertBefore(li, li.previousElementSibling); };
+    $$("button", li)[1].onclick = () => { li.nextElementSibling && ol.insertBefore(li.nextElementSibling, li); };
+    return li; };
+  const fill = () => { ol.innerHTML = ""; let s; do { s = shuffle(o.items.map((t, i) => [t, i])); } while (o.items.length > 1 && s.every((x, i) => x[1] === i)); s.forEach(([t, i]) => ol.appendChild(make(t, i))); msg.textContent = ""; };
+  $("[data-a=check]", el).onclick = () => { let ok = 0; $$("li", ol).forEach((li, i) => { const g = +li.dataset.id === i; li.classList.toggle("ok", g); li.classList.toggle("no", !g); if (g) ok++; }); msg.textContent = ok === o.items.length ? "Correct order. " + (o.done || "") : `${ok} of ${o.items.length} in the right place.`; };
+  $("[data-a=reset]", el).onclick = fill; fill();
+}
+
+/* ---------- multiple choice ---------- */
+function quiz(el, o) {
+  el.classList.add("qz");
+  let score = 0, answered = 0;
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p class="qt">${i + 1}. ${q.q}</p>${q.opts.map((t, k) => `<button class="opt" data-k="${k}">${String.fromCharCode(65 + k)}. ${t}</button>`).join("")}<div class="why"><b>${"Answer: " + String.fromCharCode(65 + q.a)}.</b> ${q.why}</div></div>`).join("") + `<div class="score" aria-live="polite"></div><button class="b" data-a="again">Try again</button>`;
+  const sc = $(".score", el);
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i];
+    $$(".opt", box).forEach((b) => b.addEventListener("click", () => { if (box.classList.contains("done")) return; box.classList.add("done"); answered++; const k = +b.dataset.k; if (k === q.a) score++; b.classList.add(k === q.a ? "ok" : "no"); $$(".opt", box)[q.a].classList.add("ok"); sc.textContent = `Score: ${score} / ${answered} answered (of ${o.qs.length})`; })); });
+  $("[data-a=again]", el).onclick = () => { score = answered = 0; sc.textContent = ""; $$(".q", el).forEach((b) => { b.classList.remove("done"); $$(".opt", b).forEach((x) => x.classList.remove("ok", "no")); }); };
+}
+
+/* ---------- calculations ---------- */
+function calc(el, o) {
+  el.classList.add("calc");
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p>${i + 1}. ${q.q}</p>
+    <div class="row"><input type="text" inputmode="decimal" aria-label="Answer ${i + 1}" placeholder="${q.ph || "answer"}">${q.unit ? `<span>${q.unit}</span>` : ""}<button class="b pri" data-a="c">Check</button><button class="b" data-a="h">Hint</button><button class="b" data-a="s">Show working</button><span class="fb" aria-live="polite"></span></div>
+    <div class="sol" data-s="h">${q.hint || "Write the formula first, then substitute."}</div><div class="sol" data-s="s">${q.sol}</div></div>`).join("");
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i], inp = $("input", box), fb = $(".fb", box);
+    const check = () => { const v = parseFloat(inp.value.replace(/[,$%\s−]/g, (m) => (m === "−" ? "-" : ""))); const good = !isNaN(v) && Math.abs(v - q.a) <= (q.tol ?? 0.01); fb.textContent = good ? "✓ Correct" : "✗ Not quite"; fb.className = "fb " + (good ? "ok" : "no"); };
+    $("[data-a=c]", box).onclick = check; inp.addEventListener("keydown", (e) => e.key === "Enter" && check());
+    $("[data-a=h]", box).onclick = () => $("[data-s=h]", box).classList.toggle("show");
+    $("[data-a=s]", box).onclick = () => $("[data-s=s]", box).classList.toggle("show"); });
+}
+
+/* ---------- flashcards ---------- */
+function cards(el, o) {
+  let deck = o.cards.map((c) => c), i = 0, back = false, known = new Set();
+  el.classList.add("fc");
+  el.innerHTML = `<div class="face" tabindex="0" role="button" aria-label="Flip card"></div><div class="row" style="margin-top:10px"><button class="b" data-a="p">◀</button><button class="b" data-a="f">Flip</button><button class="b" data-a="n">▶</button><button class="b" data-a="s">Shuffle</button><button class="b pri" data-a="k">I know this</button><span class="note" data-c></span></div>`;
+  const face = $(".face", el), cnt = $("[data-c]", el);
+  const paint = () => { const c = deck[i]; face.className = "face" + (back ? " back" : ""); face.innerHTML = `<div><small>${back ? "Definition" : "Term"}</small>${back ? c[1] : "<b>" + c[0] + "</b>"}</div>`; cnt.textContent = `${i + 1} / ${deck.length} · known ${known.size}`; };
+  const flip = () => { back = !back; paint(); };
+  face.onclick = flip; face.onkeydown = (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), flip());
+  $("[data-a=f]", el).onclick = flip;
+  $("[data-a=n]", el).onclick = () => { i = (i + 1) % deck.length; back = false; paint(); };
+  $("[data-a=p]", el).onclick = () => { i = (i + deck.length - 1) % deck.length; back = false; paint(); };
+  $("[data-a=s]", el).onclick = () => { deck = shuffle(deck); i = 0; back = false; paint(); };
+  $("[data-a=k]", el).onclick = () => { known.add(deck[i][0]); i = (i + 1) % deck.length; back = false; paint(); };
+  paint();
+}
+
+window.Lib = { initTabs, SV, ptsPath, stepper, slider, classify, match, order, quiz, calc, cards, fmtN, esc };
+
+/* Generic axes-and-curves helper for micro diagrams. Plot({xmax,ymax,xl,yl}) returns mapping and drawing functions that build SVG strings. */
+function Plot(o) {
+  const W = o.W || 760, H = o.H || 400, l = o.l || 66, r = o.r || 36, t = o.t || 26, b = o.b || 50;
+  const X = (x) => l + (x / o.xmax) * (W - l - r), Y = (y) => H - b - (y / o.ymax) * (H - t - b);
+  const P = { W, H, X, Y };
+  P.axes = () => SV.line(X(0), Y(o.ymax), X(0), Y(0)) + SV.line(X(0), Y(0), X(o.xmax), Y(0))
+    + SV.text(X(0) + 8, t - 6, o.yl || "Price / costs (£)", "sm") + SV.text(X(o.xmax), Y(0) + 34, o.xl || "Quantity", "sm", { "text-anchor": "end" });
+  P.curve = (f, cls = "c1", x0 = 0, x1 = o.xmax, extra) => {
+    const pts = [];
+    for (let i = 0; i <= 80; i++) { const x = x0 + (x1 - x0) * i / 80, y = f(x); if (isFinite(y) && y >= -0.001 && y <= o.ymax) pts.push([X(x), Y(y)]); }
+    return pts.length > 1 ? SV.path(ptsPath(pts), cls, extra) : "";
+  };
+  P.seg = (xa, ya, xb, yb, cls = "c1", extra) => SV.line(X(xa), Y(ya), X(xb), Y(yb), cls, extra);
+  P.label = (x, y, txt, cls = "lbl bd t1", anchor = "start") => SV.text(X(x) + 4, Y(y) + 4, txt, cls, { "text-anchor": anchor });
+  P.guide = (x, y, extra) => SV.line(X(0), Y(y), X(x), Y(y), "gr", extra) + SV.line(X(x), Y(y), X(x), Y(0), "gr", extra);
+  P.dot = (x, y, cls = "dot1", r = 6, extra) => SV.circle(X(x), Y(y), r, cls, extra);
+  P.tx = (x, txt, cls = "sm") => SV.text(X(x), Y(0) + 18, txt, cls, { "text-anchor": "middle" });
+  P.ty = (y, txt, cls = "sm") => SV.text(X(0) - 8, Y(y) + 4, txt, cls, { "text-anchor": "end" });
+  P.rect = (xa, ya, xb, yb, cls = "f1", extra) => SV.rect(X(xa), Y(yb), X(xb) - X(xa), Y(ya) - Y(yb), cls, extra);
+  return P;
+}
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+/* ---------- 1. concentration ratio bars ---------- */
+const SHARES = [["A", 30], ["B", 25], ["C", 15], ["D", 10], ["E", 8], ["F", 5], ["G", 4], ["H", 3]];
+function crDraw(s) {
+  const W = 760, base = 300, sc = 7.5, bw = 62, gap = 28, x0 = 60;
+  let o = SV.line(40, base, 740, base, "ax");
+  const n = Math.round(s.n);
+  SHARES.forEach(([nm, v], i) => {
+    const x = x0 + i * (bw + gap), h = v * sc, on = i < s.n ? 1 : i < s.n + 0.999 ? s.n - Math.floor(s.n) : 0, op = 0.3 + 0.7 * clamp(s.n - i, 0, 1);
+    o += SV.rect(x, base - h, bw, h, "", { fill: i < n ? "var(--accent)" : "var(--muted)", style: "opacity:" + op, rx: 4 });
+    o += SV.text(x + bw / 2, base - h - 8, v + "%", "lbl bd", { "text-anchor": "middle" }) + SV.text(x + bw / 2, base + 20, "Firm " + nm, "sm", { "text-anchor": "middle" });
+  });
+  const tot = SHARES.slice(0, n).reduce((a, b) => a + b[1], 0);
+  o += SV.text(380, 50, n === 0 ? "Market shares of eight firms (they add to 100%)" : `CR${n} = ${SHARES.slice(0, n).map((x) => x[1]).join(" + ")} = ${tot}%`, "lbl bd t1", { "text-anchor": "middle", style: "font-size:20px" });
+  return o;
+}
+Lib.stepper($("#stA"), { w: 760, h: 340, label: "Building concentration ratios from market shares", base: { n: 0 }, tween: 600, draw: crDraw, steps: [
+  { cap: "These are the market shares of the eight firms in a market. A concentration ratio adds up the shares of the <b>largest n firms</b>.", s: { n: 0 } },
+  { cap: "<b>CR1 = 30%.</b> The largest firm alone has nearly a third of the market.", s: { n: 1 } },
+  { cap: "<b>CR3 = 70%.</b> Three firms hold seven tenths of the market.", s: { n: 3 } },
+  { cap: "<b>CR4 = 80%.</b> This is a <b>high concentration ratio</b>, typical of an oligopoly. The four firms are likely to be interdependent.", s: { n: 4 } },
+  { cap: "<b>Evaluate:</b> CR4 of 80% does not by itself prove weak competition. Check whether firms compete on price, how easily new firms can enter, and how the market is defined.", s: { n: 4 } },
+] });
+
+/* ---------- 2. cartel diagram ---------- */
+const PO = Plot({ xmax: 260, ymax: 22, xl: "Industry output (Q)", yl: "Price / cost (£)" });
+const Dm = (q) => 20 - 0.08 * q, MRm = (q) => 20 - 0.16 * q;
+function cartelDraw(s) {
+  const q = s.q, p = Dm(q), prof = (p - 4) * q;
+  let o = PO.axes() + PO.curve(Dm, "c1", 0, 250) + PO.curve(MRm, "c3", 0, 125) + PO.seg(0, 4, 260, 4, "c4");
+  o += PO.label(250, Dm(250) + 1.2, "D = AR", "lbl bd t1", "end") + PO.label(112, 2.2, "MR", "lbl bd t3", "end") + PO.label(259, 5.2, "MC = AC = £4", "lbl bd t4", "end");
+  o += PO.rect(0, 4, q, p, "f3", { style: "opacity:" + (prof > 1 ? 0.25 : 0) });
+  o += PO.guide(q, p) + PO.dot(q, p) + PO.ty(p, "£" + Lib.fmtN(p, 2)) + PO.tx(q, Lib.fmtN(q, 0));
+  o += SV.text(PO.X(130), PO.Y(20.8), "Industry profit = £" + Lib.fmtN(prof, 0), "lbl bd t3", { "text-anchor": "start", style: "font-size:16px" });
+  return o;
+}
+Lib.stepper($("#stB"), { w: 760, h: 400, label: "Cartel output, price and profit", base: { q: 200 }, tween: 1100, draw: cartelDraw, steps: [
+  { cap: "Two firms share a market. If they <b>compete fiercely</b> output rises to where <b>price = marginal cost</b> (Q = 200, P = £4). Price just covers cost: <b>no supernormal profit</b>.", s: { q: 200 } },
+  { cap: "If the firms <b>collude</b> and act like a monopolist, they produce where <b>MR = MC</b> (Q = 100). Price rises to <b>£12</b> and industry profit is (12 − 4) × 100 = <b>£800</b>, so £400 each.", s: { q: 100 } },
+  { cap: "<b>Temptation:</b> one firm secretly raises output from 50 to 70. Industry output is 120, price falls to <b>£10.40</b>. The cheat earns 6.40 × 70 = <b>£448</b>, the loyal firm only 6.40 × 50 = <b>£320</b>.", s: { q: 120 } },
+  { cap: "If <b>both</b> cheat, each produces 70, industry output is 140 and price falls to <b>£8.80</b>. Each earns 4.80 × 70 = <b>£336</b>: <b>less than the £400</b> they earned by complying. This is the prisoner's dilemma.", s: { q: 140 } },
+] });
+
+/* ---------- lab 1: payoff matrix ---------- */
+const OUT = [50, 70], NAMES = ["Comply (50)", "Cheat (70)"];
+const payoff = (a, b) => { const p = 20 - 0.08 * (a + b); return [(p - 4) * a, (p - 4) * b]; };
+let ia = 0, ib = 0, showBest = false;
+function pdRender() {
+  const cell = (r, c) => { const [pa, pb] = payoff(OUT[r], OUT[c]);
+    const bestA = payoff(OUT[r], OUT[c])[0] >= payoff(OUT[1 - r], OUT[c])[0], bestB = payoff(OUT[r], OUT[c])[1] >= payoff(OUT[r], OUT[1 - c])[1];
+    const f = (v, best) => `<span style="${showBest && best ? "font-weight:800;text-decoration:underline;color:var(--good)" : ""}">${Lib.fmtN(v, 0)}</span>`;
+    return `<td style="${r === ia && c === ib ? "background:var(--accent-soft);outline:2px solid var(--accent)" : ""};text-align:center;font-size:1.05rem">£${f(pa, bestA)}, £${f(pb, bestB)}${showBest && bestA && bestB ? '<br><b class="kw">Nash equilibrium</b>' : ""}</td>`; };
+  $("#pdTable").innerHTML = `<tr><th></th>${NAMES.map((n) => `<th>Firm B: ${n}</th>`).join("")}</tr>` + [0, 1].map((r) => `<tr><th>Firm A: ${NAMES[r]}</th>${cell(r, 0)}${cell(r, 1)}</tr>`).join("");
+  const [pa, pb] = payoff(OUT[ia], OUT[ib]), p = 20 - 0.08 * (OUT[ia] + OUT[ib]);
+  $("#pdOut").innerHTML = `Industry output ${OUT[ia] + OUT[ib]}, price £${Lib.fmtN(p, 2)}. Firm A earns £${Lib.fmtN(pa, 0)} and Firm B earns £${Lib.fmtN(pb, 0)}. ` + (ia === 1 && ib === 1 ? "Both cheated: each is worse off than if both had complied (£400 each)." : ia === 0 && ib === 0 ? "Both comply: the best joint outcome, but each firm can gain by cheating." : "The cheat gains and the loyal firm loses.");
+  $("#pdBest").textContent = showBest ? "Hide best responses" : "Show best responses";
+}
+[["#pdA", (i) => (ia = i)], ["#pdB", (i) => (ib = i)]].forEach(([id, set]) => {
+  NAMES.forEach((n, i) => { const b = document.createElement("button"); b.className = "b"; b.textContent = n; b.onclick = () => { set(i); $$(id + " button").forEach((x, k) => x.classList.toggle("pri", k === i)); pdRender(); }; $(id).appendChild(b); });
+  $$(id + " button")[0].classList.add("pri");
+});
+$("#pdBest").onclick = () => { showBest = !showBest; pdRender(); };
+pdRender();
+
+/* ---------- lab 2: concentration calculator ---------- */
+const crv = [28, 22, 15, 10, 6];
+crv.forEach((v, i) => { const d = document.createElement("div"); $("#crSliders").appendChild(d);
+  Lib.slider(d, { id: "cs" + i, label: "Firm " + "ABCDE"[i] + " share", min: 0, max: 40, step: 1, value: v, fmt: (x) => x + "%", onInput: crCalc }); });
+function crCalc() {
+  if (!$("#cs4")) return;
+  const v = [0, 1, 2, 3, 4].map((i) => +$("#cs" + i).value).sort((a, b) => b - a), tot = v.reduce((a, b) => a + b, 0);
+  $("#cr3").textContent = v.slice(0, 3).reduce((a, b) => a + b, 0) + "%"; $("#cr4").textContent = v.slice(0, 4).reduce((a, b) => a + b, 0) + "%"; $("#crRest").textContent = Math.max(0, 100 - tot) + "%";
+  const cr4 = v.slice(0, 4).reduce((a, b) => a + b, 0);
+  $("#crV").textContent = tot > 100 ? "The shares add to more than 100%. Reduce one." : cr4 >= 60 ? "High concentration: a few firms dominate, consistent with an oligopoly." : cr4 >= 40 ? "Moderate concentration. Competition from smaller firms is likely to matter." : "Low concentration: closer to a competitive market.";
+}
+crCalc();
+
+/* ---------- lab 3: limit pricing ---------- */
+function lab3() {
+  if (!$("#lm")) return;
+  const p = +$("#lm").value, q = (20 - p) / 0.08, prof = (p - 4) * q, entry = p > 9;
+  $("#lq").textContent = Lib.fmtN(q, 0); $("#lp").textContent = "£" + Lib.fmtN(prof, 0); $("#le").textContent = entry ? "Attractive" : "Deterred";
+  $("#lv").textContent = entry ? `At £${p.toFixed(2)} a new firm could earn profit (its cost is £9), so entry is likely.` : p === 12 ? "" : `At £${p.toFixed(2)} an entrant cannot make a profit, so entry is deterred. The incumbent earns £${Lib.fmtN(prof, 0)}, below the monopoly profit of £800 at £12: this is the price of limit pricing.`;
+  let o = PO.axes() + PO.curve(Dm, "c1", 0, 250) + PO.seg(0, 4, 260, 4, "c4") + PO.seg(0, 9, 260, 9, "c2", { "stroke-dasharray": "6 5" });
+  o += PO.label(259, 10.2, "Entrant's cost £9", "lbl bd t2", "end") + PO.label(259, 5.2, "Incumbent's cost £4", "lbl bd t4", "end") + PO.label(250, Dm(250) + 1.2, "D", "lbl bd t1", "end");
+  o += PO.rect(0, 4, q, p, "f3", { style: "opacity:.25" }) + PO.guide(q, p) + PO.dot(q, p) + PO.ty(p, "£" + Lib.fmtN(p, 2)) + PO.tx(q, Lib.fmtN(q, 0));
+  $("#lab3").innerHTML = o;
+}
+Lib.slider($("#g3"), { id: "lm", label: "Incumbent's price (£)", min: 5, max: 14, step: 0.5, value: 12, fmt: (v) => "£" + v.toFixed(2), onInput: lab3 });
+
+/* ---------- practise ---------- */
+Lib.classify($("#cl1"), { prompt: "Price competition or non-price competition?", buckets: [{ label: "Price competition" }, { label: "Non-price competition" }], items: [
+  { text: "Supermarkets repeatedly cut prices to win customers", b: 0 }, { text: "Selling below cost to force a rival out of the market", b: 0 }, { text: "Setting a price just low enough to deter new entrants", b: 0 },
+  { text: "A loyalty card scheme", b: 1 }, { text: "Heavy TV advertising of a brand", b: 1 }, { text: "Launching a new model with better features", b: 1 }, { text: "Free delivery and after-sales service", b: 1 },
+] });
+Lib.classify($("#cl2"), { prompt: "Overt or tacit collusion?", buckets: [{ label: "Overt (formal)" }, { label: "Tacit (informal)" }], items: [
+  { text: "Firms meet in secret to agree prices (a cartel)", b: 0 }, { text: "Oil producers agree output quotas", b: 0 }, { text: "A written agreement to share out the market", b: 0 },
+  { text: "A dominant firm raises price and rivals follow", b: 1 }, { text: "Petrol stations in a town keep similar prices with no discussion", b: 1 }, { text: "Firms avoid advertising wars through an unspoken understanding", b: 1 },
+] });
+Lib.match($("#m1"), { prompt: "Match each term to its meaning.", pairs: [
+  ["Interdependence", "A firm's decisions depend on how rivals will react"],
+  ["Cartel", "Firms formally agree to fix price or output"],
+  ["Price leadership", "A dominant firm sets the price and others follow"],
+  ["Predatory pricing", "Pricing below cost to drive out a rival"],
+  ["Limit pricing", "A price set low enough to make entry unprofitable"],
+  ["Dominant strategy", "The best choice whatever the rival does"],
+] });
+Lib.calc($("#c1"), { qs: [
+  { q: "Four largest firms have market shares of 30%, 25%, 15% and 10%. Calculate the four-firm concentration ratio (%).", a: 80, sol: "30 + 25 + 15 + 10 = <b>80%</b>." },
+  { q: "Shares of the five largest firms: 25%, 20%, 15%, 12% and 10%. Calculate the three-firm concentration ratio (%).", a: 60, sol: "CR3 = 25 + 20 + 15 = <b>60%</b>." },
+  { q: "Two colluding firms, each producing 50 units, sell at £12 with marginal cost £4. Calculate the profit of each firm (£).", a: 400, sol: "(12 − 4) × 50 = <b>£400</b>." },
+  { q: "Demand is P = 20 − 0.08Q. Firm A produces 70 and Firm B produces 50. Calculate the market price (£).", a: 10.4, tol: 0.01, sol: "Q = 120, so P = 20 − 0.08 × 120 = <b>£10.40</b>." },
+  { q: "In the same market (MC = £4), if Firm A produces 70 and Firm B 50, calculate Firm A's profit (£).", a: 448, sol: "(10.40 − 4) × 70 = <b>£448</b>." },
+] });
+Lib.quiz($("#qz1"), { qs: [
+  { q: "Which is a key characteristic of oligopoly?", opts: ["Many small firms", "Interdependence between firms", "No barriers to entry", "A single seller"], a: 1, why: "Each firm's decisions depend on rivals' reactions." },
+  { q: "The three-firm concentration ratio adds:", opts: ["The three smallest shares", "The three largest shares", "All shares", "Profits of three firms"], a: 1, why: "It is the combined share of the three largest firms." },
+  { q: "A cartel is:", opts: ["A merger", "A formal agreement between firms to fix price or output", "A type of price war", "A government regulator"], a: 1, why: "Overt collusion." },
+  { q: "In the prisoner's dilemma, why do firms end up cheating?", opts: ["Cheating is dominant: it pays whatever the other does", "Cheating is legal", "Cheating raises price", "Firms cannot count"], a: 0, why: "Each firm gains by cheating whatever its rival does." },
+  { q: "Pricing below cost to force a rival out is:", opts: ["Limit pricing", "Predatory pricing", "Price leadership", "Tacit collusion"], a: 1, why: "It is intended to eliminate a competitor." },
+  { q: "Which is non-price competition?", opts: ["A price war", "Advertising and branding", "Predatory pricing", "Price fixing"], a: 1, why: "Branding, advertising, quality and service." },
+  { q: "Which makes collusion harder?", opts: ["Few firms", "Strong barriers to entry", "Many firms with different costs", "Similar products"], a: 2, why: "More and different firms find agreement harder to reach and monitor." },
+  { q: "Limit pricing means:", opts: ["Pricing to maximise profit", "Pricing low enough to deter entry", "Fixing price with rivals", "Pricing above rivals"], a: 1, why: "Sacrificing some profit to keep rivals out." },
+] });
+Lib.cards($("#fc1"), { cards: [
+  ["Oligopoly", "A market dominated by a few large, interdependent firms with high barriers to entry."],
+  ["Interdependence", "A firm's best decision depends on how its rivals will react."],
+  ["Concentration ratio", "Combined market share of the largest n firms."],
+  ["Collusion", "Firms acting together to restrict competition."],
+  ["Overt collusion", "Formal, open agreement between firms, such as a cartel."],
+  ["Tacit collusion", "Informal, unspoken coordination, such as following a price leader."],
+  ["Cartel", "A group of firms that agree to fix price or restrict output."],
+  ["Price leadership", "One dominant firm sets the price and others follow."],
+  ["Prisoner's dilemma", "A game in which rivals each do best by cheating but end up worse off than if both had cooperated."],
+  ["Dominant strategy", "A strategy that gives the best payoff whatever the rival does."],
+  ["Payoff matrix", "A table showing the outcomes for each combination of choices."],
+  ["Price war", "Rivals repeatedly cut prices to win market share."],
+  ["Predatory pricing", "Setting price below cost to force rivals out."],
+  ["Limit pricing", "Setting a price to deter new firms from entering."],
+  ["Non-price competition", "Competing on branding, quality, advertising or service rather than price."],
+] });
+lab3();
+
+Lib.initTabs();
+</script>
+<style id=site-pill>.site-pill{position:fixed;right:12px;bottom:12px;opacity:.8;z-index:2147483000;display:flex;gap:2px;font:600 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:rgba(20,24,28,.88);border-radius:999px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.25)}.site-pill a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:999px;white-space:nowrap}.site-pill a:hover,.site-pill button:hover{background:rgba(255,255,255,.18)}.site-pill button{font:inherit;color:#fff;background:transparent;border:0;border-left:1px solid rgba(255,255,255,.25);border-radius:0 999px 999px 0;padding:8px 12px;cursor:pointer}.site-pill button.is-done{color:#7be0a0}@media print{.site-pill{display:none}}.site-pill .pill-more{display:none}@media(max-width:700px){body{padding-bottom:64px}.site-pill{right:8px;bottom:8px;opacity:.6;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 16px)}.site-pill>*:not(.pill-more){display:none}.site-pill.open{opacity:.95}.site-pill.open>*:not(.pill-more):not([hidden]){display:inline-block}.site-pill .pill-more{display:block;border:0;border-radius:999px;width:36px;height:36px;padding:0;text-align:center;font-size:18px}.site-pill.open .pill-more{border-left:0}}</style><div class="site-pill"><button type="button" class="pill-more" aria-label="Menu" onclick="this.parentNode.classList.toggle(&#39;open&#39;)">☰</button><a href="../../a-econ/theme-3/3-4/">← Chapter 3.4</a><a href="../../">Home</a><button type="button" title="Light / dark" onclick="var r=document.documentElement,d=(r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';r.setAttribute('data-theme',d);try{localStorage.setItem('site.theme',d)}catch(e){}">◐</button><button data-done-slug="oligopoly" hidden></button><button data-role-toggle="oligopoly" hidden></button><button data-role-delete="oligopoly" hidden></button><button data-role-restore="oligopoly" hidden></button></div><script src="../../assets/config.js?v=1791097532"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../../assets/app.js?v=1791097532"></script><script src="../../assets/gate.js?v=1791097532" data-courses="a-econ"></script><script>document.addEventListener('click',function(e){var t=e.target.closest('[role=tab],.tab,.tabbar button,.tabs button,.section-tabs button,[data-tab],[data-panel-tab]');if(!t)return;var n=t,s=false;while(n&&n!==document.body){var p=getComputedStyle(n).position;if(p==='sticky'||p==='fixed'){s=true;break}n=n.parentElement}if(s)setTimeout(function(){window.scrollTo(0,0)},30)});</script><script>document.addEventListener('click',function(e){var p=document.querySelector('.site-pill.open');if(p&&!p.contains(e.target))p.classList.remove('open')});addEventListener('scroll',function(){var p=document.querySelector('.site-pill.open');if(p)p.classList.remove('open')},{passive:true});</script></body></html>

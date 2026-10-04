@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en"><head><script>try{var t=localStorage.getItem("site.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><script>document.documentElement.classList.add("gated")</script><style>html.gated{visibility:hidden!important}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Efficiency, Perfect Competition and Monopolistic Competition</title>
+<style>:root{
+  --bg:#f5f3ee; --surface:#fff; --ink:#17212b; --muted:#566573; --line:#d9d4c7; --soft:#eef2f5;
+  --accent:#2b5d7c; --accent-ink:#fff; --accent-soft:#e0ecf3;
+  --good:#1d7a4c; --good-soft:#dff2e7; --bad:#b3372f; --bad-soft:#f9e2df; --warn:#a85d00; --warn-soft:#fbead2;
+  --k:#1f5fa8; --a:#1d7a4c; --n:#7a3fa0; --e:#b25a00;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+.wrap{max-width:980px;margin:0 auto;padding:22px 16px 90px}
+h1,h2,h3{font-family:var(--serif);line-height:1.18;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,5vw,2.5rem);letter-spacing:-.015em}
+h2{font-size:1.45rem;margin:26px 0 10px}
+h3{font-size:1.12rem;margin:18px 0 6px}
+p{margin:0 0 .8em}
+.eyebrow{font:700 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:68ch;margin-top:8px}
+header.top{padding:6px 0 14px}
+.tablist{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;padding-top:8px}
+.tablist button{font:600 .9rem var(--sans);padding:8px 13px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tablist button:hover{color:var(--ink)}
+.tablist button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tablist button:focus-visible,.b:focus-visible,summary:focus-visible,.chip:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[role=tabpanel][hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+.card.big{background:var(--accent-soft);border-color:var(--accent)}
+.card h3:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.grid2>.card{margin:0}
+.formula{font:600 1.05rem var(--mono);background:var(--soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;overflow-x:auto}
+.kw{font-weight:700;color:var(--accent)}
+table.t{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+table.t th,table.t td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.t th{font:700 .72rem var(--sans);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tw{overflow-x:auto}
+.b{font:700 .9rem var(--sans);padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.b:hover{background:var(--soft)}
+.b.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.b:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.88rem;color:var(--muted)}
+.pill{display:inline-block;font:700 .72rem var(--sans);padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent);vertical-align:middle}
+.tip{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.tip b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--warn)}
+.warn{border-left:4px solid var(--bad);background:var(--bad-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.warn b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--bad)}
+/* stepper */
+.stp{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0 14px}
+.stp svg{display:block;width:100%;height:auto;background:var(--surface)}
+.stp-cap{padding:12px 16px;background:var(--ink);color:var(--bg);font-size:1.02rem;min-height:3.6em}
+.stp-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px}
+.stp-dots{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.stp-dots button{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--muted);font:700 .72rem var(--sans);cursor:pointer;padding:0}
+.stp-dots button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.stp-dots button.done{border-color:var(--accent);color:var(--accent)}
+/* svg theme classes */
+svg text{font-family:var(--sans);fill:var(--ink)}
+svg .ax{stroke:var(--ink);stroke-width:2;fill:none}
+svg .gr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4;fill:none}
+svg .lbl{font-size:13px}
+svg .sm{font-size:11.5px;fill:var(--muted)}
+svg .bd{font-weight:700}
+svg .c1{stroke:var(--accent);stroke-width:3.5;fill:none}
+svg .c2{stroke:var(--bad);stroke-width:3.5;fill:none}
+svg .c3{stroke:var(--good);stroke-width:3.5;fill:none}
+svg .c4{stroke:var(--warn);stroke-width:3.5;fill:none}
+svg .f1{fill:var(--accent);opacity:.18} svg .f2{fill:var(--bad);opacity:.18} svg .f3{fill:var(--good);opacity:.2} svg .f4{fill:var(--warn);opacity:.22}
+svg .dash{stroke-dasharray:6 5}
+svg .t1{fill:var(--accent)} svg .t2{fill:var(--bad)} svg .t3{fill:var(--good)} svg .t4{fill:var(--warn)}
+svg .dot1{fill:var(--accent)} svg .dot2{fill:var(--bad)} svg .dot3{fill:var(--good)} svg .dot4{fill:var(--warn)}
+/* sliders */
+.sl{margin:10px 0}
+.sl label{display:flex;justify-content:space-between;font-weight:600;font-size:.95rem}
+.sl output{font:600 .9rem var(--mono);color:var(--accent)}
+.sl input{width:100%;accent-color:var(--accent);margin:6px 0}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.readout div{border-top:3px solid var(--accent);background:var(--surface);padding:8px 10px;border-radius:0 0 8px 8px;border:1px solid var(--line);border-top:3px solid var(--accent)}
+.readout small{display:block;font:700 .66rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.readout strong{font:700 1.25rem var(--mono);font-variant-numeric:tabular-nums}
+.verdict{padding:10px 14px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent);font-weight:600;margin:8px 0}
+/* classify / match */
+.cls .pool{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--line);border-radius:10px;min-height:54px;background:var(--soft)}
+.cls .buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.cls .bk{border:2px solid var(--line);border-radius:10px;padding:8px;min-height:84px;background:var(--surface)}
+.cls .bk h4{margin:0 0 6px;font:700 .82rem var(--sans);color:var(--accent)}
+.cls .bk .slot{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.cls .bk.over,.cls .pool.over{border-color:var(--accent);background:var(--accent-soft)}
+.chip{font:600 .88rem var(--sans);padding:6px 11px;border-radius:8px;border:1.5px solid var(--accent);background:var(--surface);color:var(--ink);cursor:grab;user-select:none;text-align:left}
+.chip.sel{background:var(--accent);color:var(--accent-ink)}
+.chip.ok{border-color:var(--good);background:var(--good-soft)}
+.chip.no{border-color:var(--bad);background:var(--bad-soft)}
+.cls .msg,.ord .msg,.calc .msg{font-weight:700;margin:8px 0}
+.match .bk h4{font-size:.9rem;color:var(--ink)}
+/* order */
+.ord ol{list-style:none;margin:10px 0;padding:0;counter-reset:o}
+.ord li{counter-increment:o;display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:6px;border:1.5px solid var(--line);border-radius:9px;background:var(--surface);cursor:grab}
+.ord li::before{content:counter(o);font:700 .8rem var(--mono);width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.ord li.ok{border-color:var(--good);background:var(--good-soft)} .ord li.no{border-color:var(--bad);background:var(--bad-soft)}
+.ord li.drag{opacity:.4}
+.ord li span{flex:1}
+.ord li button{padding:2px 8px}
+/* quiz */
+.qz .q{margin:0 0 16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qz .q p.qt{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;font:500 .95rem var(--sans);padding:9px 12px;margin:5px 0;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.why{display:none;margin-top:8px;font-size:.92rem;padding:8px 12px;background:var(--soft);border-radius:8px}
+.q.done .why{display:block}
+.score{font:700 1.05rem var(--sans);margin:10px 0}
+/* calc */
+.calc .q{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:12px}
+.calc input[type=number],.calc input[type=text]{width:130px;padding:7px 10px;font:600 1rem var(--mono);border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.calc .sol{display:none;margin-top:8px;padding:10px 12px;background:var(--soft);border-radius:8px;font-size:.93rem}
+.calc .sol.show{display:block}
+.calc .fb{font-weight:700;margin-left:8px}
+.calc .fb.ok{color:var(--good)} .calc .fb.no{color:var(--bad)}
+/* cards */
+.fc{perspective:900px;max-width:520px}
+.fc .face{min-height:170px;display:grid;place-items:center;text-align:center;padding:20px;border-radius:14px;border:2px solid var(--accent);background:var(--surface);cursor:pointer;font-size:1.1rem}
+.fc .face.back{background:var(--accent-soft)}
+.fc .face small{display:block;font:700 .66rem var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+/* exam Qs */
+details.eq{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+details.eq>summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+details.eq>summary::-webkit-details-marker{display:none}
+details.eq>summary::before{content:"▸";color:var(--accent)}
+details.eq[open]>summary::before{content:"▾"}
+details.eq .body{padding:4px 18px 16px}
+.mark{font:700 .72rem var(--mono);background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px}
+.cmd{font:700 .72rem var(--sans);background:var(--warn-soft);color:var(--warn);padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em}
+.ans{border-left:4px solid var(--accent);padding:6px 14px;margin:10px 0;background:var(--soft);border-radius:0 8px 8px 0}
+.mk{border-bottom:2px solid currentColor;padding-bottom:1px}
+.mk[data-t]::after{content:" [" attr(data-t) "]";font:700 .64rem var(--sans);vertical-align:super;opacity:.85}
+.mk.k{color:var(--k)} .mk.a{color:var(--a)} .mk.n{color:var(--n)} .mk.e{color:var(--e)}
+.key{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin:6px 0}
+.key span{display:inline-flex;gap:5px;align-items:center}
+.key i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.key .k i{background:var(--k)} .key .a i{background:var(--a)} .key .n i{background:var(--n)} .key .e i{background:var(--e)}
+.rw{border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--surface);border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:12px}
+.rw h3{margin:0 0 4px}
+.rw .use{margin-top:8px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:.93rem}
+.rw .use b{color:var(--accent)}
+ul.tips{list-style:none;padding:0;margin:0}
+ul.tips li{padding:10px 14px;margin-bottom:8px;border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:0 10px 10px 0;background:var(--surface)}
+ul.tips li b{color:var(--warn)}
+@media (max-width:640px){.tablist{position:static}}
+@media print{.tablist{display:none}[role=tabpanel][hidden]{display:block}.stp-ctl{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.stp{scroll-margin-top:70px}
+</style></head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Edexcel A-Level Economics A · 9EC0 · Theme 3 · 3.4.1 to 3.4.3</div>
+  <h1>Efficiency, Perfect Competition and Monopolistic Competition</h1>
+  <p class="lead">Four kinds of efficiency, then two competitive market structures: why perfect competition reaches the efficient benchmark and why monopolistic competition falls just short.</p>
+</header>
+
+<nav class="tablist" role="tablist" aria-label="Sections">
+  <button role="tab" data-p="learn">Learn</button>
+  <button role="tab" data-p="watch">Watch</button>
+  <button role="tab" data-p="explore">Explore</button>
+  <button role="tab" data-p="practise">Practise</button>
+  <button role="tab" data-p="exam">Exam questions</button>
+  <button role="tab" data-p="tips">Tips &amp; keywords</button>
+</nav>
+
+<!-- LEARN -->
+<section id="learn" role="tabpanel">
+  <div class="card big">
+    <h3>The big idea</h3>
+    <p>Market structure describes how competitive a market is: how many firms, how similar their products, and how easy it is to enter. It decides how much power a firm has over price and whether its profit lasts. Efficiency is the yardstick we use to judge the result.</p>
+  </div>
+
+  <h2>3.4.1 Efficiency</h2>
+  <div class="grid2">
+    <div class="card"><h3>Allocative efficiency</h3><p>Resources are allocated to produce the goods consumers most want. Reached where <span class="kw">P = MC</span>: the price consumers will pay for the last unit equals the cost of resources used to make it.</p></div>
+    <div class="card"><h3>Productive efficiency</h3><p>Output is produced at the <b>lowest possible average cost</b>: at the bottom of the AC curve, where <span class="kw">MC = AC</span>. No resources are wasted for the output produced.</p></div>
+    <div class="card"><h3>Dynamic efficiency</h3><p>Efficiency <b>over time</b>: investment, research and innovation that lower costs and improve products. Funded by profit, so firms with some supernormal profit may be better placed.</p></div>
+    <div class="card"><h3>X-inefficiency</h3><p>Costs are <b>higher than they need to be</b> for a given output: the firm operates above its AC curve. Likely when a firm faces little competitive pressure, so managers allow slack, waste and high pay.</p></div>
+  </div>
+  <div class="tip"><b class="h">Link to Theme 1</b>Allocative efficiency is the same idea as the point where marginal social benefit equals marginal social cost. In this chapter we use P = MC, which assumes no externalities.</div>
+
+  <h2>3.4.2 Perfect competition</h2>
+  <div class="grid2">
+    <div class="card"><h3>Characteristics</h3><ul>
+      <li>Many buyers and many sellers, each too small to affect price: firms are <b>price takers</b></li>
+      <li><b>Homogeneous</b> (identical) product</li>
+      <li><b>Perfect information</b> about prices and quality</li>
+      <li><b>No barriers</b> to entry or exit; factors of production are mobile</li>
+      <li>Firms are <b>profit maximisers</b></li></ul></div>
+    <div class="card"><h3>Revenue</h3><p>Demand for one firm's output is <b>perfectly elastic</b> at the market price, so <span class="kw">AR = MR = P</span>: a horizontal line. Selling one more unit adds exactly the market price.</p><p class="note">Realistic examples are rare. Agricultural markets and some foreign-exchange markets come close.</p></div>
+  </div>
+  <h3>Short run and long run</h3>
+  <ul>
+    <li><b>Short run:</b> the firm produces where <b>MC = MR</b>. If price is above AC it earns <b>supernormal profit</b>; if below, it makes a loss (and shuts down if price falls below AVC).</li>
+    <li><b>Supernormal profit</b> attracts new firms, so market supply shifts right, price falls and profit is competed away.</li>
+    <li><b>Losses</b> make firms leave, supply shifts left, price rises.</li>
+    <li><b>Long run:</b> only <b>normal profit</b> remains: AR = AC. Because the firm is at the bottom of its AC curve, <b>P = MC = AC</b>: both allocative and productive efficiency.</li>
+  </ul>
+  <div class="warn"><b class="h">Evaluation point</b>Perfect competition may not be dynamically efficient: with only normal profit in the long run there is little surplus to fund R&amp;D. Homogeneous products also give consumers no variety.</div>
+
+  <h2>3.4.3 Monopolistic competition</h2>
+  <div class="grid2">
+    <div class="card"><h3>Characteristics</h3><ul>
+      <li>Many firms</li>
+      <li><b>Differentiated</b> products (branding, quality, location, service)</li>
+      <li><b>Low barriers</b> to entry and exit</li>
+      <li>Some <b>price-making</b> power, so the demand curve slopes down</li>
+      <li>Heavy use of <b>non-price competition</b></li>
+      <li>Examples: restaurants, hairdressers, independent bakeries</li></ul></div>
+    <div class="card"><h3>Equilibrium</h3><p><b>Short run:</b> produce where MC = MR, read price off AR. If AR is above AC the firm earns supernormal profit.</p><p><b>Long run:</b> entry shifts each firm's demand curve left (and makes it more elastic) until AR touches AC at one point: <b>normal profit</b>, with AR tangent to AC.</p></div>
+  </div>
+  <div class="tip"><b class="h">Why it falls short of efficiency</b>In the long run the tangency is on the <b>falling part</b> of AC. So price is above MC (<b>not allocatively efficient</b>) and output is below the minimum AC (<b>not productively efficient</b>). The firm has <b>excess capacity</b>. Consumers do get variety, and firms may innovate to differentiate, so dynamic efficiency is possible.</div>
+
+  <h3>Comparing the two</h3>
+  <div class="tw"><table class="t">
+    <tr><th></th><th>Perfect competition</th><th>Monopolistic competition</th></tr>
+    <tr><td>Products</td><td>Identical</td><td>Differentiated</td></tr>
+    <tr><td>Demand curve for the firm</td><td>Horizontal (price taker)</td><td>Downward-sloping (some price-setting)</td></tr>
+    <tr><td>Long-run profit</td><td>Normal</td><td>Normal</td></tr>
+    <tr><td>Allocative efficiency</td><td>Yes (P = MC)</td><td>No (P &gt; MC)</td></tr>
+    <tr><td>Productive efficiency</td><td>Yes (min AC)</td><td>No (excess capacity)</td></tr>
+    <tr><td>Consumer choice</td><td>Little</td><td>Wide</td></tr>
+  </table></div>
+</section>
+
+<!-- WATCH -->
+<section id="watch" role="tabpanel" hidden>
+  <p>Press Play, or click the numbered steps.</p>
+  <h2>1 · Perfect competition: from supernormal profit to normal profit</h2><div id="stA"></div>
+  <h2>2 · Monopolistic competition: entry erodes profit</h2><div id="stB"></div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore" role="tabpanel" hidden>
+  <h2>Lab 1 · A price-taking firm</h2>
+  <p>Change the market price. The firm sets MC = MR, so it moves along its MC curve. Watch profit turn into a loss and the efficiency conditions line up at the long-run price.</p>
+  <div class="card"><div class="grid2"><div><div id="g1"></div>
+    <div class="readout"><div><small>Output (MC = MR)</small><strong id="a1"></strong></div><div><small>Profit per unit</small><strong id="a2"></strong></div><div><small>Total profit</small><strong id="a3"></strong></div></div><div class="verdict" id="av"></div></div>
+    <div><svg id="lab1" viewBox="0 0 760 400" role="img" aria-label="Perfectly competitive firm"></svg></div></div></div>
+
+  <h2>Lab 2 · Monopolistic competition: slide the demand curve</h2>
+  <p>As new firms enter, demand for each firm falls. Move the slider from high demand (supernormal profit) to the long-run tangency.</p>
+  <div class="card"><div class="grid2"><div><div id="g2"></div>
+    <div class="readout"><div><small>Output</small><strong id="b1"></strong></div><div><small>Price</small><strong id="b2"></strong></div><div><small>Profit per unit</small><strong id="b3"></strong></div></div><div class="verdict" id="bv"></div></div>
+    <div><svg id="lab2" viewBox="0 0 760 400" role="img" aria-label="Monopolistically competitive firm"></svg></div></div></div>
+</section>
+
+<!-- PRACTISE -->
+<section id="practise" role="tabpanel" hidden>
+  <h2>1 · Which type of efficiency?</h2>
+  <div id="cl1" class="card"></div>
+
+  <h2>2 · Which structure?</h2>
+  <div id="cl2" class="card"></div>
+
+  <h2>3 · Put long-run adjustment in order</h2>
+  <div id="o1" class="card"></div>
+
+  <h2>4 · Calculations</h2>
+  <div id="c1"></div>
+
+  <h2>5 · Multiple choice</h2>
+  <div id="qz1"></div>
+</section>
+
+<!-- EXAM -->
+<section id="exam" role="tabpanel" hidden>
+  <h2>Exam-style questions</h2>
+  <p>Written in the style of Edexcel Paper 1 and Paper 3. Open each question for reminders, a model answer and common mistakes. Answers are colour-coded to the mark scheme. These are practice questions, not past-paper wording.</p>
+  <div class="key"><span class="k"><i></i>Knowledge (K)</span><span class="a"><i></i>Application (A)</span><span class="n"><i></i>Analysis (N)</span><span class="e"><i></i>Evaluation (E)</span></div>
+
+  <details class="eq"><summary>Q1 <span class="cmd">Explain</span> <span class="mark">4 marks</span> Explain what is meant by allocative efficiency.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>State the condition (P = MC) and say why it matters for consumers and resources.</div>
+    <div class="ans"><span class="mk k" data-t="K">Allocative efficiency occurs when resources are allocated so that the goods and services produced are those consumers most want.</span> <span class="mk k" data-t="K">It is reached where price equals marginal cost (P = MC).</span> <span class="mk n" data-t="N">At this point the value consumers place on the last unit, shown by the price they are willing to pay, equals the opportunity cost of the resources used to produce it.</span> <span class="mk n" data-t="N">If price were above MC, society would gain from producing more; if below, resources would be better used elsewhere.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q2 <span class="cmd">Calculate</span> <span class="mark">2 marks</span> A firm in perfect competition sells at £8 a unit and produces 100 units. Its average cost is £6.50. Calculate its total profit.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Profit = (AR − AC) × Q, or TR − TC.</div>
+    <div class="ans"><span class="mk k" data-t="K">TR = 8 × 100 = £800; TC = 6.50 × 100 = £650.</span> <span class="mk a" data-t="A">Profit = 800 − 650 = <b>£150</b> (supernormal profit).</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q3 <span class="cmd">Analyse</span> <span class="mark">6 marks</span> Analyse why a perfectly competitive firm that is making supernormal profit in the short run will earn only normal profit in the long run.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Chain: supernormal profit → entry (no barriers) → supply shifts right → price falls → profit eroded. Use a diagram.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">In perfect competition there are no barriers to entry and firms have perfect information, so they can see that existing firms are making supernormal profit.</span> <span class="mk n" data-t="N">New firms enter the industry, so the market supply curve shifts to the right.</span> <span class="mk n" data-t="N">With demand unchanged, the equilibrium market price falls, so the horizontal AR = MR curve of each firm moves down.</span> <span class="mk n" data-t="N">The firm still produces where MC = MR, but as price falls the gap between AR and AC narrows.</span> <span class="mk n" data-t="N">Entry continues until price equals the minimum of AC, where AR = AC.</span> <span class="mk k" data-t="K">At this point only normal profit is earned, so there is no incentive for further entry.</span></p></div>
+    <div class="warn"><b class="h">Common mistake</b>Forgetting to say the market supply curve shifts, not the firm's. The firm's own AR line falls because the market price falls.</div>
+  </div></details>
+
+  <details class="eq"><summary>Q4 <span class="cmd">Assess</span> <span class="mark">10 marks</span> Assess whether a perfectly competitive market is more efficient than a monopolistically competitive one. <small>(KAA 6 + evaluation 4)</small></summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Two types of efficiency analysed, then evaluate with variety and dynamic efficiency.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">In the long run a perfectly competitive firm produces where P = MC and at the minimum point of AC, so it is both allocatively and productively efficient.</span> <span class="mk n" data-t="N">A monopolistically competitive firm faces a downward-sloping AR curve, so MC = MR gives a price above MC, which means resources are under-allocated to the product.</span> <span class="mk n" data-t="N">Entry leaves AR tangent to AC on the falling part of the curve, so output is below the minimum-cost level and the firm has excess capacity, meaning higher average costs.</span></p>
+    <p><span class="mk e" data-t="E">However, perfect competition requires identical products, so consumers have no choice, whereas monopolistic competition delivers variety, which many consumers value.</span> <span class="mk e" data-t="E">Firms in monopolistic competition may also invest in innovation to differentiate, giving some dynamic efficiency, while perfectly competitive firms earn only normal profit and may have little to invest.</span> <span class="mk e" data-t="E">Overall, perfect competition is more efficient in a static sense, but it is an ideal that few markets match, so the comparison is limited by how far real markets satisfy the assumptions.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q5 <span class="cmd">Discuss</span> <span class="mark">12 marks</span> Many independent coffee shops in a city centre compete with each other. Discuss the likely effects on consumers of this market structure. <small>(KAA 8 + evaluation 4)</small></summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Spot the structure (monopolistic competition) and use it: differentiation, low barriers, normal profit in the long run.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">The coffee shops resemble monopolistic competition: many firms, differentiated products and low barriers to entry.</span> <span class="mk n" data-t="N">Consumers are likely to benefit from wide choice of blends, atmosphere and location, and firms compete on quality and service to keep customers.</span> <span class="mk n" data-t="N">Because entry is easy, if existing shops make supernormal profit new shops are likely to open, which could keep prices lower than if there were few shops and could stop profit rising in the long run.</span></p>
+    <p><span class="mk n" data-t="N">Each shop has some price-setting power because customers value its brand, so price may be above marginal cost, and with excess capacity average costs are higher than the minimum, which could mean consumers pay more than in perfect competition.</span> <span class="mk n" data-t="N">Spending on branding and advertising may raise costs too.</span></p>
+    <p><span class="mk e" data-t="E">The overall effect depends on how much consumers value variety and how easily they can compare prices. In a city centre, high rents could limit entry, meaning shops keep supernormal profit for longer and the benefit to consumers is smaller.</span> <span class="mk e" data-t="E">On balance, consumers are likely to gain more from choice and competition than they lose from slightly higher prices.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q6 <span class="cmd">Evaluate</span> <span class="mark">25 marks</span> "Competition between many small firms always benefits consumers." Evaluate this view. <small>(KAA 16 + evaluation 9)</small></summary><div class="body">
+    <div class="tip"><b class="h">Plan</b>Make the chains explicit and judge on conditions, not on "yes" or "no".</div>
+    <div class="ans"><ol>
+      <li><span class="mk k" data-t="K">Define the market structures involved (perfect and monopolistic competition) and the efficiency tests.</span></li>
+      <li><span class="mk n" data-t="N">For: low prices (P close to MC), normal profit only in the long run, entry removes supernormal profit, productive and allocative efficiency in perfect competition, choice in monopolistic competition.</span></li>
+      <li><span class="mk n" data-t="N">Against: little scope for economies of scale (small firms have higher average costs), little profit for R&amp;D, excess capacity, spending on branding, limited quality control.</span></li>
+      <li><span class="mk e" data-t="E">Compare with concentrated markets where economies of scale could lower costs, and large firms invest more.</span></li>
+      <li><span class="mk e" data-t="E">Judgement: depends on the type of good (homogeneous or differentiated), the size of economies of scale and how contestable the market is.</span></li>
+    </ol></div>
+  </div></details>
+</section>
+
+<!-- TIPS -->
+<section id="tips" role="tabpanel" hidden>
+  <h2>Top tips</h2>
+  <ul class="tips">
+    <li><b>Draw the diagram.</b> Firm diagram with AR, MR, MC, AC. Mark Q*, price, AC at Q* and shade profit.</li>
+    <li><b>AR = MR for a price taker.</b> A horizontal line. Monopolistic competition has a downward-sloping AR and MR below it.</li>
+    <li><b>MC cuts AC at its lowest point.</b> If your MC does not, you lose the mark.</li>
+    <li><b>Long-run perfect competition:</b> P = MC = min AC.</li>
+    <li><b>Long-run monopolistic competition:</b> AR is tangent to AC, so P &gt; MC and output is below the minimum-cost output.</li>
+    <li><b>Name the efficiency.</b> Productive is minimum AC. Allocative is P = MC. Dynamic is over time. X-inefficiency is slack costs.</li>
+    <li><b>Evaluate with the real world.</b> Perfect competition is a benchmark; few markets match it.</li>
+  </ul>
+  <h2>Command words</h2>
+  <div class="tw"><table class="t">
+    <tr><th>Command word</th><th>What it asks for</th></tr>
+    <tr><td>Calculate</td><td>Formula, substitution, answer with units.</td></tr>
+    <tr><td>Explain / Analyse</td><td>A developed chain of reasoning with a diagram where useful.</td></tr>
+    <tr><td>Assess / Discuss</td><td>Both sides, then a supported judgement.</td></tr>
+    <tr><td>Evaluate</td><td>Weigh up, say what it depends on, reach a conclusion.</td></tr>
+  </table></div>
+  <h2>Keyword flashcards</h2>
+  <div id="fc1"></div>
+</section>
+</div>
+
+<script>
+const $ = (s, e = document) => e.querySelector(s), $$ = (s, e = document) => [...e.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmtN = (n, d = 2) => (Math.round(n * 10 ** d) / 10 ** d).toString();
+
+/* ---------- tabs ---------- */
+function initTabs() {
+  const list = $(".tablist"), tabs = $$("[role=tab]", list), panels = tabs.map((t) => $("#" + t.dataset.p));
+  const show = (i, focus) => {
+    tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; panels[k].hidden = k !== i; });
+    if (focus) tabs[i].focus();
+    try { history.replaceState(null, "", "#" + tabs[i].dataset.p); } catch (e) {}
+    window.dispatchEvent(new Event("resize"));
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { show(i); window.scrollTo(0, 0); });
+    t.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show((i + 1) % tabs.length, true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show((i + tabs.length - 1) % tabs.length, true); }
+    });
+  });
+  const start = tabs.findIndex((t) => "#" + t.dataset.p === location.hash);
+  show(start < 0 ? 0 : start);
+}
+
+/* ---------- svg string helpers ---------- */
+const at = (o) => Object.entries(o || {}).map(([k, v]) => ` ${k}="${v}"`).join("");
+const SV = {
+  line: (x1, y1, x2, y2, c = "ax", o) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${c}"${at(o)}/>`,
+  text: (x, y, t, c = "lbl", o) => `<text x="${x}" y="${y}" class="${c}"${at(o)}>${t}</text>`,
+  circle: (x, y, r, c = "dot1", o) => `<circle cx="${x}" cy="${y}" r="${r}" class="${c}"${at(o)}/>`,
+  rect: (x, y, w, h, c = "f1", o) => `<rect x="${x}" y="${y}" width="${Math.max(0, w)}" height="${Math.max(0, h)}" class="${c}"${at(o)}/>`,
+  path: (d, c = "c1", o) => `<path d="${d}" class="${c}"${at(o)}/>`,
+  poly: (pts, c = "f1", o) => `<polygon points="${pts.map((p) => p.join(",")).join(" ")}" class="${c}"${at(o)}/>`,
+  arrowHead: (x, y, dir, c = "dot1") => { const s = 7; const p = { r: [[x, y], [x - s * 1.6, y - s], [x - s * 1.6, y + s]], l: [[x, y], [x + s * 1.6, y - s], [x + s * 1.6, y + s]], u: [[x, y], [x - s, y + s * 1.6], [x + s, y + s * 1.6]], d: [[x, y], [x - s, y - s * 1.6], [x + s, y - s * 1.6]] }[dir]; return `<polygon points="${p.map((q) => q.join(",")).join(" ")}" class="${c}"/>`; },
+};
+const ptsPath = (pts) => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+
+/* ---------- animated stepper ---------- */
+function stepper(el, cfg) {
+  const W = cfg.w || 760, H = cfg.h || 400, steps = cfg.steps;
+  el.innerHTML = `<div class="stp"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.label || "Animated diagram")}"></svg>
+    <div class="stp-cap" aria-live="polite"></div>
+    <div class="stp-ctl"><button class="b" data-a="back">◀ Back</button><button class="b pri" data-a="play">▶ Play</button><button class="b" data-a="next">Next ▶</button><button class="b" data-a="restart" aria-label="Restart">↻</button><span class="stp-dots"></span></div></div>`;
+  const svg = $("svg", el), cap = $(".stp-cap", el), dots = $(".stp-dots", el), playBtn = $("[data-a=play]", el);
+  let cur = 0, drawn = { ...cfg.base, ...steps[0].s }, raf = 0, timer = 0, playing = false;
+  steps.forEach((_, i) => { const d = document.createElement("button"); d.textContent = i + 1; d.setAttribute("aria-label", "Step " + (i + 1)); d.onclick = () => { stop(); go(i); }; dots.appendChild(d); });
+  const interp = (a, b, t) => { const o = {}; for (const k in b) o[k] = typeof b[k] === "number" && typeof a[k] === "number" ? a[k] + (b[k] - a[k]) * t : t > 0.5 ? b[k] : a[k] !== undefined ? a[k] : b[k]; return o; };
+  const paint = (s) => { drawn = s; svg.innerHTML = cfg.draw(s); };
+  function go(i) {
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    cap.innerHTML = steps[cur].cap;
+    $$("button", dots).forEach((d, k) => { d.classList.toggle("on", k === cur); d.classList.toggle("done", k < cur); });
+    const from = drawn, to = { ...cfg.base, ...steps[cur].s }, t0 = performance.now(), dur = reduced ? 0 : cfg.tween || 900;
+    cancelAnimationFrame(raf);
+    const tick = (now) => { const t = dur ? Math.min(1, (now - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; paint(interp(from, to, e)); if (t < 1) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+  }
+  function stop() { playing = false; clearTimeout(timer); playBtn.textContent = "▶ Play"; }
+  function advance() { if (!playing) return; if (cur >= steps.length - 1) return stop(); go(cur + 1); timer = setTimeout(advance, cfg.dwell || 4800); }
+  playBtn.onclick = () => { if (playing) return stop(); if (cur >= steps.length - 1) go(0); playing = true; playBtn.textContent = "❚❚ Pause"; timer = setTimeout(advance, cfg.dwell ? Math.min(cfg.dwell, 3000) : 2500); };
+  $("[data-a=back]", el).onclick = () => { stop(); go(cur - 1); };
+  $("[data-a=next]", el).onclick = () => { stop(); go(cur + 1); };
+  $("[data-a=restart]", el).onclick = () => { stop(); go(0); };
+  paint(drawn); go(0);
+}
+
+/* ---------- slider ---------- */
+function slider(el, o) {
+  const id = o.id;
+  el.innerHTML = `<div class="sl"><label for="${id}">${o.label}<output id="${id}o"></output></label><input type="range" id="${id}" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}"></div>`;
+  const i = $("#" + id, el), out = $("#" + id + "o", el);
+  const upd = () => { out.textContent = (o.fmt || ((v) => v))(+i.value); o.onInput && o.onInput(+i.value); };
+  i.addEventListener("input", upd); upd();
+  return { get: () => +i.value, set: (v) => { i.value = v; upd(); } };
+}
+
+/* ---------- classify (also powers match) ---------- */
+function classify(el, o) {
+  const items = o.items.map((x, i) => ({ ...x, id: i })), cap = o.cap || 99;
+  el.classList.add("cls"); if (o.match) el.classList.add("match");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<div class="pool" data-b="pool" aria-label="Items to place"></div>
+    <div class="buckets">${o.buckets.map((b, i) => `<div class="bk" data-b="${i}"><h4>${b.label}</h4><div class="slot"></div></div>`).join("")}</div>
+    <div class="row"><button class="b pri" data-a="check">Check</button><button class="b" data-a="reset">Reset</button></div><div class="msg" aria-live="polite"></div>`;
+  const pool = $(".pool", el), msg = $(".msg", el);
+  let sel = null;
+  const chip = (it) => { const c = document.createElement("button"); c.className = "chip"; c.type = "button"; c.draggable = true; c.textContent = it.text; c.dataset.id = it.id;
+    c.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/plain", it.id); sel = c; });
+    c.addEventListener("click", (e) => { e.stopPropagation(); if (sel === c) { c.classList.remove("sel"); sel = null; } else { sel && sel.classList.remove("sel"); sel = c; c.classList.add("sel"); } });
+    return c; };
+  const place = (c, zone) => {
+    const slot = zone === pool ? pool : $(".slot", zone);
+    if (zone !== pool && slot.children.length >= cap) { const old = slot.firstElementChild; pool.appendChild(old); }
+    slot.appendChild(c); c.classList.remove("sel", "ok", "no"); sel = null; msg.textContent = "";
+  };
+  const fill = () => { pool.innerHTML = ""; $$(".slot", el).forEach((s) => (s.innerHTML = "")); (o.noShuffle ? items : shuffle(items)).forEach((it) => pool.appendChild(chip(it))); msg.textContent = ""; };
+  [pool, ...$$(".bk", el)].forEach((z) => {
+    z.addEventListener("dragover", (e) => { e.preventDefault(); z.classList.add("over"); });
+    z.addEventListener("dragleave", () => z.classList.remove("over"));
+    z.addEventListener("drop", (e) => { e.preventDefault(); z.classList.remove("over"); const c = $(`[data-id="${e.dataTransfer.getData("text/plain")}"]`, el); c && place(c, z); });
+    z.addEventListener("click", () => { if (sel) place(sel, z); });
+  });
+  $("[data-a=check]", el).onclick = () => {
+    let ok = 0;
+    $$(".bk", el).forEach((b) => $$(".chip", b).forEach((c) => { const good = items[+c.dataset.id].b === +b.dataset.b; c.classList.toggle("ok", good); c.classList.toggle("no", !good); if (good) ok++; }));
+    const left = $$(".chip", pool).length;
+    msg.textContent = left ? `${left} still to place. ${ok} correct so far.` : ok === items.length ? "All correct. " + (o.done || "") : `${ok} of ${items.length} correct. Red ones are in the wrong place; move them and check again.`;
+  };
+  $("[data-a=reset]", el).onclick = fill;
+  fill();
+}
+function match(el, o) {
+  classify(el, { match: true, cap: 1, prompt: o.prompt, buckets: o.pairs.map((p) => ({ label: p[0] })), items: o.pairs.map((p, i) => ({ text: p[1], b: i })), done: o.done });
+}
+
+/* ---------- ordering ---------- */
+function order(el, o) {
+  el.classList.add("ord");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<ol></ol><div class="row"><button class="b pri" data-a="check">Check order</button><button class="b" data-a="reset">Shuffle again</button></div><div class="msg" aria-live="polite"></div>`;
+  const ol = $("ol", el), msg = $(".msg", el);
+  let dragEl = null;
+  const make = (t, id) => { const li = document.createElement("li"); li.draggable = true; li.dataset.id = id; li.innerHTML = `<span>${t}</span><button class="b" type="button" aria-label="Move up">↑</button><button class="b" type="button" aria-label="Move down">↓</button>`;
+    li.addEventListener("dragstart", () => { dragEl = li; li.classList.add("drag"); });
+    li.addEventListener("dragend", () => { li.classList.remove("drag"); dragEl = null; });
+    li.addEventListener("dragover", (e) => { e.preventDefault(); if (!dragEl || dragEl === li) return; const r = li.getBoundingClientRect(); ol.insertBefore(dragEl, e.clientY < r.top + r.height / 2 ? li : li.nextSibling); });
+    $$("button", li)[0].onclick = () => { li.previousElementSibling && ol.insertBefore(li, li.previousElementSibling); };
+    $$("button", li)[1].onclick = () => { li.nextElementSibling && ol.insertBefore(li.nextElementSibling, li); };
+    return li; };
+  const fill = () => { ol.innerHTML = ""; let s; do { s = shuffle(o.items.map((t, i) => [t, i])); } while (o.items.length > 1 && s.every((x, i) => x[1] === i)); s.forEach(([t, i]) => ol.appendChild(make(t, i))); msg.textContent = ""; };
+  $("[data-a=check]", el).onclick = () => { let ok = 0; $$("li", ol).forEach((li, i) => { const g = +li.dataset.id === i; li.classList.toggle("ok", g); li.classList.toggle("no", !g); if (g) ok++; }); msg.textContent = ok === o.items.length ? "Correct order. " + (o.done || "") : `${ok} of ${o.items.length} in the right place.`; };
+  $("[data-a=reset]", el).onclick = fill; fill();
+}
+
+/* ---------- multiple choice ---------- */
+function quiz(el, o) {
+  el.classList.add("qz");
+  let score = 0, answered = 0;
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p class="qt">${i + 1}. ${q.q}</p>${q.opts.map((t, k) => `<button class="opt" data-k="${k}">${String.fromCharCode(65 + k)}. ${t}</button>`).join("")}<div class="why"><b>${"Answer: " + String.fromCharCode(65 + q.a)}.</b> ${q.why}</div></div>`).join("") + `<div class="score" aria-live="polite"></div><button class="b" data-a="again">Try again</button>`;
+  const sc = $(".score", el);
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i];
+    $$(".opt", box).forEach((b) => b.addEventListener("click", () => { if (box.classList.contains("done")) return; box.classList.add("done"); answered++; const k = +b.dataset.k; if (k === q.a) score++; b.classList.add(k === q.a ? "ok" : "no"); $$(".opt", box)[q.a].classList.add("ok"); sc.textContent = `Score: ${score} / ${answered} answered (of ${o.qs.length})`; })); });
+  $("[data-a=again]", el).onclick = () => { score = answered = 0; sc.textContent = ""; $$(".q", el).forEach((b) => { b.classList.remove("done"); $$(".opt", b).forEach((x) => x.classList.remove("ok", "no")); }); };
+}
+
+/* ---------- calculations ---------- */
+function calc(el, o) {
+  el.classList.add("calc");
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p>${i + 1}. ${q.q}</p>
+    <div class="row"><input type="text" inputmode="decimal" aria-label="Answer ${i + 1}" placeholder="${q.ph || "answer"}">${q.unit ? `<span>${q.unit}</span>` : ""}<button class="b pri" data-a="c">Check</button><button class="b" data-a="h">Hint</button><button class="b" data-a="s">Show working</button><span class="fb" aria-live="polite"></span></div>
+    <div class="sol" data-s="h">${q.hint || "Write the formula first, then substitute."}</div><div class="sol" data-s="s">${q.sol}</div></div>`).join("");
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i], inp = $("input", box), fb = $(".fb", box);
+    const check = () => { const v = parseFloat(inp.value.replace(/[,$%\s−]/g, (m) => (m === "−" ? "-" : ""))); const good = !isNaN(v) && Math.abs(v - q.a) <= (q.tol ?? 0.01); fb.textContent = good ? "✓ Correct" : "✗ Not quite"; fb.className = "fb " + (good ? "ok" : "no"); };
+    $("[data-a=c]", box).onclick = check; inp.addEventListener("keydown", (e) => e.key === "Enter" && check());
+    $("[data-a=h]", box).onclick = () => $("[data-s=h]", box).classList.toggle("show");
+    $("[data-a=s]", box).onclick = () => $("[data-s=s]", box).classList.toggle("show"); });
+}
+
+/* ---------- flashcards ---------- */
+function cards(el, o) {
+  let deck = o.cards.map((c) => c), i = 0, back = false, known = new Set();
+  el.classList.add("fc");
+  el.innerHTML = `<div class="face" tabindex="0" role="button" aria-label="Flip card"></div><div class="row" style="margin-top:10px"><button class="b" data-a="p">◀</button><button class="b" data-a="f">Flip</button><button class="b" data-a="n">▶</button><button class="b" data-a="s">Shuffle</button><button class="b pri" data-a="k">I know this</button><span class="note" data-c></span></div>`;
+  const face = $(".face", el), cnt = $("[data-c]", el);
+  const paint = () => { const c = deck[i]; face.className = "face" + (back ? " back" : ""); face.innerHTML = `<div><small>${back ? "Definition" : "Term"}</small>${back ? c[1] : "<b>" + c[0] + "</b>"}</div>`; cnt.textContent = `${i + 1} / ${deck.length} · known ${known.size}`; };
+  const flip = () => { back = !back; paint(); };
+  face.onclick = flip; face.onkeydown = (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), flip());
+  $("[data-a=f]", el).onclick = flip;
+  $("[data-a=n]", el).onclick = () => { i = (i + 1) % deck.length; back = false; paint(); };
+  $("[data-a=p]", el).onclick = () => { i = (i + deck.length - 1) % deck.length; back = false; paint(); };
+  $("[data-a=s]", el).onclick = () => { deck = shuffle(deck); i = 0; back = false; paint(); };
+  $("[data-a=k]", el).onclick = () => { known.add(deck[i][0]); i = (i + 1) % deck.length; back = false; paint(); };
+  paint();
+}
+
+window.Lib = { initTabs, SV, ptsPath, stepper, slider, classify, match, order, quiz, calc, cards, fmtN, esc };
+
+/* Generic axes-and-curves helper for micro diagrams. Plot({xmax,ymax,xl,yl}) returns mapping and drawing functions that build SVG strings. */
+function Plot(o) {
+  const W = o.W || 760, H = o.H || 400, l = o.l || 66, r = o.r || 36, t = o.t || 26, b = o.b || 50;
+  const X = (x) => l + (x / o.xmax) * (W - l - r), Y = (y) => H - b - (y / o.ymax) * (H - t - b);
+  const P = { W, H, X, Y };
+  P.axes = () => SV.line(X(0), Y(o.ymax), X(0), Y(0)) + SV.line(X(0), Y(0), X(o.xmax), Y(0))
+    + SV.text(X(0) + 8, t - 6, o.yl || "Price / costs (£)", "sm") + SV.text(X(o.xmax), Y(0) + 34, o.xl || "Quantity", "sm", { "text-anchor": "end" });
+  P.curve = (f, cls = "c1", x0 = 0, x1 = o.xmax, extra) => {
+    const pts = [];
+    for (let i = 0; i <= 80; i++) { const x = x0 + (x1 - x0) * i / 80, y = f(x); if (isFinite(y) && y >= -0.001 && y <= o.ymax) pts.push([X(x), Y(y)]); }
+    return pts.length > 1 ? SV.path(ptsPath(pts), cls, extra) : "";
+  };
+  P.seg = (xa, ya, xb, yb, cls = "c1", extra) => SV.line(X(xa), Y(ya), X(xb), Y(yb), cls, extra);
+  P.label = (x, y, txt, cls = "lbl bd t1", anchor = "start") => SV.text(X(x) + 4, Y(y) + 4, txt, cls, { "text-anchor": anchor });
+  P.guide = (x, y, extra) => SV.line(X(0), Y(y), X(x), Y(y), "gr", extra) + SV.line(X(x), Y(y), X(x), Y(0), "gr", extra);
+  P.dot = (x, y, cls = "dot1", r = 6, extra) => SV.circle(X(x), Y(y), r, cls, extra);
+  P.tx = (x, txt, cls = "sm") => SV.text(X(x), Y(0) + 18, txt, cls, { "text-anchor": "middle" });
+  P.ty = (y, txt, cls = "sm") => SV.text(X(0) - 8, Y(y) + 4, txt, cls, { "text-anchor": "end" });
+  P.rect = (xa, ya, xb, yb, cls = "f1", extra) => SV.rect(X(xa), Y(yb), X(xb) - X(xa), Y(ya) - Y(yb), cls, extra);
+  return P;
+}
+
+/* Cost model: AC = 0.05(q-10)^2 + 6 (min 6 at q=10); MC = 0.15q^2 - 2q + 11 cuts AC at its minimum. */
+const AC = (q) => 0.05 * (q - 10) ** 2 + 6, MC = (q) => 0.15 * q * q - 2 * q + 11;
+const PL = Plot({ xmax: 24, ymax: 16 });
+const base = () => PL.axes() + PL.curve(AC, "c2", 0.5, 24) + PL.curve(MC, "c4", 0.5, 24)
+  + PL.label(22.2, 15.2, "AC", "lbl bd t2", "end") + PL.label(14.4, 15.2, "MC", "lbl bd t4", "end");
+const qPC = (p) => (2 + Math.sqrt(Math.max(0, 4 - 0.6 * (11 - p)))) / 0.3;
+
+/* ---------- 1. perfect competition ---------- */
+function pcDraw(s) {
+  const p = s.p, q = qPC(p), c = AC(q), prof = (p - c) * q;
+  let o = base();
+  o += PL.rect(0, c, q, p, prof >= 0 ? "f3" : "f2", { style: "opacity:" + 0.2 * s.pr });
+  o += PL.seg(0, p, 24, p, "c1") + PL.label(24, p + 0.5, "AR = MR = P", "lbl bd t1", "end");
+  o += PL.guide(q, p) + PL.dot(q, p, "dot1") + PL.dot(q, c, "dot2", 5);
+  o += PL.ty(p, "£" + Lib.fmtN(p, 2)) + PL.tx(q, Lib.fmtN(q, 1)) + PL.ty(c, "£" + Lib.fmtN(c, 2));
+  if (s.pr > 0.5 && prof > 0.5) o += SV.text(PL.X(q / 2), PL.Y((p + c) / 2) + 5, "Supernormal profit", "lbl bd t3", { "text-anchor": "middle" });
+  if (s.pr > 0.5 && Math.abs(prof) < 0.5) o += SV.text(PL.X(q) + 6, PL.Y(c) - 30, "Normal profit: P = MC = min AC", "lbl bd t3");
+  return o;
+}
+Lib.stepper($("#stA"), { w: 760, h: 400, label: "Perfect competition, short run to long run", base: { p: 9, pr: 0 }, tween: 1300, draw: pcDraw, steps: [
+  { cap: "A perfectly competitive firm takes the <b>market price</b> (£9). Its demand curve is horizontal, so <b>AR = MR = P</b>. It maximises profit where <b>MC = MR</b>.", s: { p: 9, pr: 0 } },
+  { cap: "At that output (about 12) price is above average cost (about £6.25). The shaded rectangle, (AR − AC) × Q, is <b>supernormal profit</b>.", s: { p: 9, pr: 1 } },
+  { cap: "There are <b>no barriers to entry</b> and information is perfect. New firms enter, <b>market supply shifts right</b>, and the market price falls. The firm's AR = MR line drops.", s: { p: 7.5, pr: 1 } },
+  { cap: "Entry continues until price equals the <b>minimum of AC</b> (£6). Only <b>normal profit</b> is earned. At output 10: <b>P = MC = AC</b>, so the firm is <b>allocatively and productively efficient</b>.", s: { p: 6, pr: 1 } },
+  { cap: "If price fell <b>below</b> AC the firm would make a <b>loss</b>; firms would leave, supply would shift left and price would rise back to £6.", s: { p: 5, pr: 1 } },
+] });
+
+/* ---------- 2. monopolistic competition ---------- */
+const qMC = (a) => (1 + Math.sqrt(Math.max(0, 1 - 0.6 * (11 - a)))) / 0.3;
+function mcDraw(s) {
+  const a = s.a, q = qMC(a), p = a - 0.5 * q, c = AC(q), prof = (p - c) * q;
+  const AR = (x) => a - 0.5 * x, MR = (x) => a - x;
+  let o = base();
+  o += PL.rect(0, c, q, p, "f3", { style: "opacity:" + 0.2 * s.pr * (prof > 0.3 ? 1 : 0) });
+  o += PL.curve(AR, "c1", 0, 24) + PL.curve(MR, "c3", 0, 24) + PL.label(Math.min(22, 2 * a - 1), AR(Math.min(22, 2 * a - 1)) + 0.7, "AR", "lbl bd t1", "end") + PL.label(Math.min(a - 1.5, 22), 0.8, "MR", "lbl bd t3", "end");
+  o += PL.guide(q, p) + PL.dot(q, p, "dot1") + PL.dot(q, c, "dot2", 5) + PL.ty(p, "£" + Lib.fmtN(p, 2)) + PL.ty(c, "£" + Lib.fmtN(c, 2)) + PL.tx(q, Lib.fmtN(q, 1));
+  if (s.pr > 0.5 && prof > 0.3) o += SV.text(PL.X(q / 2), PL.Y((p + c) / 2) + 5, "Supernormal profit", "lbl bd t3", { "text-anchor": "middle" });
+  if (a < 10) o += SV.text(PL.X(q) + 12, PL.Y(c) - 16, "AR tangent to AC", "lbl bd t3");
+  return o;
+}
+Lib.stepper($("#stB"), { w: 760, h: 400, label: "Monopolistic competition, entry erodes profit", base: { a: 15, pr: 1 }, tween: 1300, draw: mcDraw, steps: [
+  { cap: "A firm with a <b>differentiated</b> product faces a <b>downward-sloping AR</b>, with MR below it. It produces where <b>MC = MR</b> (about 9.5 units) and reads price off AR.", s: { a: 15, pr: 1 } },
+  { cap: "Price (about £10.30) is well above AC (£6), so the firm earns <b>supernormal profit</b>. Because barriers to entry are low, other firms notice.", s: { a: 15, pr: 1 } },
+  { cap: "New firms enter with similar (but differentiated) products. Each firm loses some customers, so <b>AR and MR shift left</b> and become more elastic.", s: { a: 12.5, pr: 1 } },
+  { cap: "Entry stops when AR just <b>touches AC</b> (tangent) at output 5 and price £7.25: <b>normal profit</b>. Price is above MC and output is below the minimum-AC output of 10.", s: { a: 9.75, pr: 1 } },
+  { cap: "<b>Conclusion:</b> neither <b>allocatively</b> (P &gt; MC) nor <b>productively</b> efficient (excess capacity), but consumers get <b>variety</b> and firms may innovate to differentiate.", s: { a: 9.75, pr: 1 } },
+] });
+
+/* ---------- labs ---------- */
+function lab1() {
+  if (!$("#lp")) return;
+  const p = +$("#lp").value, q = qPC(p), c = AC(q), pu = p - c;
+  $("#a1").textContent = Lib.fmtN(q, 1); $("#a2").textContent = "£" + Lib.fmtN(pu, 2); $("#a3").textContent = "£" + Lib.fmtN(pu * q, 1);
+  $("#av").textContent = Math.abs(pu) < 0.02 ? "Price = MC = minimum AC: normal profit, allocative and productive efficiency. This is the long-run equilibrium." : pu > 0 ? "Supernormal profit. In the long run new firms enter and push the price down." : "A loss. In the long run firms leave and push the price up.";
+  let o = base() + PL.rect(0, c, q, p, pu >= 0 ? "f3" : "f2") + PL.seg(0, p, 24, p, "c1") + PL.label(24, p + 0.5, "AR = MR = P", "lbl bd t1", "end") + PL.guide(q, p) + PL.dot(q, p) + PL.ty(p, "£" + Lib.fmtN(p, 2)) + PL.tx(q, Lib.fmtN(q, 1));
+  $("#lab1").innerHTML = o;
+}
+Lib.slider($("#g1"), { id: "lp", label: "Market price (£)", min: 5, max: 10, step: 0.25, value: 8, fmt: (v) => "£" + v.toFixed(2), onInput: lab1 });
+function lab2() {
+  if (!$("#la")) return;
+  const a = +$("#la").value, q = qMC(a), p = a - 0.5 * q, c = AC(q), pu = p - c;
+  $("#b1").textContent = Lib.fmtN(q, 1); $("#b2").textContent = "£" + Lib.fmtN(p, 2); $("#b3").textContent = "£" + Lib.fmtN(pu, 2);
+  $("#bv").textContent = pu < 0.03 ? "AR is tangent to AC: normal profit. Price is above MC and output is below the minimum-AC output of 10, so there is excess capacity." : "Supernormal profit, so new firms are attracted in. Demand for each firm will shift left.";
+  const AR = (x) => a - 0.5 * x, MR = (x) => a - x;
+  $("#lab2").innerHTML = base() + PL.rect(0, c, q, p, pu > 0.03 ? "f3" : "f1", { style: "opacity:" + (pu > 0.03 ? 0.2 : 0) }) + PL.curve(AR, "c1", 0, 24) + PL.curve(MR, "c3", 0, 24) + PL.guide(q, p) + PL.dot(q, p) + PL.ty(p, "£" + Lib.fmtN(p, 2)) + PL.tx(q, Lib.fmtN(q, 1));
+}
+Lib.slider($("#g2"), { id: "la", label: "Demand (AR intercept)", min: 9.75, max: 15, step: 0.25, value: 13, fmt: (v) => v.toFixed(2) + (v <= 9.76 ? " (tangency)" : ""), onInput: lab2 });
+
+/* ---------- practise ---------- */
+Lib.classify($("#cl1"), { prompt: "Place each statement under the efficiency it describes.", buckets: [{ label: "Allocative" }, { label: "Productive" }, { label: "Dynamic" }, { label: "X-inefficiency" }], done: "P = MC, MC = AC, over time, and wasted costs.", items: [
+  { text: "Price equals marginal cost", b: 0 }, { text: "Resources go to the products consumers most want", b: 0 },
+  { text: "Output at the lowest point of the AC curve", b: 1 }, { text: "MC = AC", b: 1 },
+  { text: "A firm invests profit in R&D that cuts future costs", b: 2 }, { text: "New technology is introduced over time", b: 2 },
+  { text: "Costs are above the AC curve because managers face no pressure to cut waste", b: 3 }, { text: "Overstaffing in a firm protected from competition", b: 3 },
+] });
+Lib.classify($("#cl2"), { prompt: "Perfect or monopolistic competition?", buckets: [{ label: "Perfect competition" }, { label: "Monopolistic competition" }], items: [
+  { text: "Identical products", b: 0 }, { text: "Differentiated products and branding", b: 1 }, { text: "Horizontal AR = MR", b: 0 }, { text: "Downward-sloping AR with MR below it", b: 1 },
+  { text: "Firm is a price taker", b: 0 }, { text: "Long-run AR tangent to AC", b: 1 }, { text: "Long-run P = MC = minimum AC", b: 0 }, { text: "Excess capacity in the long run", b: 1 },
+  { text: "Small wheat farmers", b: 0 }, { text: "Independent restaurants in a town", b: 1 },
+] });
+Lib.order($("#o1"), { prompt: "Order the long-run adjustment in perfect competition.", items: [
+  "Firms are making supernormal profit",
+  "New firms enter because there are no barriers to entry",
+  "Market supply shifts right",
+  "The market price falls",
+  "Each firm's AR = MR falls to the minimum of AC",
+  "Only normal profit is earned and entry stops",
+], done: "Entry shifts market supply and price falls until profit is normal." });
+Lib.calc($("#c1"), { qs: [
+  { q: "A firm sells 400 units at £5 each. Average cost is £4.20. Calculate total profit (£).", a: 320, sol: "Profit = (AR − AC) × Q = (5 − 4.20) × 400 = <b>£320</b>." },
+  { q: "A firm sells 50 units at £12 each and has average cost of £9. Calculate total profit (£).", a: 150, sol: "(12 − 9) × 50 = <b>£150</b>." },
+  { q: "A firm produces 200 units. Average cost is £15 and price is £14. Calculate the total loss (£).", a: 200, sol: "Loss per unit £1 × 200 = <b>£200</b>." },
+  { q: "A monopolistically competitive firm sells 120 units at £10 with AC of £8. Calculate supernormal profit (£).", a: 240, sol: "(10 − 8) × 120 = <b>£240</b>." },
+  { q: "Total revenue is £600 from selling 50 units. What is the price (£)? (AR = TR ÷ Q)", a: 12, sol: "AR = 600 ÷ 50 = <b>£12</b>, which is the price." },
+] });
+Lib.quiz($("#qz1"), { qs: [
+  { q: "Allocative efficiency is achieved where:", opts: ["MC = AC", "P = MC", "TR is maximised", "AC is at its minimum"], a: 1, why: "Price equals marginal cost." },
+  { q: "Productive efficiency occurs where:", opts: ["P = MC", "Output is at the lowest point of AC", "MR = 0", "Profit is zero"], a: 1, why: "Minimum AC, where MC = AC." },
+  { q: "A firm in perfect competition faces a demand curve that is:", opts: ["Downward-sloping", "Perfectly inelastic", "Horizontal at the market price", "Kinked"], a: 2, why: "It is a price taker: AR = MR = P." },
+  { q: "In the long run a perfectly competitive firm earns:", opts: ["Supernormal profit", "Normal profit", "A loss", "Maximum revenue"], a: 1, why: "Entry removes supernormal profit." },
+  { q: "Which is a characteristic of monopolistic competition?", opts: ["Homogeneous products", "High barriers to entry", "Differentiated products", "A single seller"], a: 2, why: "Branding and differentiation." },
+  { q: "In long-run equilibrium in monopolistic competition:", opts: ["P = MC", "AR is tangent to AC", "Supernormal profit is earned", "Output is at minimum AC"], a: 1, why: "AR touches AC at one point: normal profit." },
+  { q: "X-inefficiency refers to:", opts: ["Producing at minimum AC", "Costs above those necessary for a given output", "Efficient use of resources over time", "Charging P = MC"], a: 1, why: "Lack of competitive pressure leads to slack." },
+  { q: "Which is a likely reason perfect competition may not be dynamically efficient?", opts: ["Too many barriers", "Only normal profit, so little to invest", "High prices", "Product differentiation"], a: 1, why: "Little surplus to fund R&D." },
+] });
+Lib.cards($("#fc1"), { cards: [
+  ["Allocative efficiency", "Resources are allocated to goods consumers most want; P = MC."],
+  ["Productive efficiency", "Output produced at the lowest average cost; MC = AC."],
+  ["Dynamic efficiency", "Efficiency over time through investment and innovation."],
+  ["X-inefficiency", "Costs higher than necessary for a given output, because of lack of competitive pressure."],
+  ["Price taker", "A firm with no power to affect the market price."],
+  ["Homogeneous product", "Identical products from all firms."],
+  ["Perfect information", "Buyers and sellers know all prices and qualities."],
+  ["Barrier to entry", "A factor that makes it hard for new firms to enter a market."],
+  ["Supernormal profit", "Profit above the minimum needed to keep the firm in the industry: AR > AC."],
+  ["Normal profit", "Minimum profit to stay in the industry: AR = AC."],
+  ["Product differentiation", "Making a product seem different from rivals through branding, quality or service."],
+  ["Non-price competition", "Competing through quality, branding, service or advertising rather than price."],
+  ["Excess capacity", "Producing below the output at which average cost is lowest."],
+  ["Tangency", "AR touches AC at one point, so only normal profit is earned."],
+] });
+lab1(); lab2();
+
+Lib.initTabs();
+</script>
+<style id=site-pill>.site-pill{position:fixed;right:12px;bottom:12px;opacity:.8;z-index:2147483000;display:flex;gap:2px;font:600 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:rgba(20,24,28,.88);border-radius:999px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.25)}.site-pill a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:999px;white-space:nowrap}.site-pill a:hover,.site-pill button:hover{background:rgba(255,255,255,.18)}.site-pill button{font:inherit;color:#fff;background:transparent;border:0;border-left:1px solid rgba(255,255,255,.25);border-radius:0 999px 999px 0;padding:8px 12px;cursor:pointer}.site-pill button.is-done{color:#7be0a0}@media print{.site-pill{display:none}}.site-pill .pill-more{display:none}@media(max-width:700px){body{padding-bottom:64px}.site-pill{right:8px;bottom:8px;opacity:.6;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 16px)}.site-pill>*:not(.pill-more){display:none}.site-pill.open{opacity:.95}.site-pill.open>*:not(.pill-more):not([hidden]){display:inline-block}.site-pill .pill-more{display:block;border:0;border-radius:999px;width:36px;height:36px;padding:0;text-align:center;font-size:18px}.site-pill.open .pill-more{border-left:0}}</style><div class="site-pill"><button type="button" class="pill-more" aria-label="Menu" onclick="this.parentNode.classList.toggle(&#39;open&#39;)">☰</button><a href="../../a-econ/theme-3/3-4/">← Chapter 3.4</a><a href="../../">Home</a><button type="button" title="Light / dark" onclick="var r=document.documentElement,d=(r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';r.setAttribute('data-theme',d);try{localStorage.setItem('site.theme',d)}catch(e){}">◐</button><button data-done-slug="perfect-monopolistic-competition" hidden></button><button data-role-toggle="perfect-monopolistic-competition" hidden></button><button data-role-delete="perfect-monopolistic-competition" hidden></button><button data-role-restore="perfect-monopolistic-competition" hidden></button></div><script src="../../assets/config.js?v=1791097532"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../../assets/app.js?v=1791097532"></script><script src="../../assets/gate.js?v=1791097532" data-courses="a-econ"></script><script>document.addEventListener('click',function(e){var t=e.target.closest('[role=tab],.tab,.tabbar button,.tabs button,.section-tabs button,[data-tab],[data-panel-tab]');if(!t)return;var n=t,s=false;while(n&&n!==document.body){var p=getComputedStyle(n).position;if(p==='sticky'||p==='fixed'){s=true;break}n=n.parentElement}if(s)setTimeout(function(){window.scrollTo(0,0)},30)});</script><script>document.addEventListener('click',function(e){var p=document.querySelector('.site-pill.open');if(p&&!p.contains(e.target))p.classList.remove('open')});addEventListener('scroll',function(){var p=document.querySelector('.site-pill.open');if(p)p.classList.remove('open')},{passive:true});</script></body></html>

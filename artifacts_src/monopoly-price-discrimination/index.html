@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monopoly and Price Discrimination</title>
+<style>:root{
+  --bg:#f5f3ee; --surface:#fff; --ink:#17212b; --muted:#566573; --line:#d9d4c7; --soft:#eef2f5;
+  --accent:#2b5d7c; --accent-ink:#fff; --accent-soft:#e0ecf3;
+  --good:#1d7a4c; --good-soft:#dff2e7; --bad:#b3372f; --bad-soft:#f9e2df; --warn:#a85d00; --warn-soft:#fbead2;
+  --k:#1f5fa8; --a:#1d7a4c; --n:#7a3fa0; --e:#b25a00;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+.wrap{max-width:980px;margin:0 auto;padding:22px 16px 90px}
+h1,h2,h3{font-family:var(--serif);line-height:1.18;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,5vw,2.5rem);letter-spacing:-.015em}
+h2{font-size:1.45rem;margin:26px 0 10px}
+h3{font-size:1.12rem;margin:18px 0 6px}
+p{margin:0 0 .8em}
+.eyebrow{font:700 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:68ch;margin-top:8px}
+header.top{padding:6px 0 14px}
+.tablist{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;padding-top:8px}
+.tablist button{font:600 .9rem var(--sans);padding:8px 13px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tablist button:hover{color:var(--ink)}
+.tablist button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tablist button:focus-visible,.b:focus-visible,summary:focus-visible,.chip:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[role=tabpanel][hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+.card.big{background:var(--accent-soft);border-color:var(--accent)}
+.card h3:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.grid2>.card{margin:0}
+.formula{font:600 1.05rem var(--mono);background:var(--soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;overflow-x:auto}
+.kw{font-weight:700;color:var(--accent)}
+table.t{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+table.t th,table.t td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.t th{font:700 .72rem var(--sans);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tw{overflow-x:auto}
+.b{font:700 .9rem var(--sans);padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.b:hover{background:var(--soft)}
+.b.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.b:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.88rem;color:var(--muted)}
+.pill{display:inline-block;font:700 .72rem var(--sans);padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent);vertical-align:middle}
+.tip{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.tip b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--warn)}
+.warn{border-left:4px solid var(--bad);background:var(--bad-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.warn b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--bad)}
+/* stepper */
+.stp{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0 14px}
+.stp svg{display:block;width:100%;height:auto;background:var(--surface)}
+.stp-cap{padding:12px 16px;background:var(--ink);color:var(--bg);font-size:1.02rem;min-height:3.6em}
+.stp-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px}
+.stp-dots{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.stp-dots button{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--muted);font:700 .72rem var(--sans);cursor:pointer;padding:0}
+.stp-dots button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.stp-dots button.done{border-color:var(--accent);color:var(--accent)}
+/* svg theme classes */
+svg text{font-family:var(--sans);fill:var(--ink)}
+svg .ax{stroke:var(--ink);stroke-width:2;fill:none}
+svg .gr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4;fill:none}
+svg .lbl{font-size:13px}
+svg .sm{font-size:11.5px;fill:var(--muted)}
+svg .bd{font-weight:700}
+svg .c1{stroke:var(--accent);stroke-width:3.5;fill:none}
+svg .c2{stroke:var(--bad);stroke-width:3.5;fill:none}
+svg .c3{stroke:var(--good);stroke-width:3.5;fill:none}
+svg .c4{stroke:var(--warn);stroke-width:3.5;fill:none}
+svg .f1{fill:var(--accent);opacity:.18} svg .f2{fill:var(--bad);opacity:.18} svg .f3{fill:var(--good);opacity:.2} svg .f4{fill:var(--warn);opacity:.22}
+svg .dash{stroke-dasharray:6 5}
+svg .t1{fill:var(--accent)} svg .t2{fill:var(--bad)} svg .t3{fill:var(--good)} svg .t4{fill:var(--warn)}
+svg .dot1{fill:var(--accent)} svg .dot2{fill:var(--bad)} svg .dot3{fill:var(--good)} svg .dot4{fill:var(--warn)}
+/* sliders */
+.sl{margin:10px 0}
+.sl label{display:flex;justify-content:space-between;font-weight:600;font-size:.95rem}
+.sl output{font:600 .9rem var(--mono);color:var(--accent)}
+.sl input{width:100%;accent-color:var(--accent);margin:6px 0}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.readout div{border-top:3px solid var(--accent);background:var(--surface);padding:8px 10px;border-radius:0 0 8px 8px;border:1px solid var(--line);border-top:3px solid var(--accent)}
+.readout small{display:block;font:700 .66rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.readout strong{font:700 1.25rem var(--mono);font-variant-numeric:tabular-nums}
+.verdict{padding:10px 14px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent);font-weight:600;margin:8px 0}
+/* classify / match */
+.cls .pool{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--line);border-radius:10px;min-height:54px;background:var(--soft)}
+.cls .buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.cls .bk{border:2px solid var(--line);border-radius:10px;padding:8px;min-height:84px;background:var(--surface)}
+.cls .bk h4{margin:0 0 6px;font:700 .82rem var(--sans);color:var(--accent)}
+.cls .bk .slot{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.cls .bk.over,.cls .pool.over{border-color:var(--accent);background:var(--accent-soft)}
+.chip{font:600 .88rem var(--sans);padding:6px 11px;border-radius:8px;border:1.5px solid var(--accent);background:var(--surface);color:var(--ink);cursor:grab;user-select:none;text-align:left}
+.chip.sel{background:var(--accent);color:var(--accent-ink)}
+.chip.ok{border-color:var(--good);background:var(--good-soft)}
+.chip.no{border-color:var(--bad);background:var(--bad-soft)}
+.cls .msg,.ord .msg,.calc .msg{font-weight:700;margin:8px 0}
+.match .bk h4{font-size:.9rem;color:var(--ink)}
+/* order */
+.ord ol{list-style:none;margin:10px 0;padding:0;counter-reset:o}
+.ord li{counter-increment:o;display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:6px;border:1.5px solid var(--line);border-radius:9px;background:var(--surface);cursor:grab}
+.ord li::before{content:counter(o);font:700 .8rem var(--mono);width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.ord li.ok{border-color:var(--good);background:var(--good-soft)} .ord li.no{border-color:var(--bad);background:var(--bad-soft)}
+.ord li.drag{opacity:.4}
+.ord li span{flex:1}
+.ord li button{padding:2px 8px}
+/* quiz */
+.qz .q{margin:0 0 16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qz .q p.qt{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;font:500 .95rem var(--sans);padding:9px 12px;margin:5px 0;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.why{display:none;margin-top:8px;font-size:.92rem;padding:8px 12px;background:var(--soft);border-radius:8px}
+.q.done .why{display:block}
+.score{font:700 1.05rem var(--sans);margin:10px 0}
+/* calc */
+.calc .q{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:12px}
+.calc input[type=number],.calc input[type=text]{width:130px;padding:7px 10px;font:600 1rem var(--mono);border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.calc .sol{display:none;margin-top:8px;padding:10px 12px;background:var(--soft);border-radius:8px;font-size:.93rem}
+.calc .sol.show{display:block}
+.calc .fb{font-weight:700;margin-left:8px}
+.calc .fb.ok{color:var(--good)} .calc .fb.no{color:var(--bad)}
+/* cards */
+.fc{perspective:900px;max-width:520px}
+.fc .face{min-height:170px;display:grid;place-items:center;text-align:center;padding:20px;border-radius:14px;border:2px solid var(--accent);background:var(--surface);cursor:pointer;font-size:1.1rem}
+.fc .face.back{background:var(--accent-soft)}
+.fc .face small{display:block;font:700 .66rem var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+/* exam Qs */
+details.eq{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+details.eq>summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+details.eq>summary::-webkit-details-marker{display:none}
+details.eq>summary::before{content:"▸";color:var(--accent)}
+details.eq[open]>summary::before{content:"▾"}
+details.eq .body{padding:4px 18px 16px}
+.mark{font:700 .72rem var(--mono);background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px}
+.cmd{font:700 .72rem var(--sans);background:var(--warn-soft);color:var(--warn);padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em}
+.ans{border-left:4px solid var(--accent);padding:6px 14px;margin:10px 0;background:var(--soft);border-radius:0 8px 8px 0}
+.mk{border-bottom:2px solid currentColor;padding-bottom:1px}
+.mk[data-t]::after{content:" [" attr(data-t) "]";font:700 .64rem var(--sans);vertical-align:super;opacity:.85}
+.mk.k{color:var(--k)} .mk.a{color:var(--a)} .mk.n{color:var(--n)} .mk.e{color:var(--e)}
+.key{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin:6px 0}
+.key span{display:inline-flex;gap:5px;align-items:center}
+.key i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.key .k i{background:var(--k)} .key .a i{background:var(--a)} .key .n i{background:var(--n)} .key .e i{background:var(--e)}
+.rw{border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--surface);border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:12px}
+.rw h3{margin:0 0 4px}
+.rw .use{margin-top:8px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:.93rem}
+.rw .use b{color:var(--accent)}
+ul.tips{list-style:none;padding:0;margin:0}
+ul.tips li{padding:10px 14px;margin-bottom:8px;border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:0 10px 10px 0;background:var(--surface)}
+ul.tips li b{color:var(--warn)}
+@media (max-width:640px){.tablist{position:static}}
+@media print{.tablist{display:none}[role=tabpanel][hidden]{display:block}.stp-ctl{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.stp{scroll-margin-top:70px}
+</style></head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Edexcel A-Level Economics A · 9EC0 · Theme 3 · 3.4.5</div>
+  <h1>Monopoly and Price Discrimination</h1>
+  <p class="lead">One dominant seller with the power to set price: how the profit-maximising monopolist behaves, why it is allocatively inefficient yet sometimes beneficial, how third-degree price discrimination works, and what makes a monopoly natural.</p>
+</header>
+
+<nav class="tablist" role="tablist" aria-label="Sections">
+  <button role="tab" data-p="learn">Learn</button>
+  <button role="tab" data-p="watch">Watch</button>
+  <button role="tab" data-p="explore">Explore</button>
+  <button role="tab" data-p="practise">Practise</button>
+  <button role="tab" data-p="exam">Exam questions</button>
+  <button role="tab" data-p="tips">Tips &amp; keywords</button>
+</nav>
+
+<!-- LEARN -->
+<section id="learn" role="tabpanel">
+  <div class="card big">
+    <h3>The big idea</h3>
+    <p>A <span class="kw">monopoly</span> is a firm that has the market to itself or dominates it. With no close rivals and high barriers to entry, it is a <b>price maker</b>: it faces the whole downward-sloping market demand curve and can restrict output to raise price. It earns supernormal profit that entry cannot erode. Whether that is good or bad for society depends on what the firm does with its power.</p>
+  </div>
+
+  <h2>Characteristics (3.4.5a)</h2>
+  <div class="grid2">
+    <div class="card"><h3>What defines it</h3><ul>
+      <li><b>Pure monopoly:</b> one seller. In practice the UK competition authorities treat a firm with <b>about 25% or more</b> of a market as having monopoly power.</li>
+      <li><b>High barriers to entry:</b> legal (patents, licences), economies of scale, control of resources, brand strength, aggressive tactics.</li>
+      <li>Price maker, downward-sloping AR, MR below AR.</li>
+      <li>Supernormal profit can persist in the long run.</li></ul></div>
+    <div class="card"><h3>Profit-maximising equilibrium (3.4.5b, c)</h3><ol>
+      <li>Find output where <b>MC = MR</b>.</li>
+      <li>Go up to the <b>AR</b> curve to read the price.</li>
+      <li>Read AC at that output: <b>profit = (P − AC) × Q</b>.</li></ol>
+      <p class="note">Price is above MC, so the monopolist produces <b>less and charges more</b> than a competitive market would.</p></div>
+  </div>
+
+  <h3>Costs and benefits of monopoly (3.4.5e)</h3>
+  <div class="tw"><table class="t">
+    <tr><th></th><th>Costs</th><th>Benefits</th></tr>
+    <tr><td><b>Consumers</b></td><td>Higher price, lower output, less choice, possibly poorer quality or service; allocative inefficiency (P &gt; MC) and a <b>deadweight loss</b></td><td>Lower prices if economies of scale are passed on; new and better products funded by profit (dynamic efficiency)</td></tr>
+    <tr><td><b>Firms (producers)</b></td><td>X-inefficiency if there is no competitive pressure; investment may be neglected</td><td>Supernormal profit to invest in R&amp;D and expansion; economies of scale; competitiveness in global markets</td></tr>
+    <tr><td><b>Employees</b></td><td>Fewer jobs if output is restricted; may use <b>monopsony</b> power to hold down wages</td><td>Job security and training from a large, stable employer; higher pay possible</td></tr>
+    <tr><td><b>Suppliers</b></td><td>Squeezed prices and harsh terms if the monopolist is also a large buyer</td><td>Large, reliable orders and long-term contracts</td></tr>
+  </table></div>
+
+  <h3>Natural monopoly (3.4.5f)</h3>
+  <p>A <span class="kw">natural monopoly</span> arises when <b>economies of scale are so large that long-run average cost keeps falling over the whole range of market demand</b>. One firm can supply the market at lower cost than several could, so competition would waste resources (duplicate pipes, rails or cables). Examples: water pipes, the electricity grid, railway track. The problem is that the firm can still exploit its power, so natural monopolies are usually <b>regulated</b> (see 3.6).</p>
+
+  <h2>Third-degree price discrimination (3.4.5d)</h2>
+  <p>Charging <b>different prices for the same product to different groups of consumers</b>, where the cost of supply is the same, to raise profit.</p>
+  <div class="grid2">
+    <div class="card"><h3>Necessary conditions</h3><ul>
+      <li>The firm must have <b>market power</b> (be a price maker).</li>
+      <li>It must be able to <b>separate</b> the groups (by age, time, location or identity).</li>
+      <li>The groups must have different <b>price elasticities of demand</b>.</li>
+      <li><b>Resale must be prevented</b> (no arbitrage), otherwise the low-price group would sell to the high-price group.</li></ul></div>
+    <div class="card"><h3>How it works</h3><p>Treat each group as a separate market. In each, produce where <b>MC = MR</b>. The group with <b>less elastic demand</b> pays the <b>higher price</b>. The firm earns more profit than with one price because it extracts more consumer surplus.</p><p class="note">Examples: cinema tickets for students and adults, peak and off-peak rail fares, airline tickets bought early or late.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Benefits</h3><ul><li><b>Producers:</b> higher profit; can fund investment</li><li><b>Consumers:</b> some who would not buy at the single price can now buy (more output); profit may keep services running, e.g. off-peak trains</li></ul></div>
+    <div class="card"><h3>Costs</h3><ul><li><b>Consumers:</b> those with inelastic demand pay more; lose consumer surplus; may feel unfair</li><li>Costs of separating markets and policing resale</li></ul></div>
+  </div>
+  <div class="warn"><b class="h">Do not mix up</b>Price discrimination is <b>not</b> charging different prices because costs differ. It is charging different prices for the same product when costs are the same. Also, it is always <b>third degree</b> here: separate groups, one price each.</div>
+</section>
+
+<!-- WATCH -->
+<section id="watch" role="tabpanel" hidden>
+  <p>Press Play, or click the numbered steps.</p>
+  <h2>1 · Monopoly equilibrium and the deadweight loss</h2><div id="stA"></div>
+  <h2>2 · Price discrimination: two markets, two prices</h2><div id="stB"></div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore" role="tabpanel" hidden>
+  <h2>Lab 1 · A profit-maximising monopolist</h2>
+  <p>AR = a − Q, MR = a − 2Q, MC = 4 + 0.5Q, AC = 4 + 0.25Q. Raise a to strengthen demand.</p>
+  <div class="card"><div class="grid2"><div><div id="g1"></div>
+    <div class="readout"><div><small>Monopoly output</small><strong id="a1"></strong></div><div><small>Price</small><strong id="a2"></strong></div><div><small>Profit</small><strong id="a3"></strong></div><div><small>Competitive output</small><strong id="a4"></strong></div><div><small>Deadweight loss</small><strong id="a5"></strong></div></div><div class="verdict" id="av"></div></div>
+    <div><svg id="lab1" viewBox="0 0 760 400" role="img" aria-label="Monopoly diagram"></svg></div></div></div>
+
+  <h2>Lab 2 · Is price discrimination worth it?</h2>
+  <p>Marginal cost is £4. Adults' demand is P = 20 − Q. Change the students' demand P = b − Q and compare the best single price with two prices.</p>
+  <div class="card"><div class="grid2"><div><div id="g2"></div>
+    <div class="readout"><div><small>Adult price / quantity</small><strong id="b1"></strong></div><div><small>Student price / quantity</small><strong id="b2"></strong></div><div><small>Profit with discrimination</small><strong id="b3"></strong></div><div><small>Best single price</small><strong id="b4"></strong></div><div><small>Profit, single price</small><strong id="b5"></strong></div></div><div class="verdict" id="bv"></div></div>
+    <div><svg id="lab2" viewBox="0 0 760 430" role="img" aria-label="Two-market price discrimination diagram"></svg></div></div></div>
+</section>
+
+<!-- PRACTISE -->
+<section id="practise" role="tabpanel" hidden>
+  <h2>1 · Cost or benefit of monopoly?</h2>
+  <div id="cl1" class="card"></div>
+
+  <h2>2 · Can the firm price discriminate?</h2>
+  <div id="cl2" class="card"></div>
+
+  <h2>3 · Put the monopoly diagram in order</h2>
+  <div id="o1" class="card"></div>
+
+  <h2>4 · Calculations</h2>
+  <div id="c1"></div>
+
+  <h2>5 · Multiple choice</h2>
+  <div id="qz1"></div>
+</section>
+
+<!-- EXAM -->
+<section id="exam" role="tabpanel" hidden>
+  <h2>Exam-style questions</h2>
+  <p>Written in the style of Edexcel Paper 1 and Paper 3. Open each question for reminders, a model answer and common mistakes. Answers are colour-coded to the mark scheme. These are practice questions, not past-paper wording.</p>
+  <div class="key"><span class="k"><i></i>Knowledge (K)</span><span class="a"><i></i>Application (A)</span><span class="n"><i></i>Analysis (N)</span><span class="e"><i></i>Evaluation (E)</span></div>
+
+  <details class="eq"><summary>Q1 <span class="cmd">Explain</span> <span class="mark">4 marks</span> Explain what is meant by a natural monopoly.</summary><div class="body">
+    <div class="ans"><span class="mk k" data-t="K">A natural monopoly occurs when long-run average cost falls over the whole range of market demand because of very large economies of scale.</span> <span class="mk n" data-t="N">One firm can then supply the whole market at lower average cost than two or more firms could, because each extra firm would duplicate fixed costs.</span> <span class="mk a" data-t="A">Water pipes or the electricity grid are examples: building several networks would be wasteful.</span> <span class="mk n" data-t="N">Competition would therefore raise costs, though the monopolist could still charge high prices unless regulated.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q2 <span class="cmd">Calculate</span> <span class="mark">2 marks</span> A monopolist sells 50 units at £30 each. Its average cost is £22. Calculate its supernormal profit.</summary><div class="body">
+    <div class="ans"><span class="mk k" data-t="K">Profit = (AR − AC) × Q.</span> <span class="mk a" data-t="A">(30 − 22) × 50 = <b>£400</b>.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q3 <span class="cmd">Analyse</span> <span class="mark">6 marks</span> A cinema charges lower prices for students than for adults. Analyse the conditions needed for this price discrimination to be profitable.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Three or four conditions, each with its reason.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">The cinema must have some market power, so that it can set its own price rather than take it from the market.</span> <span class="mk n" data-t="N">It must be able to identify and separate the groups, for example by requiring student ID, otherwise adults would claim the cheaper price.</span> <span class="mk n" data-t="N">The groups must have different price elasticities of demand: students are likely to be more price elastic, so a lower price raises their quantity demanded by a bigger percentage and raises revenue, while adults, being less elastic, would pay more.</span> <span class="mk n" data-t="N">The cinema must prevent resale, which is simple because tickets are used by the named person on the night.</span> <span class="mk a" data-t="A">When these hold, setting MC = MR in each market lets the cinema raise total profit above what a single price would earn.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q4 <span class="cmd">Assess</span> <span class="mark">10 marks</span> Assess whether a monopoly is always against the interests of consumers. <small>(KAA 6 + evaluation 4)</small></summary><div class="body">
+    <div class="ans"><p><span class="mk k" data-t="K">A monopolist maximises profit where MC = MR and charges a price above marginal cost.</span> <span class="mk n" data-t="N">Compared with a competitive market, output is lower and price higher, so consumer surplus falls and there is a deadweight loss, which means allocative inefficiency.</span> <span class="mk n" data-t="N">Without competitive pressure, the firm may also be X-inefficient, so costs and prices may be higher still.</span></p>
+    <p><span class="mk e" data-t="E">However, a monopolist may benefit from large economies of scale, which could allow it to charge lower prices than several small firms. This is especially true for a natural monopoly such as a water network.</span> <span class="mk e" data-t="E">Supernormal profit could also fund research and development, producing better products, and the threat of entry (contestability) or regulation may limit the firm's power.</span> <span class="mk e" data-t="E">Overall, whether a monopoly harms consumers depends on how big the economies of scale are, how strongly the firm is regulated and whether the market is contestable. It is not always against consumers' interests.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q5 <span class="cmd">Discuss</span> <span class="mark">12 marks</span> Rail companies charge lower prices off-peak than at peak times. Discuss the likely effects of this pricing on consumers and the firm. <small>(KAA 8 + evaluation 4)</small></summary><div class="body">
+    <div class="ans"><p><span class="mk k" data-t="K">This is third-degree price discrimination: the same service sold to two groups at different prices.</span> <span class="mk n" data-t="N">Commuters have inelastic demand because they must travel at peak times, so a higher price is likely to raise revenue; leisure travellers are more price elastic, so a lower off-peak price raises the number of journeys.</span> <span class="mk n" data-t="N">The firm earns more profit than with a single price, which may allow it to run more services.</span> <span class="mk a" data-t="A">Off-peak passengers, such as pensioners or day-trippers, may be able to travel who could not afford a single average price.</span></p>
+    <p><span class="mk n" data-t="N">But commuters pay more and lose consumer surplus. They have few alternatives, so they cannot easily avoid the higher fares. The firm also faces costs of managing different fares and preventing peak travellers using off-peak tickets.</span></p>
+    <p><span class="mk e" data-t="E">The effect on consumers overall depends on the balance between those who gain from lower fares and those who lose. Where the extra revenue funds more services and spreads demand away from congested peak trains, the net effect on society could be positive. If it mainly raises the firm's profit, the benefit is likely to be smaller.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q6 <span class="cmd">Evaluate</span> <span class="mark">25 marks</span> "Monopolies always reduce economic welfare." Evaluate this view. <small>(KAA 16 + evaluation 9)</small></summary><div class="body">
+    <div class="tip"><b class="h">Plan</b>Use the diagram. Explain deadweight loss first. Then give the benefits, then conditions that decide the verdict.</div>
+    <div class="ans"><ol>
+      <li><span class="mk k" data-t="K">Define monopoly, show MC = MR, price from AR, supernormal profit, and the deadweight loss against perfect competition.</span></li>
+      <li><span class="mk n" data-t="N">Against: higher price, lower output, allocative and X-inefficiency, exploitation of suppliers and workers, barriers to entry, possible price discrimination.</span></li>
+      <li><span class="mk n" data-t="N">For: economies of scale, dynamic efficiency (R&amp;D funded by profit), natural monopolies, international competitiveness, price discrimination that widens access.</span></li>
+      <li><span class="mk e" data-t="E">Counter-points: how far profit is actually reinvested; whether scale economies are passed on; regulation and contestability limit power; government failure.</span></li>
+      <li><span class="mk e" data-t="E">Judgement: "always" is too strong. Welfare depends on cost conditions, how contestable the market is, and how well it is regulated.</span></li>
+    </ol></div>
+  </div></details>
+</section>
+
+<!-- TIPS -->
+<section id="tips" role="tabpanel" hidden>
+  <h2>Top tips</h2>
+  <ul class="tips">
+    <li><b>Find MC = MR first</b>, then go up to AR for the price. Many candidates read the price off MR by mistake.</li>
+    <li><b>Draw MR twice as steep as AR</b> for a straight-line demand curve.</li>
+    <li><b>Shade profit</b> as the rectangle (P − AC) × Q using AC at the profit-maximising output.</li>
+    <li><b>Deadweight loss</b> is the triangle between the demand and MC curves, from monopoly output to competitive output.</li>
+    <li><b>Price discrimination:</b> list the conditions, then use the elasticities: the less elastic group pays more.</li>
+    <li><b>Evaluate monopoly</b> with economies of scale, dynamic efficiency, contestability and regulation. Do not just list costs.</li>
+    <li><b>Natural monopoly:</b> falling LRAC over the whole market; mention regulation.</li>
+  </ul>
+  <h2>Command words</h2>
+  <div class="tw"><table class="t">
+    <tr><th>Command word</th><th>What it asks for</th></tr>
+    <tr><td>Calculate</td><td>Formula, working and answer.</td></tr>
+    <tr><td>Explain / Analyse</td><td>A developed chain, with a diagram where useful.</td></tr>
+    <tr><td>Assess / Discuss</td><td>Both sides then a supported judgement.</td></tr>
+    <tr><td>Evaluate</td><td>Weigh up, show what it depends on, reach a conclusion.</td></tr>
+  </table></div>
+  <h2>Keyword flashcards</h2>
+  <div id="fc1"></div>
+</section>
+</div>
+
+<script>
+const $ = (s, e = document) => e.querySelector(s), $$ = (s, e = document) => [...e.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmtN = (n, d = 2) => (Math.round(n * 10 ** d) / 10 ** d).toString();
+
+/* ---------- tabs ---------- */
+function initTabs() {
+  const list = $(".tablist"), tabs = $$("[role=tab]", list), panels = tabs.map((t) => $("#" + t.dataset.p));
+  const show = (i, focus) => {
+    tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; panels[k].hidden = k !== i; });
+    if (focus) tabs[i].focus();
+    try { history.replaceState(null, "", "#" + tabs[i].dataset.p); } catch (e) {}
+    window.dispatchEvent(new Event("resize"));
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { show(i); window.scrollTo(0, 0); });
+    t.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show((i + 1) % tabs.length, true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show((i + tabs.length - 1) % tabs.length, true); }
+    });
+  });
+  const start = tabs.findIndex((t) => "#" + t.dataset.p === location.hash);
+  show(start < 0 ? 0 : start);
+}
+
+/* ---------- svg string helpers ---------- */
+const at = (o) => Object.entries(o || {}).map(([k, v]) => ` ${k}="${v}"`).join("");
+const SV = {
+  line: (x1, y1, x2, y2, c = "ax", o) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${c}"${at(o)}/>`,
+  text: (x, y, t, c = "lbl", o) => `<text x="${x}" y="${y}" class="${c}"${at(o)}>${t}</text>`,
+  circle: (x, y, r, c = "dot1", o) => `<circle cx="${x}" cy="${y}" r="${r}" class="${c}"${at(o)}/>`,
+  rect: (x, y, w, h, c = "f1", o) => `<rect x="${x}" y="${y}" width="${Math.max(0, w)}" height="${Math.max(0, h)}" class="${c}"${at(o)}/>`,
+  path: (d, c = "c1", o) => `<path d="${d}" class="${c}"${at(o)}/>`,
+  poly: (pts, c = "f1", o) => `<polygon points="${pts.map((p) => p.join(",")).join(" ")}" class="${c}"${at(o)}/>`,
+  arrowHead: (x, y, dir, c = "dot1") => { const s = 7; const p = { r: [[x, y], [x - s * 1.6, y - s], [x - s * 1.6, y + s]], l: [[x, y], [x + s * 1.6, y - s], [x + s * 1.6, y + s]], u: [[x, y], [x - s, y + s * 1.6], [x + s, y + s * 1.6]], d: [[x, y], [x - s, y - s * 1.6], [x + s, y - s * 1.6]] }[dir]; return `<polygon points="${p.map((q) => q.join(",")).join(" ")}" class="${c}"/>`; },
+};
+const ptsPath = (pts) => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+
+/* ---------- animated stepper ---------- */
+function stepper(el, cfg) {
+  const W = cfg.w || 760, H = cfg.h || 400, steps = cfg.steps;
+  el.innerHTML = `<div class="stp"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.label || "Animated diagram")}"></svg>
+    <div class="stp-cap" aria-live="polite"></div>
+    <div class="stp-ctl"><button class="b" data-a="back">◀ Back</button><button class="b pri" data-a="play">▶ Play</button><button class="b" data-a="next">Next ▶</button><button class="b" data-a="restart" aria-label="Restart">↻</button><span class="stp-dots"></span></div></div>`;
+  const svg = $("svg", el), cap = $(".stp-cap", el), dots = $(".stp-dots", el), playBtn = $("[data-a=play]", el);
+  let cur = 0, drawn = { ...cfg.base, ...steps[0].s }, raf = 0, timer = 0, playing = false;
+  steps.forEach((_, i) => { const d = document.createElement("button"); d.textContent = i + 1; d.setAttribute("aria-label", "Step " + (i + 1)); d.onclick = () => { stop(); go(i); }; dots.appendChild(d); });
+  const interp = (a, b, t) => { const o = {}; for (const k in b) o[k] = typeof b[k] === "number" && typeof a[k] === "number" ? a[k] + (b[k] - a[k]) * t : t > 0.5 ? b[k] : a[k] !== undefined ? a[k] : b[k]; return o; };
+  const paint = (s) => { drawn = s; svg.innerHTML = cfg.draw(s); };
+  function go(i) {
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    cap.innerHTML = steps[cur].cap;
+    $$("button", dots).forEach((d, k) => { d.classList.toggle("on", k === cur); d.classList.toggle("done", k < cur); });
+    const from = drawn, to = { ...cfg.base, ...steps[cur].s }, t0 = performance.now(), dur = reduced ? 0 : cfg.tween || 900;
+    cancelAnimationFrame(raf);
+    const tick = (now) => { const t = dur ? Math.min(1, (now - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; paint(interp(from, to, e)); if (t < 1) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+  }
+  function stop() { playing = false; clearTimeout(timer); playBtn.textContent = "▶ Play"; }
+  function advance() { if (!playing) return; if (cur >= steps.length - 1) return stop(); go(cur + 1); timer = setTimeout(advance, cfg.dwell || 4800); }
+  playBtn.onclick = () => { if (playing) return stop(); if (cur >= steps.length - 1) go(0); playing = true; playBtn.textContent = "❚❚ Pause"; timer = setTimeout(advance, cfg.dwell ? Math.min(cfg.dwell, 3000) : 2500); };
+  $("[data-a=back]", el).onclick = () => { stop(); go(cur - 1); };
+  $("[data-a=next]", el).onclick = () => { stop(); go(cur + 1); };
+  $("[data-a=restart]", el).onclick = () => { stop(); go(0); };
+  paint(drawn); go(0);
+}
+
+/* ---------- slider ---------- */
+function slider(el, o) {
+  const id = o.id;
+  el.innerHTML = `<div class="sl"><label for="${id}">${o.label}<output id="${id}o"></output></label><input type="range" id="${id}" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}"></div>`;
+  const i = $("#" + id, el), out = $("#" + id + "o", el);
+  const upd = () => { out.textContent = (o.fmt || ((v) => v))(+i.value); o.onInput && o.onInput(+i.value); };
+  i.addEventListener("input", upd); upd();
+  return { get: () => +i.value, set: (v) => { i.value = v; upd(); } };
+}
+
+/* ---------- classify (also powers match) ---------- */
+function classify(el, o) {
+  const items = o.items.map((x, i) => ({ ...x, id: i })), cap = o.cap || 99;
+  el.classList.add("cls"); if (o.match) el.classList.add("match");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<div class="pool" data-b="pool" aria-label="Items to place"></div>
+    <div class="buckets">${o.buckets.map((b, i) => `<div class="bk" data-b="${i}"><h4>${b.label}</h4><div class="slot"></div></div>`).join("")}</div>
+    <div class="row"><button class="b pri" data-a="check">Check</button><button class="b" data-a="reset">Reset</button></div><div class="msg" aria-live="polite"></div>`;
+  const pool = $(".pool", el), msg = $(".msg", el);
+  let sel = null;
+  const chip = (it) => { const c = document.createElement("button"); c.className = "chip"; c.type = "button"; c.draggable = true; c.textContent = it.text; c.dataset.id = it.id;
+    c.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/plain", it.id); sel = c; });
+    c.addEventListener("click", (e) => { e.stopPropagation(); if (sel === c) { c.classList.remove("sel"); sel = null; } else { sel && sel.classList.remove("sel"); sel = c; c.classList.add("sel"); } });
+    return c; };
+  const place = (c, zone) => {
+    const slot = zone === pool ? pool : $(".slot", zone);
+    if (zone !== pool && slot.children.length >= cap) { const old = slot.firstElementChild; pool.appendChild(old); }
+    slot.appendChild(c); c.classList.remove("sel", "ok", "no"); sel = null; msg.textContent = "";
+  };
+  const fill = () => { pool.innerHTML = ""; $$(".slot", el).forEach((s) => (s.innerHTML = "")); (o.noShuffle ? items : shuffle(items)).forEach((it) => pool.appendChild(chip(it))); msg.textContent = ""; };
+  [pool, ...$$(".bk", el)].forEach((z) => {
+    z.addEventListener("dragover", (e) => { e.preventDefault(); z.classList.add("over"); });
+    z.addEventListener("dragleave", () => z.classList.remove("over"));
+    z.addEventListener("drop", (e) => { e.preventDefault(); z.classList.remove("over"); const c = $(`[data-id="${e.dataTransfer.getData("text/plain")}"]`, el); c && place(c, z); });
+    z.addEventListener("click", () => { if (sel) place(sel, z); });
+  });
+  $("[data-a=check]", el).onclick = () => {
+    let ok = 0;
+    $$(".bk", el).forEach((b) => $$(".chip", b).forEach((c) => { const good = items[+c.dataset.id].b === +b.dataset.b; c.classList.toggle("ok", good); c.classList.toggle("no", !good); if (good) ok++; }));
+    const left = $$(".chip", pool).length;
+    msg.textContent = left ? `${left} still to place. ${ok} correct so far.` : ok === items.length ? "All correct. " + (o.done || "") : `${ok} of ${items.length} correct. Red ones are in the wrong place; move them and check again.`;
+  };
+  $("[data-a=reset]", el).onclick = fill;
+  fill();
+}
+function match(el, o) {
+  classify(el, { match: true, cap: 1, prompt: o.prompt, buckets: o.pairs.map((p) => ({ label: p[0] })), items: o.pairs.map((p, i) => ({ text: p[1], b: i })), done: o.done });
+}
+
+/* ---------- ordering ---------- */
+function order(el, o) {
+  el.classList.add("ord");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<ol></ol><div class="row"><button class="b pri" data-a="check">Check order</button><button class="b" data-a="reset">Shuffle again</button></div><div class="msg" aria-live="polite"></div>`;
+  const ol = $("ol", el), msg = $(".msg", el);
+  let dragEl = null;
+  const make = (t, id) => { const li = document.createElement("li"); li.draggable = true; li.dataset.id = id; li.innerHTML = `<span>${t}</span><button class="b" type="button" aria-label="Move up">↑</button><button class="b" type="button" aria-label="Move down">↓</button>`;
+    li.addEventListener("dragstart", () => { dragEl = li; li.classList.add("drag"); });
+    li.addEventListener("dragend", () => { li.classList.remove("drag"); dragEl = null; });
+    li.addEventListener("dragover", (e) => { e.preventDefault(); if (!dragEl || dragEl === li) return; const r = li.getBoundingClientRect(); ol.insertBefore(dragEl, e.clientY < r.top + r.height / 2 ? li : li.nextSibling); });
+    $$("button", li)[0].onclick = () => { li.previousElementSibling && ol.insertBefore(li, li.previousElementSibling); };
+    $$("button", li)[1].onclick = () => { li.nextElementSibling && ol.insertBefore(li.nextElementSibling, li); };
+    return li; };
+  const fill = () => { ol.innerHTML = ""; let s; do { s = shuffle(o.items.map((t, i) => [t, i])); } while (o.items.length > 1 && s.every((x, i) => x[1] === i)); s.forEach(([t, i]) => ol.appendChild(make(t, i))); msg.textContent = ""; };
+  $("[data-a=check]", el).onclick = () => { let ok = 0; $$("li", ol).forEach((li, i) => { const g = +li.dataset.id === i; li.classList.toggle("ok", g); li.classList.toggle("no", !g); if (g) ok++; }); msg.textContent = ok === o.items.length ? "Correct order. " + (o.done || "") : `${ok} of ${o.items.length} in the right place.`; };
+  $("[data-a=reset]", el).onclick = fill; fill();
+}
+
+/* ---------- multiple choice ---------- */
+function quiz(el, o) {
+  el.classList.add("qz");
+  let score = 0, answered = 0;
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p class="qt">${i + 1}. ${q.q}</p>${q.opts.map((t, k) => `<button class="opt" data-k="${k}">${String.fromCharCode(65 + k)}. ${t}</button>`).join("")}<div class="why"><b>${"Answer: " + String.fromCharCode(65 + q.a)}.</b> ${q.why}</div></div>`).join("") + `<div class="score" aria-live="polite"></div><button class="b" data-a="again">Try again</button>`;
+  const sc = $(".score", el);
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i];
+    $$(".opt", box).forEach((b) => b.addEventListener("click", () => { if (box.classList.contains("done")) return; box.classList.add("done"); answered++; const k = +b.dataset.k; if (k === q.a) score++; b.classList.add(k === q.a ? "ok" : "no"); $$(".opt", box)[q.a].classList.add("ok"); sc.textContent = `Score: ${score} / ${answered} answered (of ${o.qs.length})`; })); });
+  $("[data-a=again]", el).onclick = () => { score = answered = 0; sc.textContent = ""; $$(".q", el).forEach((b) => { b.classList.remove("done"); $$(".opt", b).forEach((x) => x.classList.remove("ok", "no")); }); };
+}
+
+/* ---------- calculations ---------- */
+function calc(el, o) {
+  el.classList.add("calc");
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p>${i + 1}. ${q.q}</p>
+    <div class="row"><input type="text" inputmode="decimal" aria-label="Answer ${i + 1}" placeholder="${q.ph || "answer"}">${q.unit ? `<span>${q.unit}</span>` : ""}<button class="b pri" data-a="c">Check</button><button class="b" data-a="h">Hint</button><button class="b" data-a="s">Show working</button><span class="fb" aria-live="polite"></span></div>
+    <div class="sol" data-s="h">${q.hint || "Write the formula first, then substitute."}</div><div class="sol" data-s="s">${q.sol}</div></div>`).join("");
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i], inp = $("input", box), fb = $(".fb", box);
+    const check = () => { const v = parseFloat(inp.value.replace(/[,$%\s−]/g, (m) => (m === "−" ? "-" : ""))); const good = !isNaN(v) && Math.abs(v - q.a) <= (q.tol ?? 0.01); fb.textContent = good ? "✓ Correct" : "✗ Not quite"; fb.className = "fb " + (good ? "ok" : "no"); };
+    $("[data-a=c]", box).onclick = check; inp.addEventListener("keydown", (e) => e.key === "Enter" && check());
+    $("[data-a=h]", box).onclick = () => $("[data-s=h]", box).classList.toggle("show");
+    $("[data-a=s]", box).onclick = () => $("[data-s=s]", box).classList.toggle("show"); });
+}
+
+/* ---------- flashcards ---------- */
+function cards(el, o) {
+  let deck = o.cards.map((c) => c), i = 0, back = false, known = new Set();
+  el.classList.add("fc");
+  el.innerHTML = `<div class="face" tabindex="0" role="button" aria-label="Flip card"></div><div class="row" style="margin-top:10px"><button class="b" data-a="p">◀</button><button class="b" data-a="f">Flip</button><button class="b" data-a="n">▶</button><button class="b" data-a="s">Shuffle</button><button class="b pri" data-a="k">I know this</button><span class="note" data-c></span></div>`;
+  const face = $(".face", el), cnt = $("[data-c]", el);
+  const paint = () => { const c = deck[i]; face.className = "face" + (back ? " back" : ""); face.innerHTML = `<div><small>${back ? "Definition" : "Term"}</small>${back ? c[1] : "<b>" + c[0] + "</b>"}</div>`; cnt.textContent = `${i + 1} / ${deck.length} · known ${known.size}`; };
+  const flip = () => { back = !back; paint(); };
+  face.onclick = flip; face.onkeydown = (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), flip());
+  $("[data-a=f]", el).onclick = flip;
+  $("[data-a=n]", el).onclick = () => { i = (i + 1) % deck.length; back = false; paint(); };
+  $("[data-a=p]", el).onclick = () => { i = (i + deck.length - 1) % deck.length; back = false; paint(); };
+  $("[data-a=s]", el).onclick = () => { deck = shuffle(deck); i = 0; back = false; paint(); };
+  $("[data-a=k]", el).onclick = () => { known.add(deck[i][0]); i = (i + 1) % deck.length; back = false; paint(); };
+  paint();
+}
+
+window.Lib = { initTabs, SV, ptsPath, stepper, slider, classify, match, order, quiz, calc, cards, fmtN, esc };
+
+/* Generic axes-and-curves helper for micro diagrams. Plot({xmax,ymax,xl,yl}) returns mapping and drawing functions that build SVG strings. */
+function Plot(o) {
+  const W = o.W || 760, H = o.H || 400, l = o.l || 66, r = o.r || 36, t = o.t || 26, b = o.b || 50;
+  const X = (x) => l + (x / o.xmax) * (W - l - r), Y = (y) => H - b - (y / o.ymax) * (H - t - b);
+  const P = { W, H, X, Y };
+  P.axes = () => SV.line(X(0), Y(o.ymax), X(0), Y(0)) + SV.line(X(0), Y(0), X(o.xmax), Y(0))
+    + SV.text(X(0) + 8, t - 6, o.yl || "Price / costs (£)", "sm") + SV.text(X(o.xmax), Y(0) + 34, o.xl || "Quantity", "sm", { "text-anchor": "end" });
+  P.curve = (f, cls = "c1", x0 = 0, x1 = o.xmax, extra) => {
+    const pts = [];
+    for (let i = 0; i <= 80; i++) { const x = x0 + (x1 - x0) * i / 80, y = f(x); if (isFinite(y) && y >= -0.001 && y <= o.ymax) pts.push([X(x), Y(y)]); }
+    return pts.length > 1 ? SV.path(ptsPath(pts), cls, extra) : "";
+  };
+  P.seg = (xa, ya, xb, yb, cls = "c1", extra) => SV.line(X(xa), Y(ya), X(xb), Y(yb), cls, extra);
+  P.label = (x, y, txt, cls = "lbl bd t1", anchor = "start") => SV.text(X(x) + 4, Y(y) + 4, txt, cls, { "text-anchor": anchor });
+  P.guide = (x, y, extra) => SV.line(X(0), Y(y), X(x), Y(y), "gr", extra) + SV.line(X(x), Y(y), X(x), Y(0), "gr", extra);
+  P.dot = (x, y, cls = "dot1", r = 6, extra) => SV.circle(X(x), Y(y), r, cls, extra);
+  P.tx = (x, txt, cls = "sm") => SV.text(X(x), Y(0) + 18, txt, cls, { "text-anchor": "middle" });
+  P.ty = (y, txt, cls = "sm") => SV.text(X(0) - 8, Y(y) + 4, txt, cls, { "text-anchor": "end" });
+  P.rect = (xa, ya, xb, yb, cls = "f1", extra) => SV.rect(X(xa), Y(yb), X(xb) - X(xa), Y(ya) - Y(yb), cls, extra);
+  return P;
+}
+
+/* AR = 20 - Q, MR = 20 - 2Q, MC = 4 + 0.5Q, AC = 4 + 0.25Q */
+const PM = Plot({ xmax: 22, ymax: 22 });
+const ARf = (q) => 20 - q, MRf = (q) => 20 - 2 * q, MCf = (q) => 4 + 0.5 * q, ACf = (q) => 4 + 0.25 * q;
+const op = (v) => ({ style: "opacity:" + v });
+const QM = 6.4, PMN = 13.6, QC = 32 / 3, PCm = 28 / 3;
+
+function monoDraw(s) {
+  let o = PM.axes() + PM.curve(ARf, "c1", 0, 20) + PM.curve(MRf, "c3", 0, 10);
+  o += PM.label(19.8, ARf(19.8) + 1.2, "AR = D", "lbl bd t1", "end") + PM.label(9.8, 1.6, "MR", "lbl bd t3", "end");
+  o += PM.curve(MCf, "c4", 0, 22, op(s.mc)) + PM.curve(ACf, "c2", 0, 22, op(s.mc)) + SV.text(PM.X(21.9), PM.Y(MCf(21.9)) - 6, "MC", "lbl bd t4", { "text-anchor": "end", style: "opacity:" + s.mc });
+  o += SV.text(PM.X(21.9), PM.Y(ACf(21.9)) + 18, "AC", "lbl bd t2", { "text-anchor": "end", style: "opacity:" + s.mc });
+  o += PM.rect(0, ACf(QM), QM, PMN, "f3", { style: "opacity:" + 0.25 * s.pr });
+  o += SV.text(PM.X(0.4), PM.Y((PMN + ACf(QM)) / 2) + 5, "Supernormal profit", "lbl bd t3", { "text-anchor": "start", style: "opacity:" + s.pr });
+  const tri = [[PM.X(QM), PM.Y(PMN)], [PM.X(QM), PM.Y(MCf(QM))], [PM.X(QC), PM.Y(PCm)]];
+  o += SV.poly(tri, "f2", { style: "opacity:" + 0.45 * s.cmp }) + SV.text(PM.X(QM + 1.6), PM.Y(PMN - 1.5), "Deadweight loss", "lbl bd t2", { "text-anchor": "start", style: "opacity:" + s.cmp });
+  o += `<g style="opacity:${s.eq}">` + PM.guide(QM, PMN) + PM.dot(QM, PMN) + PM.dot(QM, MCf(QM), "dot4", 5) + PM.ty(PMN, "£13.60") + PM.tx(QM, "6.4") + "</g>";
+  o += `<g style="opacity:${s.cmp}">` + PM.guide(QC, PCm, { "stroke-dasharray": "2 3" }) + PM.dot(QC, PCm, "dot2", 6) + PM.tx(QC, "10.7", "sm bd t2") + PM.ty(PCm, "£9.33", "sm bd t2") + "</g>";
+  return o;
+}
+Lib.stepper($("#stA"), { w: 760, h: 400, label: "Monopoly equilibrium", base: { mc: 0, eq: 0, pr: 0, cmp: 0 }, tween: 800, draw: monoDraw, steps: [
+  { cap: "A monopolist faces the <b>whole market demand curve</b> (AR). To sell more it must cut price on <b>every</b> unit, so <b>MR lies below AR</b> and is twice as steep.", s: { mc: 0, eq: 0, pr: 0, cmp: 0 } },
+  { cap: "Add costs: <b>MC</b> and <b>AC</b>. The firm maximises profit where <b>MC = MR</b>.", s: { mc: 1, eq: 0, pr: 0, cmp: 0 } },
+  { cap: "MC = MR at <b>Q = 6.4</b>. Go <b>up to AR</b> to read the price: <b>£13.60</b>. Price is well above MC (£7.20) at this output.", s: { mc: 1, eq: 1, pr: 0, cmp: 0 } },
+  { cap: "AC at Q = 6.4 is £5.60. <b>Profit = (13.60 − 5.60) × 6.4 = £51.20</b>. Barriers to entry stop new firms eroding it.", s: { mc: 1, eq: 1, pr: 1, cmp: 0 } },
+  { cap: "A competitive market would produce where <b>P = MC</b>: Q = 10.7 at £9.33. The monopolist <b>restricts output and raises price</b>. The triangle is the <b>deadweight loss</b>: welfare that nobody gets.", s: { mc: 1, eq: 1, pr: 1, cmp: 1 } },
+] });
+
+/* ---------- price discrimination, two panels ---------- */
+const PA = Plot({ W: 380, H: 430, xmax: 20, ymax: 22, l: 52, r: 14, yl: " " });
+function twoMarkets(pa, pb, b, extraA, extraB) {
+  const qa = 20 - pa, qb = b - pb;
+  const panel = (P, aInt, p, q, title) =>
+    P.axes() + P.curve((x) => aInt - x, "c1", 0, aInt) + P.seg(0, 4, 20, 4, "c4") + P.rect(0, 4, q, p, "f3", { style: "opacity:.3" }) + P.guide(q, p) + P.dot(q, p) + P.ty(p, "£" + Lib.fmtN(p, 2)) + P.tx(q, Lib.fmtN(q, 1))
+    + SV.text(P.X(10), 20, title, "lbl bd", { "text-anchor": "middle" }) + P.label(19.5, 5.4, "MC = £4", "sm bd t4", "end");
+  return [panel(PA, 20, pa, qa, "Adults (less elastic)"), panel(PA, b, pb, qb, "Students (more elastic)"), (pa - 4) * qa + (pb - 4) * qb];
+}
+function pdDraw(s) {
+  const [a, bb, tot] = twoMarkets(s.pa, s.pb, 14);
+  return a + `<g transform="translate(380,0)">${bb}</g>` + SV.text(380, 424, "Total profit = £" + Lib.fmtN(tot, 1), "lbl bd t3", { "text-anchor": "middle", style: "font-size:16px" });
+}
+Lib.stepper($("#stB"), { w: 760, h: 430, label: "Third-degree price discrimination", base: { pa: 10.5, pb: 10.5 }, tween: 1000, draw: pdDraw, steps: [
+  { cap: "Two groups buy the same product (MC = £4). Adults have demand P = 20 − Q; students have lower, more elastic demand P = 14 − Q. With <b>one price</b> the best the firm can do is <b>£10.50</b>: adults buy 9.5, students 3.5, total profit <b>£84.50</b>.", s: { pa: 10.5, pb: 10.5 } },
+  { cap: "Treat the markets <b>separately</b>. For adults, MR = MC gives Q = 8 and a price of <b>£12</b>. Profit from adults rises to (12 − 4) × 8 = £64.", s: { pa: 12, pb: 10.5 } },
+  { cap: "For students, MR = MC gives Q = 5 and a price of <b>£9</b>. Profit from students is (9 − 4) × 5 = £25. Total profit is <b>£89</b>, higher than £84.50.", s: { pa: 12, pb: 9 } },
+  { cap: "The group with <b>less elastic demand pays more</b>. Some students now buy who would not have bought at £10.50, but adults lose consumer surplus.", s: { pa: 12, pb: 9 } },
+] });
+
+/* ---------- labs ---------- */
+function lab1() {
+  if (!$("#la")) return;
+  const a = +$("#la").value, qm = (a - 4) / 2.5, pm = a - qm, acm = ACf(qm), prof = (pm - acm) * qm, qc = (a - 4) / 1.5, dwl = 0.5 * (pm - MCf(qm)) * (qc - qm);
+  $("#a1").textContent = Lib.fmtN(qm, 1); $("#a2").textContent = "£" + Lib.fmtN(pm, 2); $("#a3").textContent = "£" + Lib.fmtN(prof, 1); $("#a4").textContent = Lib.fmtN(qc, 1); $("#a5").textContent = "£" + Lib.fmtN(dwl, 1);
+  $("#av").textContent = `At a = ${a}, the monopolist produces ${Lib.fmtN(qm, 1)} units at £${Lib.fmtN(pm, 2)}. A competitive market would produce ${Lib.fmtN(qc, 1)}. The deadweight loss is £${Lib.fmtN(dwl, 1)}.`;
+  const P = Plot({ xmax: 26, ymax: 28 });
+  const tri = [[P.X(qm), P.Y(pm)], [P.X(qm), P.Y(MCf(qm))], [P.X(qc), P.Y(a - qc)]];
+  $("#lab1").innerHTML = P.axes() + P.curve((q) => a - q, "c1", 0, a) + P.curve((q) => a - 2 * q, "c3", 0, a / 2) + P.curve(MCf, "c4", 0, 26) + P.curve(ACf, "c2", 0, 26)
+    + P.rect(0, acm, qm, pm, "f3", { style: "opacity:.25" }) + SV.poly(tri, "f2", { style: "opacity:.45" }) + P.guide(qm, pm) + P.dot(qm, pm) + P.dot(qc, a - qc, "dot2", 5) + P.ty(pm, "£" + Lib.fmtN(pm, 1)) + P.tx(qm, Lib.fmtN(qm, 1))
+    + P.label(25.5, MCf(25.5) + 0.8, "MC", "lbl bd t4", "end") + P.label(25.5, ACf(25.5) - 1.8, "AC", "lbl bd t2", "end") + P.label(a - 1, 1.8, "AR", "lbl bd t1", "end");
+}
+Lib.slider($("#g1"), { id: "la", label: "Demand strength, a", min: 14, max: 26, step: 1, value: 20, fmt: (v) => v, onInput: lab1 });
+function lab2() {
+  if (!$("#lb")) return;
+  const b = +$("#lb").value, pa = 12, qa = 8, pb = (b + 4) / 2, qb = (b - 4) / 2, pd = (pa - 4) * qa + (pb - 4) * qb;
+  const pu = (28 + b) / 4, uBoth = pu <= b ? (pu - 4) * (20 + b - 2 * pu) : 0, uA = 64, single = uBoth >= uA ? uBoth : uA, sp = uBoth >= uA ? pu : 12;
+  $("#b1").textContent = `£${pa} / ${qa}`; $("#b2").textContent = `£${Lib.fmtN(pb, 2)} / ${Lib.fmtN(qb, 1)}`; $("#b3").textContent = "£" + Lib.fmtN(pd, 1); $("#b4").textContent = "£" + Lib.fmtN(sp, 2); $("#b5").textContent = "£" + Lib.fmtN(single, 1);
+  $("#bv").textContent = pd > single + 0.01 ? `Discrimination raises profit by £${Lib.fmtN(pd - single, 1)}. The lower price in the more elastic market lets the firm sell to students it would otherwise lose.` : "No gain: it is best to charge one price.";
+  const [A, B] = twoMarkets(pa, pb, b);
+  $("#lab2").innerHTML = A + `<g transform="translate(380,0)">${B}</g>`;
+}
+Lib.slider($("#g2"), { id: "lb", label: "Students' demand intercept, b", min: 8, max: 18, step: 1, value: 14, fmt: (v) => v, onInput: lab2 });
+
+/* ---------- practise ---------- */
+Lib.classify($("#cl1"), { prompt: "Place each point as a likely cost or benefit of monopoly.", buckets: [{ label: "Cost" }, { label: "Benefit" }], items: [
+  { text: "Higher price and lower output than competition", b: 0 }, { text: "Deadweight loss and allocative inefficiency", b: 0 }, { text: "X-inefficiency without competitive pressure", b: 0 }, { text: "May squeeze suppliers and hold down wages", b: 0 },
+  { text: "Economies of scale that could lower prices", b: 1 }, { text: "Supernormal profit funds R&D (dynamic efficiency)", b: 1 }, { text: "Stable, large employer offering job security", b: 1 }, { text: "Natural monopoly avoids wasteful duplication", b: 1 },
+] });
+Lib.classify($("#cl2"), { prompt: "Could the firm use third-degree price discrimination?", buckets: [{ label: "Yes, conditions met" }, { label: "No, a condition fails" }], items: [
+  { text: "A train operator with different peak and off-peak fares", b: 0 }, { text: "A cinema selling named student tickets", b: 0 }, { text: "An airline charging more for late bookings", b: 0 },
+  { text: "A seller of a resalable product with identical customers", b: 1 }, { text: "A firm in perfect competition (price taker)", b: 1 }, { text: "A firm that cannot tell groups apart and cannot stop resale", b: 1 },
+] });
+Lib.order($("#o1"), { prompt: "Order the steps for reading a monopoly diagram.", items: [
+  "Draw AR (demand) and MR (twice as steep)",
+  "Add MC and AC",
+  "Find output where MC = MR",
+  "Go up to AR to read the price",
+  "Read AC at that output",
+  "Shade supernormal profit = (P − AC) × Q",
+], done: "MC = MR gives output; AR gives price; AC gives profit." });
+Lib.calc($("#c1"), { qs: [
+  { q: "A monopolist faces AR = 20 − 2Q, so MR = 20 − 4Q. Calculate MR at Q = 3 (£).", a: 8, sol: "MR = 20 − 4 × 3 = <b>£8</b>." },
+  { q: "A monopolist sells 50 units at £30. AC is £22. Calculate supernormal profit (£).", a: 400, sol: "(30 − 22) × 50 = <b>£400</b>." },
+  { q: "A cinema sells 200 adult tickets at £10 and 150 student tickets at £6. Calculate total revenue (£).", a: 2900, sol: "2,000 + 900 = <b>£2,900</b>." },
+  { q: "The deadweight loss is a triangle with base 4 units and height £6. Calculate its area (£).", a: 12, sol: "½ × 4 × 6 = <b>£12</b>." },
+  { q: "A market has a single price of £10.50 with profit of £84.50. Discrimination raises profit to £89. By how much does profit rise (£)?", a: 4.5, tol: 0.01, sol: "89 − 84.50 = <b>£4.50</b>." },
+] });
+Lib.quiz($("#qz1"), { qs: [
+  { q: "A monopolist maximises profit where:", opts: ["P = MC", "MC = MR", "MR = 0", "AC is minimum"], a: 1, why: "Profit is maximised where MC = MR." },
+  { q: "For a monopolist, price is read from:", opts: ["MR", "MC", "AR (demand)", "AC"], a: 2, why: "Go up from the output to the AR curve." },
+  { q: "The deadweight loss of monopoly is:", opts: ["Supernormal profit", "Lost welfare from restricting output below the competitive level", "Producer surplus", "The area under MC"], a: 1, why: "It is the triangle of welfare no one receives." },
+  { q: "Which is a condition for price discrimination?", opts: ["Perfect competition", "Same price elasticity in all groups", "Ability to prevent resale", "Falling prices"], a: 2, why: "Otherwise low-price buyers could resell." },
+  { q: "In price discrimination the group with less elastic demand is charged:", opts: ["A lower price", "A higher price", "The same price", "Marginal cost"], a: 1, why: "Less elastic groups respond less to price, so a higher price raises revenue." },
+  { q: "A natural monopoly exists where:", opts: ["Firms collude", "LRAC falls over the whole market demand", "The government owns the firm", "There are many firms"], a: 1, why: "Economies of scale are so large that one firm is cheapest." },
+  { q: "Which is a possible benefit of monopoly?", opts: ["Lower output", "Economies of scale and R&D from supernormal profit", "Deadweight loss", "X-inefficiency"], a: 1, why: "Scale economies and dynamic efficiency." },
+  { q: "A firm is likely to be treated as having monopoly power in the UK if its market share is about:", opts: ["5%", "10%", "25% or more", "100% only"], a: 2, why: "The competition authorities use about 25% as a guide." },
+] });
+Lib.cards($("#fc1"), { cards: [
+  ["Monopoly", "A market with one dominant seller, high barriers to entry and price-making power."],
+  ["Price maker", "A firm with the power to set its own price."],
+  ["Barrier to entry", "Anything that makes it hard for new firms to enter a market."],
+  ["Deadweight loss", "Welfare lost when output is below the allocatively efficient level."],
+  ["Natural monopoly", "A market where LRAC falls over the whole range of demand, so one firm is cheapest."],
+  ["Third-degree price discrimination", "Charging different groups different prices for the same product."],
+  ["Arbitrage (resale)", "Buying at a low price and selling at a higher price; prevented by the discriminating firm."],
+  ["Consumer surplus", "The gap between what consumers are willing to pay and what they pay."],
+  ["X-inefficiency", "Costs above the minimum because of lack of competitive pressure."],
+  ["Dynamic efficiency", "Efficiency over time through investment and innovation."],
+  ["Supernormal profit", "Profit above normal profit: AR > AC."],
+  ["Marginal revenue", "Extra revenue from selling one more unit."],
+] });
+lab1(); lab2();
+
+Lib.initTabs();
+</script>
+</body></html>

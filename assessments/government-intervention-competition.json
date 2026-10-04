@@ -1,0 +1,165 @@
+{
+ "slug": "government-intervention-competition",
+ "title": "Government Intervention: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "CPI − X regulation is a form of:",
+   "opts": [
+    "Merger control",
+    "Price regulation",
+    "Nationalisation",
+    "Deregulation"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Regulation",
+   "ok": "Correct: It limits price rises set by a regulator.",
+   "fb": "It limits price rises set by a regulator. Review the Learn tab.",
+   "model": "Price regulation"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "A potential drawback of price caps is:",
+   "opts": [
+    "Higher prices",
+    "Firms may cut quality",
+    "More monopoly power",
+    "Less competition for contracts"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Regulation",
+   "ok": "Correct: Firms may protect profit by cutting costs, including quality.",
+   "fb": "Firms may protect profit by cutting costs, including quality. Review the Learn tab.",
+   "model": "Firms may cut quality"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "Regulatory capture occurs when:",
+   "opts": [
+    "A regulator is too strict",
+    "A regulator favours the industry it regulates",
+    "A firm leaves a market",
+    "Competition increases"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Limits",
+   "ok": "Correct: The regulator acts in the interests of firms.",
+   "fb": "The regulator acts in the interests of firms. Review the Learn tab.",
+   "model": "A regulator favours the industry it regulates"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "Which is an example of deregulation?",
+   "opts": [
+    "Introducing a price cap",
+    "Removing licensing requirements to enter a market",
+    "Nationalising a railway",
+    "Blocking a merger"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Competition",
+   "ok": "Correct: It lowers barriers to entry.",
+   "fb": "It lowers barriers to entry. Review the Learn tab.",
+   "model": "Removing licensing requirements to enter a market"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "Competitive tendering means:",
+   "opts": [
+    "Selling public firms to shareholders",
+    "Firms bidding for contracts to deliver services",
+    "Capping prices",
+    "Regulating profit"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Competition",
+   "ok": "Correct: Competition for the contract.",
+   "fb": "Competition for the contract. Review the Learn tab.",
+   "model": "Firms bidding for contracts to deliver services"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "Nationalisation involves:",
+   "opts": [
+    "Selling a firm to the private sector",
+    "Government ownership of a firm",
+    "Breaking up a monopoly",
+    "A price cap"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Ownership",
+   "ok": "Correct: The state takes ownership.",
+   "fb": "The state takes ownership. Review the Learn tab.",
+   "model": "Government ownership of a firm"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "Asymmetric information limits regulation because:",
+   "opts": [
+    "Firms know more about their costs than the regulator",
+    "Regulators know more than firms",
+    "Consumers know everything",
+    "Prices are fixed"
+   ],
+   "ans": "0",
+   "marks": 1,
+   "topic": "Limits",
+   "ok": "Correct: The regulator may set the cap too high or too low.",
+   "fb": "The regulator may set the cap too high or too low. Review the Learn tab.",
+   "model": "Firms know more about their costs than the regulator"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "A regulator caps price rises at CPI − X. CPI is 4% and X is 1.5%. By what percentage may the price rise?",
+   "ans": 2.5,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Price cap",
+   "hint": "Enter a number.",
+   "ok": "Correct: 4 − 1.5 = 2.5%.",
+   "fb": "4 − 1.5 = 2.5%. Check the worked examples.",
+   "model": "2.5"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "The price is £200 and may rise by CPI − X = 3%. Calculate the maximum new price (£).",
+   "ans": 206,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "Price cap",
+   "hint": "Enter a number.",
+   "ok": "Correct: 200 × 1.03 = £206.",
+   "fb": "200 × 1.03 = £206. Check the worked examples.",
+   "model": "206"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "A natural monopoly sells 20 units at £4 with average cost £4. Calculate profit (£).",
+   "ans": 0,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Regulation",
+   "hint": "Enter a number.",
+   "ok": "Correct: (4 − 4) × 20 = £0, normal profit.",
+   "fb": "(4 − 4) × 20 = £0, normal profit. Check the worked examples.",
+   "model": "0"
+  }
+ ]
+}

@@ -1,0 +1,165 @@
+{
+ "slug": "perfect-monopolistic-competition",
+ "title": "Perfect and Monopolistic Competition: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "Allocative efficiency is achieved where:",
+   "opts": [
+    "MC = AC",
+    "P = MC",
+    "TR is maximised",
+    "AC is at its minimum"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Efficiency",
+   "ok": "Correct: Allocative efficiency occurs where price equals marginal cost.",
+   "fb": "Allocative efficiency occurs where price equals marginal cost. Review the Learn tab.",
+   "model": "P = MC"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "Productive efficiency occurs where:",
+   "opts": [
+    "P = MC",
+    "Output is at the lowest point of AC",
+    "MR = 0",
+    "Profit is zero"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Efficiency",
+   "ok": "Correct: Productive efficiency is at minimum average cost, where MC = AC.",
+   "fb": "Productive efficiency is at minimum average cost, where MC = AC. Review the Learn tab.",
+   "model": "Output is at the lowest point of AC"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "A perfectly competitive firm faces a demand curve that is:",
+   "opts": [
+    "Downward-sloping",
+    "Perfectly inelastic",
+    "Horizontal at the market price",
+    "Kinked"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Perfect competition",
+   "ok": "Correct: It is a price taker, so AR = MR = P.",
+   "fb": "It is a price taker, so AR = MR = P. Review the Learn tab.",
+   "model": "Horizontal at the market price"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "In the long run a perfectly competitive firm earns:",
+   "opts": [
+    "Supernormal profit",
+    "Normal profit",
+    "A permanent loss",
+    "Maximum revenue"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Perfect competition",
+   "ok": "Correct: Entry removes supernormal profit.",
+   "fb": "Entry removes supernormal profit. Review the Learn tab.",
+   "model": "Normal profit"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "In long-run equilibrium in monopolistic competition:",
+   "opts": [
+    "P = MC",
+    "AR is tangent to AC",
+    "Supernormal profit is earned",
+    "Output is at minimum AC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Monopolistic competition",
+   "ok": "Correct: AR touches AC at one point, so only normal profit is earned.",
+   "fb": "AR touches AC at one point, so only normal profit is earned. Review the Learn tab.",
+   "model": "AR is tangent to AC"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "X-inefficiency refers to:",
+   "opts": [
+    "Producing at minimum AC",
+    "Costs above those necessary for a given output",
+    "Efficiency over time",
+    "Charging P = MC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Efficiency",
+   "ok": "Correct: Lack of competitive pressure allows slack.",
+   "fb": "Lack of competitive pressure allows slack. Review the Learn tab.",
+   "model": "Costs above those necessary for a given output"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "Which is a characteristic of monopolistic competition?",
+   "opts": [
+    "Homogeneous products",
+    "High barriers to entry",
+    "Differentiated products",
+    "A single seller"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Monopolistic competition",
+   "ok": "Correct: Branding and differentiation give some price-setting power.",
+   "fb": "Branding and differentiation give some price-setting power. Review the Learn tab.",
+   "model": "Differentiated products"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "A firm sells 400 units at £5 each. Average cost is £4.20. Calculate total profit (£).",
+   "ans": 320,
+   "tol": 0.5,
+   "marks": 1,
+   "topic": "Profit",
+   "hint": "Enter a number.",
+   "ok": "Correct: (5 − 4.20) × 400 = £320.",
+   "fb": "(5 − 4.20) × 400 = £320. Check the worked examples.",
+   "model": "320"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "A firm sells 50 units at £12 each and has average cost of £9. Calculate total profit (£).",
+   "ans": 150,
+   "tol": 0.5,
+   "marks": 1,
+   "topic": "Profit",
+   "hint": "Enter a number.",
+   "ok": "Correct: (12 − 9) × 50 = £150.",
+   "fb": "(12 − 9) × 50 = £150. Check the worked examples.",
+   "model": "150"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "A monopolistically competitive firm sells 120 units at £10 with AC of £8. Calculate supernormal profit (£).",
+   "ans": 240,
+   "tol": 0.5,
+   "marks": 1,
+   "topic": "Profit",
+   "hint": "Enter a number.",
+   "ok": "Correct: (10 − 8) × 120 = £240.",
+   "fb": "(10 − 8) × 120 = £240. Check the worked examples.",
+   "model": "240"
+  }
+ ]
+}

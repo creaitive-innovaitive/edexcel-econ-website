@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Business Growth</title>
+<style>:root{
+  --bg:#f5f3ee; --surface:#fff; --ink:#17212b; --muted:#566573; --line:#d9d4c7; --soft:#eef2f5;
+  --accent:#2b5d7c; --accent-ink:#fff; --accent-soft:#e0ecf3;
+  --good:#1d7a4c; --good-soft:#dff2e7; --bad:#b3372f; --bad-soft:#f9e2df; --warn:#a85d00; --warn-soft:#fbead2;
+  --k:#1f5fa8; --a:#1d7a4c; --n:#7a3fa0; --e:#b25a00;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171c; --surface:#1b232b; --ink:#e8edf0; --muted:#9aa8b2; --line:#2e3a44; --soft:#202b34;
+  --accent:#7fb6d6; --accent-ink:#0d1a23; --accent-soft:#1f3140;
+  --good:#6ccb9b; --good-soft:#173a2a; --bad:#f0857d; --bad-soft:#3d1f1c; --warn:#f0b36a; --warn-soft:#3a2b14;
+  --k:#7fb2ee; --a:#6ccb9b; --n:#c79be6; --e:#f0a95a; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+.wrap{max-width:980px;margin:0 auto;padding:22px 16px 90px}
+h1,h2,h3{font-family:var(--serif);line-height:1.18;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,5vw,2.5rem);letter-spacing:-.015em}
+h2{font-size:1.45rem;margin:26px 0 10px}
+h3{font-size:1.12rem;margin:18px 0 6px}
+p{margin:0 0 .8em}
+.eyebrow{font:700 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:68ch;margin-top:8px}
+header.top{padding:6px 0 14px}
+.tablist{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;padding-top:8px}
+.tablist button{font:600 .9rem var(--sans);padding:8px 13px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tablist button:hover{color:var(--ink)}
+.tablist button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tablist button:focus-visible,.b:focus-visible,summary:focus-visible,.chip:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[role=tabpanel][hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+.card.big{background:var(--accent-soft);border-color:var(--accent)}
+.card h3:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.grid2>.card{margin:0}
+.formula{font:600 1.05rem var(--mono);background:var(--soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;overflow-x:auto}
+.kw{font-weight:700;color:var(--accent)}
+table.t{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+table.t th,table.t td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.t th{font:700 .72rem var(--sans);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tw{overflow-x:auto}
+.b{font:700 .9rem var(--sans);padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.b:hover{background:var(--soft)}
+.b.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.b:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.88rem;color:var(--muted)}
+.pill{display:inline-block;font:700 .72rem var(--sans);padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent);vertical-align:middle}
+.tip{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.tip b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--warn)}
+.warn{border-left:4px solid var(--bad);background:var(--bad-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.warn b.h{display:block;font:700 .72rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--bad)}
+/* stepper */
+.stp{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0 14px}
+.stp svg{display:block;width:100%;height:auto;background:var(--surface)}
+.stp-cap{padding:12px 16px;background:var(--ink);color:var(--bg);font-size:1.02rem;min-height:3.6em}
+.stp-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px}
+.stp-dots{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.stp-dots button{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--muted);font:700 .72rem var(--sans);cursor:pointer;padding:0}
+.stp-dots button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.stp-dots button.done{border-color:var(--accent);color:var(--accent)}
+/* svg theme classes */
+svg text{font-family:var(--sans);fill:var(--ink)}
+svg .ax{stroke:var(--ink);stroke-width:2;fill:none}
+svg .gr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4;fill:none}
+svg .lbl{font-size:13px}
+svg .sm{font-size:11.5px;fill:var(--muted)}
+svg .bd{font-weight:700}
+svg .c1{stroke:var(--accent);stroke-width:3.5;fill:none}
+svg .c2{stroke:var(--bad);stroke-width:3.5;fill:none}
+svg .c3{stroke:var(--good);stroke-width:3.5;fill:none}
+svg .c4{stroke:var(--warn);stroke-width:3.5;fill:none}
+svg .f1{fill:var(--accent);opacity:.18} svg .f2{fill:var(--bad);opacity:.18} svg .f3{fill:var(--good);opacity:.2} svg .f4{fill:var(--warn);opacity:.22}
+svg .dash{stroke-dasharray:6 5}
+svg .t1{fill:var(--accent)} svg .t2{fill:var(--bad)} svg .t3{fill:var(--good)} svg .t4{fill:var(--warn)}
+svg .dot1{fill:var(--accent)} svg .dot2{fill:var(--bad)} svg .dot3{fill:var(--good)} svg .dot4{fill:var(--warn)}
+/* sliders */
+.sl{margin:10px 0}
+.sl label{display:flex;justify-content:space-between;font-weight:600;font-size:.95rem}
+.sl output{font:600 .9rem var(--mono);color:var(--accent)}
+.sl input{width:100%;accent-color:var(--accent);margin:6px 0}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.readout div{border-top:3px solid var(--accent);background:var(--surface);padding:8px 10px;border-radius:0 0 8px 8px;border:1px solid var(--line);border-top:3px solid var(--accent)}
+.readout small{display:block;font:700 .66rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.readout strong{font:700 1.25rem var(--mono);font-variant-numeric:tabular-nums}
+.verdict{padding:10px 14px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent);font-weight:600;margin:8px 0}
+/* classify / match */
+.cls .pool{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--line);border-radius:10px;min-height:54px;background:var(--soft)}
+.cls .buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.cls .bk{border:2px solid var(--line);border-radius:10px;padding:8px;min-height:84px;background:var(--surface)}
+.cls .bk h4{margin:0 0 6px;font:700 .82rem var(--sans);color:var(--accent)}
+.cls .bk .slot{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.cls .bk.over,.cls .pool.over{border-color:var(--accent);background:var(--accent-soft)}
+.chip{font:600 .88rem var(--sans);padding:6px 11px;border-radius:8px;border:1.5px solid var(--accent);background:var(--surface);color:var(--ink);cursor:grab;user-select:none;text-align:left}
+.chip.sel{background:var(--accent);color:var(--accent-ink)}
+.chip.ok{border-color:var(--good);background:var(--good-soft)}
+.chip.no{border-color:var(--bad);background:var(--bad-soft)}
+.cls .msg,.ord .msg,.calc .msg{font-weight:700;margin:8px 0}
+.match .bk h4{font-size:.9rem;color:var(--ink)}
+/* order */
+.ord ol{list-style:none;margin:10px 0;padding:0;counter-reset:o}
+.ord li{counter-increment:o;display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:6px;border:1.5px solid var(--line);border-radius:9px;background:var(--surface);cursor:grab}
+.ord li::before{content:counter(o);font:700 .8rem var(--mono);width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.ord li.ok{border-color:var(--good);background:var(--good-soft)} .ord li.no{border-color:var(--bad);background:var(--bad-soft)}
+.ord li.drag{opacity:.4}
+.ord li span{flex:1}
+.ord li button{padding:2px 8px}
+/* quiz */
+.qz .q{margin:0 0 16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qz .q p.qt{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;font:500 .95rem var(--sans);padding:9px 12px;margin:5px 0;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.why{display:none;margin-top:8px;font-size:.92rem;padding:8px 12px;background:var(--soft);border-radius:8px}
+.q.done .why{display:block}
+.score{font:700 1.05rem var(--sans);margin:10px 0}
+/* calc */
+.calc .q{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:12px}
+.calc input[type=number],.calc input[type=text]{width:130px;padding:7px 10px;font:600 1rem var(--mono);border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.calc .sol{display:none;margin-top:8px;padding:10px 12px;background:var(--soft);border-radius:8px;font-size:.93rem}
+.calc .sol.show{display:block}
+.calc .fb{font-weight:700;margin-left:8px}
+.calc .fb.ok{color:var(--good)} .calc .fb.no{color:var(--bad)}
+/* cards */
+.fc{perspective:900px;max-width:520px}
+.fc .face{min-height:170px;display:grid;place-items:center;text-align:center;padding:20px;border-radius:14px;border:2px solid var(--accent);background:var(--surface);cursor:pointer;font-size:1.1rem}
+.fc .face.back{background:var(--accent-soft)}
+.fc .face small{display:block;font:700 .66rem var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+/* exam Qs */
+details.eq{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+details.eq>summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+details.eq>summary::-webkit-details-marker{display:none}
+details.eq>summary::before{content:"▸";color:var(--accent)}
+details.eq[open]>summary::before{content:"▾"}
+details.eq .body{padding:4px 18px 16px}
+.mark{font:700 .72rem var(--mono);background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px}
+.cmd{font:700 .72rem var(--sans);background:var(--warn-soft);color:var(--warn);padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em}
+.ans{border-left:4px solid var(--accent);padding:6px 14px;margin:10px 0;background:var(--soft);border-radius:0 8px 8px 0}
+.mk{border-bottom:2px solid currentColor;padding-bottom:1px}
+.mk[data-t]::after{content:" [" attr(data-t) "]";font:700 .64rem var(--sans);vertical-align:super;opacity:.85}
+.mk.k{color:var(--k)} .mk.a{color:var(--a)} .mk.n{color:var(--n)} .mk.e{color:var(--e)}
+.key{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin:6px 0}
+.key span{display:inline-flex;gap:5px;align-items:center}
+.key i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.key .k i{background:var(--k)} .key .a i{background:var(--a)} .key .n i{background:var(--n)} .key .e i{background:var(--e)}
+.rw{border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--surface);border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:12px}
+.rw h3{margin:0 0 4px}
+.rw .use{margin-top:8px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:.93rem}
+.rw .use b{color:var(--accent)}
+ul.tips{list-style:none;padding:0;margin:0}
+ul.tips li{padding:10px 14px;margin-bottom:8px;border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:0 10px 10px 0;background:var(--surface)}
+ul.tips li b{color:var(--warn)}
+@media (max-width:640px){.tablist{position:static}}
+@media print{.tablist{display:none}[role=tabpanel][hidden]{display:block}.stp-ctl{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.stp{scroll-margin-top:70px}
+</style></head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Edexcel A-Level Economics A · 9EC0 · Theme 3 · 3.1</div>
+  <h1>Business Growth</h1>
+  <p class="lead">Why some firms stay small and others grow, who really controls a firm, the four routes to growth, what holds growth back, and why firms sometimes split up again.</p>
+</header>
+
+<nav class="tablist" role="tablist" aria-label="Sections">
+  <button role="tab" data-p="learn">Learn</button>
+  <button role="tab" data-p="watch">Watch</button>
+  <button role="tab" data-p="explore">Explore</button>
+  <button role="tab" data-p="practise">Practise</button>
+  <button role="tab" data-p="exam">Exam questions</button>
+  <button role="tab" data-p="tips">Tips &amp; keywords</button>
+</nav>
+
+<!-- LEARN -->
+<section id="learn" role="tabpanel">
+  <div class="card big">
+    <h3>The big idea</h3>
+    <p>A firm's size is a choice with costs and benefits. Growth can lower costs and raise market power, but it needs finance, brings risk, and can make the firm harder to run. Who decides, and for whose benefit, is the <span class="kw">principal-agent problem</span>. Spec 3.1.1 to 3.1.3.</p>
+  </div>
+
+  <h2>3.1.1 Sizes and types of firm</h2>
+  <div class="grid2">
+    <div class="card"><h3>Why some firms stay small</h3>
+      <ul>
+        <li><b>Niche or local market:</b> demand is too small to support a larger firm (a village bakery, a hairdresser).</li>
+        <li><b>Owner objectives:</b> the owner may prefer control, a quiet life or a lifestyle business to maximum profit.</li>
+        <li><b>Limited finance:</b> small firms find it hard to borrow, and retained profit is small.</li>
+        <li><b>Diseconomies of scale:</b> beyond a point, a bigger firm may be harder to manage and costs per unit may rise.</li>
+        <li><b>Personal service:</b> the product depends on the owner's skill or close customer contact.</li>
+        <li><b>Risk and regulation:</b> growth exposes owners to more risk and more rules.</li>
+      </ul></div>
+    <div class="card"><h3>Why others grow</h3>
+      <ul>
+        <li><b>Economies of scale</b> that lower unit costs.</li>
+        <li><b>Market power:</b> a bigger share lets the firm influence price and bargain with suppliers.</li>
+        <li><b>Profit and survival:</b> larger firms may be better able to survive downturns and fund investment.</li>
+        <li><b>Risk spreading</b> by selling in several markets or products.</li>
+        <li><b>Managers' and shareholders' aims</b> such as status, pay linked to size, or higher share prices.</li>
+        <li><b>Barrier to rivals:</b> scale can deter entry.</li>
+      </ul></div>
+  </div>
+
+  <h3>Divorce of ownership from control: the principal-agent problem</h3>
+  <p>In a large company the <b>owners (shareholders) are the principals</b> and the <b>managers they hire are the agents</b>. Shareholders usually want profit and a rising share price. Managers may prefer <b>higher pay, status, job security and a larger firm</b>, which can mean revenue or sales maximisation instead of profit maximisation. Managers also know far more about the firm than shareholders do (<b>asymmetric information</b>), so they are hard to monitor.</p>
+  <div class="tip"><b class="h">Ways to narrow the gap</b>Link pay to profit or share price (bonuses, share options), appoint non-executive directors, require audited accounts and annual shareholder votes, and use takeover threats: a badly run firm with a low share price is easier to buy.</div>
+
+  <div class="grid2">
+    <div class="card"><h3>Public and private sector</h3><p><b>Private sector:</b> owned by individuals or shareholders, run by private decisions (sole traders, partnerships, companies). <b>Public sector:</b> owned and controlled by the government (central or local), such as state schools or a council leisure centre. Public sector bodies are often set targets other than profit.</p></div>
+    <div class="card"><h3>Profit and not-for-profit</h3><p><b>Profit-making</b> organisations aim to make a surplus for owners. <b>Not-for-profit</b> organisations (charities, social enterprises, some co-operatives) reinvest any surplus in their cause. They are not the same as the public sector: a charity is private-sector but not-for-profit.</p></div>
+  </div>
+
+  <h2>3.1.2 How firms grow</h2>
+  <div class="tw"><table class="t">
+    <tr><th>Method</th><th>What it is</th><th>Example</th></tr>
+    <tr><td><b>Organic (internal)</b></td><td>Growth from the firm's own resources: new products, new outlets, more sales</td><td>A bakery opening a fifth shop from retained profit</td></tr>
+    <tr><td><b>Forward vertical integration</b></td><td>Joins with a firm <i>nearer the consumer</i> in the supply chain</td><td>A brewer buying pubs</td></tr>
+    <tr><td><b>Backward vertical integration</b></td><td>Joins with a firm <i>nearer the raw materials</i> (a supplier)</td><td>A bakery chain buying a flour mill</td></tr>
+    <tr><td><b>Horizontal integration</b></td><td>Joins with a firm at the <i>same stage</i> of production in the same industry</td><td>Two supermarket chains merging</td></tr>
+    <tr><td><b>Conglomerate integration</b></td><td>Joins with a firm in an <i>unrelated</i> industry</td><td>A food company buying a software firm</td></tr>
+  </table></div>
+  <p class="note">A <b>merger</b> is a mutual agreement to combine. A <b>takeover</b> (acquisition) is one firm buying control of another, sometimes against its wishes. Both are external growth.</p>
+
+  <h3>Advantages and disadvantages</h3>
+  <div class="tw"><table class="t">
+    <tr><th>Method</th><th>Advantages</th><th>Disadvantages</th></tr>
+    <tr><td>Organic</td><td>Lower risk, keeps control and culture, no need to find a partner or large finance, gradual</td><td>Slow, may miss opportunities, limited by retained profit and market size</td></tr>
+    <tr><td>Forward vertical</td><td>Secures an outlet for products, captures the retailer's profit margin, more control over how goods are sold, access to customer data</td><td>Needs expertise in a different stage, may reduce flexibility, rival retailers may stop buying from the firm</td></tr>
+    <tr><td>Backward vertical</td><td>Secures supply and quality, may lower input costs and protect against supplier power, can deny rivals supplies</td><td>May be costly, supplier loses incentive to be efficient, firm may be locked into a source that stops being cheapest</td></tr>
+    <tr><td>Horizontal</td><td>Economies of scale, bigger market share and market power, removes a rival, shares know-how</td><td>Clashing cultures, job losses, diseconomies of scale, likely to attract competition authority scrutiny, may raise prices for consumers</td></tr>
+    <tr><td>Conglomerate</td><td>Spreads risk across unrelated markets, uses spare cash, opens new markets, avoids competition regulators</td><td>Lack of expertise in the new market, little cost saving, managers stretched across unrelated businesses, shareholders could diversify themselves</td></tr>
+  </table></div>
+
+  <h3>Constraints on growth</h3>
+  <div class="grid2">
+    <div class="card"><h3>Size of the market</h3><p>If demand is small or already saturated, expansion only drives down price. Niche products have a natural ceiling.</p></div>
+    <div class="card"><h3>Access to finance</h3><p>Growth costs money. Retained profit is limited; banks may lend only against security; share issues may dilute control. External growth may need large funds.</p></div>
+    <div class="card"><h3>Owner objectives</h3><p>An owner who wants control or a stable lifestyle may refuse to expand, sell shares or take on debt.</p></div>
+    <div class="card"><h3>Regulation</h3><p>Competition authorities such as the CMA can investigate or block mergers that may reduce competition. Planning rules and sector regulation can also limit expansion.</p></div>
+  </div>
+
+  <h2>3.1.3 Demergers</h2>
+  <p>A <span class="kw">demerger</span> splits a firm into two or more separate businesses, for example by selling off a division or spinning it off as a new company with its own shareholders.</p>
+  <div class="grid2">
+    <div class="card"><h3>Reasons</h3>
+      <ul><li>Diseconomies of scale or a firm that has become too complex</li><li>Refocus on the <b>core business</b></li><li>The parts may be worth more separately than the whole</li><li>Raise cash by selling a division</li><li>Competition authority may force it after a merger</li><li>A merger that failed, perhaps through culture clash</li><li>Pressure from shareholders</li></ul></div>
+    <div class="card"><h3>Impact on</h3>
+      <p><b>Businesses:</b> clearer focus, lower unit costs if diseconomies disappear, but lost economies of scale, less diversification and one-off costs.</p>
+      <p><b>Workers:</b> redundancies and uncertainty are likely, though smaller firms may offer better promotion and a closer culture.</p>
+      <p><b>Consumers:</b> could gain from more specialised products and more competition, or lose if scale benefits are lost and prices rise.</p></div>
+  </div>
+  <div class="warn"><b class="h">Do not mix up</b>Vertical integration is about the <b>supply chain</b> (backward or forward). Horizontal is the <b>same stage</b>. Conglomerate is <b>unrelated</b>. And "organic" is not a type of merger: it is growth without one.</div>
+</section>
+
+<!-- WATCH -->
+<section id="watch" role="tabpanel" hidden>
+  <p>Press Play, or click the numbered steps.</p>
+  <h2>1 · The four directions of integration</h2><div id="stA"></div>
+  <h2>2 · The principal-agent problem</h2><div id="stB"></div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore" role="tabpanel" hidden>
+  <h2>Lab · Choose a route to growth</h2>
+  <p>You run a regional bakery chain. Pick a strategy and see where it sits on the supply chain and what it costs and gains.</p>
+  <div class="card">
+    <div class="row" id="routeBtns" role="group" aria-label="Growth route"></div>
+    <svg id="routeSvg" viewBox="0 0 760 330" role="img" aria-label="Supply chain diagram showing the chosen route"></svg>
+    <div class="verdict" id="routeName"></div>
+    <div class="grid2"><div class="card"><h3>Gains</h3><div id="routeGain"></div></div><div class="card"><h3>Risks</h3><div id="routeRisk"></div></div></div>
+  </div>
+
+  <h2>Lab · What is holding this firm back?</h2>
+  <p>Click each case to reveal the constraint on growth and a sensible response.</p>
+  <div id="constraints"></div>
+</section>
+
+<!-- PRACTISE -->
+<section id="practise" role="tabpanel" hidden>
+  <h2>1 · Which method of growth?</h2>
+  <div id="cl1" class="card"></div>
+
+  <h2>2 · Public, private or not-for-profit?</h2>
+  <div id="cl2" class="card"></div>
+
+  <h2>3 · Match the term</h2>
+  <div id="m1" class="card"></div>
+
+  <h2>4 · Put the principal-agent problem in order</h2>
+  <div id="o1" class="card"></div>
+
+  <h2>5 · Multiple choice</h2>
+  <div id="qz1"></div>
+</section>
+
+<!-- EXAM -->
+<section id="exam" role="tabpanel" hidden>
+  <h2>Exam-style questions</h2>
+  <p>Written in the style of Edexcel Paper 1 and Paper 3. Open each question for reminders, a model answer and common mistakes. Answers are colour-coded to the mark scheme. These are practice questions, not past-paper wording.</p>
+  <div class="key"><span class="k"><i></i>Knowledge (K)</span><span class="a"><i></i>Application (A)</span><span class="n"><i></i>Analysis (N)</span><span class="e"><i></i>Evaluation (E)</span></div>
+
+  <details class="eq"><summary>Q1 <span class="cmd">Explain</span> <span class="mark">4 marks</span> Explain one reason why a firm may remain small.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>One reason only, developed. Name it, say why it limits size, and tie it to a type of business.</div>
+    <div class="ans"><span class="mk k" data-t="K">One reason is a niche or local market with limited demand.</span> <span class="mk a" data-t="A">A village bakery, for example, may serve only a few hundred local customers.</span> <span class="mk n" data-t="N">If the market is small, opening further shops could mean sales are spread thinly across too few customers, so extra revenue may not cover the extra costs of rent and wages.</span> <span class="mk n" data-t="N">The owner may therefore judge that staying small gives a higher profit per unit of effort than expanding.</span></div>
+    <div class="warn"><b class="h">Common mistake</b>Giving two reasons in a "one reason" question, or writing "they do not have enough money" without explaining why that stops growth.</div>
+  </div></details>
+
+  <details class="eq"><summary>Q2 <span class="cmd">Explain</span> <span class="mark">4 marks</span> Explain what is meant by the principal-agent problem in a large company.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Say who the principals and agents are, what each wants, and why the gap exists.</div>
+    <div class="ans"><span class="mk k" data-t="K">In a large company the shareholders (principals) own the firm but the managers (agents) run it day to day.</span> <span class="mk k" data-t="K">Shareholders usually want profit, while managers may pursue their own aims such as higher pay or status.</span> <span class="mk n" data-t="N">Because managers know more about the firm than shareholders (asymmetric information), they may be able to pursue sales or revenue maximisation, which could be at the expense of profit.</span> <span class="mk a" data-t="A">For example, a manager paid on turnover could prefer a risky takeover that makes the firm larger even if profit per share falls.</span></div>
+  </div></details>
+
+  <details class="eq"><summary>Q3 <span class="cmd">Analyse</span> <span class="mark">6 marks</span> A brewery buys a chain of pubs. Analyse one benefit and one drawback of this form of integration.</summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Name the type (forward vertical). One benefit with a chain, one drawback with a chain. No judgement needed.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">This is forward vertical integration, because the brewer moves nearer the consumer in the supply chain.</span> <span class="mk n" data-t="N">A benefit is that the brewery secures a guaranteed outlet for its beer, so demand is more stable and it keeps the retailer's profit margin, which could raise its total profit.</span></p>
+    <p><span class="mk n" data-t="N">A drawback is that running pubs needs different skills from brewing, so management costs may rise and the pubs could perform badly.</span> <span class="mk a" data-t="A">Rival brewers may also stop supplying the pubs or refuse to deal with the firm, so pubs sell a narrower range and customers may go elsewhere.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q4 <span class="cmd">Assess</span> <span class="mark">10 marks</span> A food manufacturer is considering buying a smaller rival. Assess whether horizontal integration is likely to benefit the manufacturer. <small>(KAA 6 + evaluation 4)</small></summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Two developed advantages, then evaluate with a counter-argument and a judgement. Mention the competition authority and culture clash.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">Horizontal integration joins two firms at the same stage of production.</span> <span class="mk n" data-t="N">The manufacturer could gain economies of scale, for example buying ingredients in bulk and spreading advertising and distribution costs over more units, which may lower long-run average cost and raise profit per unit.</span> <span class="mk n" data-t="N">It would also remove a rival and increase its market share, so it could have more power to set price and bargain with supermarkets.</span></p>
+    <p><span class="mk e" data-t="E">However, merging two firms may bring clashing cultures, duplicated roles and job losses, so diseconomies of scale could appear and costs might not fall as expected.</span> <span class="mk e" data-t="E">The competition authority may also investigate the deal or demand disposals, and integration costs can be large.</span> <span class="mk e" data-t="E">Overall the benefit is likely to depend on how similar the firms are and how big the cost savings are relative to the price paid. If the rival's products are complementary and the firms are well matched, the merger is more likely to succeed.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q5 <span class="cmd">Discuss</span> <span class="mark">12 marks</span> Discuss the likely effects of a demerger on a large conglomerate's shareholders, workers and consumers. <small>(KAA 8 + evaluation 4)</small></summary><div class="body">
+    <div class="tip"><b class="h">Reminder</b>Cover all three groups with a short chain each, then judge who is most affected and what it depends on.</div>
+    <div class="ans"><p><span class="mk k" data-t="K">A demerger splits a firm into separate businesses.</span> <span class="mk n" data-t="N">For shareholders, the parts may be valued more highly separately than together (a conglomerate discount), so the combined share value could rise, and each firm can focus on its core business.</span> <span class="mk n" data-t="N">Shareholders may also be able to choose which business to hold, rather than being forced into a mix.</span></p>
+    <p><span class="mk n" data-t="N">Workers may face redundancies as head-office roles are duplicated, and uncertainty about pay and conditions. A smaller company could, though, offer faster promotion and closer management.</span> <span class="mk n" data-t="N">Consumers could gain from more specialised products and clearer service, and from more competition between the new firms. If lost economies of scale raise costs, prices could rise.</span></p>
+    <p><span class="mk e" data-t="E">The impact is likely to be largest for workers in the divisions sold off, because job security is most at risk, while shareholders and consumers are likely to be affected gradually.</span> <span class="mk e" data-t="E">Whether it benefits shareholders depends on the price obtained, the one-off costs of separation, and whether the business units really can operate alone. The effect also depends on whether the original merger created genuine cost savings.</span></p></div>
+  </div></details>
+
+  <details class="eq"><summary>Q6 <span class="cmd">Evaluate</span> <span class="mark">25 marks</span> "Businesses are better to grow organically than by merging with or taking over other firms." Evaluate this view. <small>(KAA 16 + evaluation 9)</small></summary><div class="body">
+    <div class="tip"><b class="h">Plan, then write</b>Aim for four paragraphs of analysis (two each side) and a conclusion. Use a context: pick a real or imagined firm and keep returning to it.</div>
+    <div class="ans"><h3 style="margin-top:0">Plan</h3>
+    <ol>
+      <li><span class="mk k" data-t="K">Define organic and external growth (merger/takeover; horizontal, vertical, conglomerate).</span></li>
+      <li><span class="mk n" data-t="N">For organic: lower risk, keeps control and culture, avoids integration costs, funded by retained profit.</span></li>
+      <li><span class="mk n" data-t="N">For external: faster, immediate market share and economies of scale, new markets, removes a rival.</span></li>
+      <li><span class="mk e" data-t="E">Against organic: slow, limited by finance and market size. Against mergers: culture clash, diseconomies, high price, regulatory block.</span></li>
+      <li><span class="mk e" data-t="E">Judgement: depends on the firm's size, objective, finance, market, and the type of integration. Say which factor you think is decisive and why.</span></li>
+    </ol>
+    <h3>Sample analysis paragraph</h3>
+    <p><span class="mk k" data-t="K">Organic growth means expanding using the firm's own resources.</span> <span class="mk n" data-t="N">For a restaurant chain, opening a new branch funded by retained profit means the firm keeps control of its brand and does not take on large debt, so if the new site performs poorly the loss is limited. Because the firm grows gradually, managers can learn from each opening and keep the same culture and quality, which may protect the brand and customer loyalty.</span> <span class="mk n" data-t="N">This lower risk could be especially valuable where owners have a lifestyle objective or where interest rates are high, since borrowing to finance a takeover would be costly.</span></p>
+    <h3>Sample evaluation paragraph</h3>
+    <p><span class="mk e" data-t="E">However, organic growth is slow, so a rival who merges may gain economies of scale and market power first, leaving the organic firm unable to compete on price. Where a market is growing fast or consolidating, speed may matter more than risk.</span> <span class="mk e" data-t="E">It also depends on the type of merger: a vertical merger that secures supplies may be more valuable than a conglomerate one that adds little.</span></p></div>
+    <div class="warn"><b class="h">Common mistake</b>Listing advantages of mergers with no organic comparison. The question asks which is <i>better</i>, so every paragraph should compare.</div>
+  </div></details>
+</section>
+
+<!-- TIPS -->
+<section id="tips" role="tabpanel" hidden>
+  <h2>Top tips</h2>
+  <ul class="tips">
+    <li><b>Name the type of integration exactly.</b> Forward, backward, horizontal or conglomerate, and say why: "nearer the consumer", "same stage", "unrelated".</li>
+    <li><b>Use the context.</b> Application marks need the firm or extract: its products, markets, size or objectives.</li>
+    <li><b>Chain every point.</b> Merger → bulk buying → lower average cost → price cuts or higher margin.</li>
+    <li><b>Principal-agent:</b> name both parties, say what each wants, and why the gap matters (asymmetric information).</li>
+    <li><b>Do not call every merger good.</b> Evaluation is about culture clash, diseconomies, finance and regulation.</li>
+    <li><b>Evaluate with "depends on".</b> Size of firm, type of market, finance available, owner objectives, time period.</li>
+    <li><b>Demergers:</b> give reasons first, then impacts on at least two groups.</li>
+  </ul>
+  <h2>Command words</h2>
+  <div class="tw"><table class="t">
+    <tr><th>Command word</th><th>What it asks for</th></tr>
+    <tr><td>Explain</td><td>A reason with a developed chain, usually in context.</td></tr>
+    <tr><td>Analyse</td><td>A developed chain of cause and effect.</td></tr>
+    <tr><td>Assess / Discuss</td><td>Analysis on both sides, then a supported judgement.</td></tr>
+    <tr><td>Evaluate</td><td>Weigh arguments, consider what it depends on, and reach a judgement.</td></tr>
+  </table></div>
+  <h2>Keyword flashcards</h2>
+  <div id="fc1"></div>
+</section>
+</div>
+
+<script>
+const $ = (s, e = document) => e.querySelector(s), $$ = (s, e = document) => [...e.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmtN = (n, d = 2) => (Math.round(n * 10 ** d) / 10 ** d).toString();
+
+/* ---------- tabs ---------- */
+function initTabs() {
+  const list = $(".tablist"), tabs = $$("[role=tab]", list), panels = tabs.map((t) => $("#" + t.dataset.p));
+  const show = (i, focus) => {
+    tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; panels[k].hidden = k !== i; });
+    if (focus) tabs[i].focus();
+    try { history.replaceState(null, "", "#" + tabs[i].dataset.p); } catch (e) {}
+    window.dispatchEvent(new Event("resize"));
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { show(i); window.scrollTo(0, 0); });
+    t.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show((i + 1) % tabs.length, true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show((i + tabs.length - 1) % tabs.length, true); }
+    });
+  });
+  const start = tabs.findIndex((t) => "#" + t.dataset.p === location.hash);
+  show(start < 0 ? 0 : start);
+}
+
+/* ---------- svg string helpers ---------- */
+const at = (o) => Object.entries(o || {}).map(([k, v]) => ` ${k}="${v}"`).join("");
+const SV = {
+  line: (x1, y1, x2, y2, c = "ax", o) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${c}"${at(o)}/>`,
+  text: (x, y, t, c = "lbl", o) => `<text x="${x}" y="${y}" class="${c}"${at(o)}>${t}</text>`,
+  circle: (x, y, r, c = "dot1", o) => `<circle cx="${x}" cy="${y}" r="${r}" class="${c}"${at(o)}/>`,
+  rect: (x, y, w, h, c = "f1", o) => `<rect x="${x}" y="${y}" width="${Math.max(0, w)}" height="${Math.max(0, h)}" class="${c}"${at(o)}/>`,
+  path: (d, c = "c1", o) => `<path d="${d}" class="${c}"${at(o)}/>`,
+  poly: (pts, c = "f1", o) => `<polygon points="${pts.map((p) => p.join(",")).join(" ")}" class="${c}"${at(o)}/>`,
+  arrowHead: (x, y, dir, c = "dot1") => { const s = 7; const p = { r: [[x, y], [x - s * 1.6, y - s], [x - s * 1.6, y + s]], l: [[x, y], [x + s * 1.6, y - s], [x + s * 1.6, y + s]], u: [[x, y], [x - s, y + s * 1.6], [x + s, y + s * 1.6]], d: [[x, y], [x - s, y - s * 1.6], [x + s, y - s * 1.6]] }[dir]; return `<polygon points="${p.map((q) => q.join(",")).join(" ")}" class="${c}"/>`; },
+};
+const ptsPath = (pts) => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+
+/* ---------- animated stepper ---------- */
+function stepper(el, cfg) {
+  const W = cfg.w || 760, H = cfg.h || 400, steps = cfg.steps;
+  el.innerHTML = `<div class="stp"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.label || "Animated diagram")}"></svg>
+    <div class="stp-cap" aria-live="polite"></div>
+    <div class="stp-ctl"><button class="b" data-a="back">◀ Back</button><button class="b pri" data-a="play">▶ Play</button><button class="b" data-a="next">Next ▶</button><button class="b" data-a="restart" aria-label="Restart">↻</button><span class="stp-dots"></span></div></div>`;
+  const svg = $("svg", el), cap = $(".stp-cap", el), dots = $(".stp-dots", el), playBtn = $("[data-a=play]", el);
+  let cur = 0, drawn = { ...cfg.base, ...steps[0].s }, raf = 0, timer = 0, playing = false;
+  steps.forEach((_, i) => { const d = document.createElement("button"); d.textContent = i + 1; d.setAttribute("aria-label", "Step " + (i + 1)); d.onclick = () => { stop(); go(i); }; dots.appendChild(d); });
+  const interp = (a, b, t) => { const o = {}; for (const k in b) o[k] = typeof b[k] === "number" && typeof a[k] === "number" ? a[k] + (b[k] - a[k]) * t : t > 0.5 ? b[k] : a[k] !== undefined ? a[k] : b[k]; return o; };
+  const paint = (s) => { drawn = s; svg.innerHTML = cfg.draw(s); };
+  function go(i) {
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    cap.innerHTML = steps[cur].cap;
+    $$("button", dots).forEach((d, k) => { d.classList.toggle("on", k === cur); d.classList.toggle("done", k < cur); });
+    const from = drawn, to = { ...cfg.base, ...steps[cur].s }, t0 = performance.now(), dur = reduced ? 0 : cfg.tween || 900;
+    cancelAnimationFrame(raf);
+    const tick = (now) => { const t = dur ? Math.min(1, (now - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; paint(interp(from, to, e)); if (t < 1) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+  }
+  function stop() { playing = false; clearTimeout(timer); playBtn.textContent = "▶ Play"; }
+  function advance() { if (!playing) return; if (cur >= steps.length - 1) return stop(); go(cur + 1); timer = setTimeout(advance, cfg.dwell || 4800); }
+  playBtn.onclick = () => { if (playing) return stop(); if (cur >= steps.length - 1) go(0); playing = true; playBtn.textContent = "❚❚ Pause"; timer = setTimeout(advance, cfg.dwell ? Math.min(cfg.dwell, 3000) : 2500); };
+  $("[data-a=back]", el).onclick = () => { stop(); go(cur - 1); };
+  $("[data-a=next]", el).onclick = () => { stop(); go(cur + 1); };
+  $("[data-a=restart]", el).onclick = () => { stop(); go(0); };
+  paint(drawn); go(0);
+}
+
+/* ---------- slider ---------- */
+function slider(el, o) {
+  const id = o.id;
+  el.innerHTML = `<div class="sl"><label for="${id}">${o.label}<output id="${id}o"></output></label><input type="range" id="${id}" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}"></div>`;
+  const i = $("#" + id, el), out = $("#" + id + "o", el);
+  const upd = () => { out.textContent = (o.fmt || ((v) => v))(+i.value); o.onInput && o.onInput(+i.value); };
+  i.addEventListener("input", upd); upd();
+  return { get: () => +i.value, set: (v) => { i.value = v; upd(); } };
+}
+
+/* ---------- classify (also powers match) ---------- */
+function classify(el, o) {
+  const items = o.items.map((x, i) => ({ ...x, id: i })), cap = o.cap || 99;
+  el.classList.add("cls"); if (o.match) el.classList.add("match");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<div class="pool" data-b="pool" aria-label="Items to place"></div>
+    <div class="buckets">${o.buckets.map((b, i) => `<div class="bk" data-b="${i}"><h4>${b.label}</h4><div class="slot"></div></div>`).join("")}</div>
+    <div class="row"><button class="b pri" data-a="check">Check</button><button class="b" data-a="reset">Reset</button></div><div class="msg" aria-live="polite"></div>`;
+  const pool = $(".pool", el), msg = $(".msg", el);
+  let sel = null;
+  const chip = (it) => { const c = document.createElement("button"); c.className = "chip"; c.type = "button"; c.draggable = true; c.textContent = it.text; c.dataset.id = it.id;
+    c.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/plain", it.id); sel = c; });
+    c.addEventListener("click", (e) => { e.stopPropagation(); if (sel === c) { c.classList.remove("sel"); sel = null; } else { sel && sel.classList.remove("sel"); sel = c; c.classList.add("sel"); } });
+    return c; };
+  const place = (c, zone) => {
+    const slot = zone === pool ? pool : $(".slot", zone);
+    if (zone !== pool && slot.children.length >= cap) { const old = slot.firstElementChild; pool.appendChild(old); }
+    slot.appendChild(c); c.classList.remove("sel", "ok", "no"); sel = null; msg.textContent = "";
+  };
+  const fill = () => { pool.innerHTML = ""; $$(".slot", el).forEach((s) => (s.innerHTML = "")); (o.noShuffle ? items : shuffle(items)).forEach((it) => pool.appendChild(chip(it))); msg.textContent = ""; };
+  [pool, ...$$(".bk", el)].forEach((z) => {
+    z.addEventListener("dragover", (e) => { e.preventDefault(); z.classList.add("over"); });
+    z.addEventListener("dragleave", () => z.classList.remove("over"));
+    z.addEventListener("drop", (e) => { e.preventDefault(); z.classList.remove("over"); const c = $(`[data-id="${e.dataTransfer.getData("text/plain")}"]`, el); c && place(c, z); });
+    z.addEventListener("click", () => { if (sel) place(sel, z); });
+  });
+  $("[data-a=check]", el).onclick = () => {
+    let ok = 0;
+    $$(".bk", el).forEach((b) => $$(".chip", b).forEach((c) => { const good = items[+c.dataset.id].b === +b.dataset.b; c.classList.toggle("ok", good); c.classList.toggle("no", !good); if (good) ok++; }));
+    const left = $$(".chip", pool).length;
+    msg.textContent = left ? `${left} still to place. ${ok} correct so far.` : ok === items.length ? "All correct. " + (o.done || "") : `${ok} of ${items.length} correct. Red ones are in the wrong place; move them and check again.`;
+  };
+  $("[data-a=reset]", el).onclick = fill;
+  fill();
+}
+function match(el, o) {
+  classify(el, { match: true, cap: 1, prompt: o.prompt, buckets: o.pairs.map((p) => ({ label: p[0] })), items: o.pairs.map((p, i) => ({ text: p[1], b: i })), done: o.done });
+}
+
+/* ---------- ordering ---------- */
+function order(el, o) {
+  el.classList.add("ord");
+  el.innerHTML = `${o.prompt ? `<p>${o.prompt}</p>` : ""}<ol></ol><div class="row"><button class="b pri" data-a="check">Check order</button><button class="b" data-a="reset">Shuffle again</button></div><div class="msg" aria-live="polite"></div>`;
+  const ol = $("ol", el), msg = $(".msg", el);
+  let dragEl = null;
+  const make = (t, id) => { const li = document.createElement("li"); li.draggable = true; li.dataset.id = id; li.innerHTML = `<span>${t}</span><button class="b" type="button" aria-label="Move up">↑</button><button class="b" type="button" aria-label="Move down">↓</button>`;
+    li.addEventListener("dragstart", () => { dragEl = li; li.classList.add("drag"); });
+    li.addEventListener("dragend", () => { li.classList.remove("drag"); dragEl = null; });
+    li.addEventListener("dragover", (e) => { e.preventDefault(); if (!dragEl || dragEl === li) return; const r = li.getBoundingClientRect(); ol.insertBefore(dragEl, e.clientY < r.top + r.height / 2 ? li : li.nextSibling); });
+    $$("button", li)[0].onclick = () => { li.previousElementSibling && ol.insertBefore(li, li.previousElementSibling); };
+    $$("button", li)[1].onclick = () => { li.nextElementSibling && ol.insertBefore(li.nextElementSibling, li); };
+    return li; };
+  const fill = () => { ol.innerHTML = ""; let s; do { s = shuffle(o.items.map((t, i) => [t, i])); } while (o.items.length > 1 && s.every((x, i) => x[1] === i)); s.forEach(([t, i]) => ol.appendChild(make(t, i))); msg.textContent = ""; };
+  $("[data-a=check]", el).onclick = () => { let ok = 0; $$("li", ol).forEach((li, i) => { const g = +li.dataset.id === i; li.classList.toggle("ok", g); li.classList.toggle("no", !g); if (g) ok++; }); msg.textContent = ok === o.items.length ? "Correct order. " + (o.done || "") : `${ok} of ${o.items.length} in the right place.`; };
+  $("[data-a=reset]", el).onclick = fill; fill();
+}
+
+/* ---------- multiple choice ---------- */
+function quiz(el, o) {
+  el.classList.add("qz");
+  let score = 0, answered = 0;
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p class="qt">${i + 1}. ${q.q}</p>${q.opts.map((t, k) => `<button class="opt" data-k="${k}">${String.fromCharCode(65 + k)}. ${t}</button>`).join("")}<div class="why"><b>${"Answer: " + String.fromCharCode(65 + q.a)}.</b> ${q.why}</div></div>`).join("") + `<div class="score" aria-live="polite"></div><button class="b" data-a="again">Try again</button>`;
+  const sc = $(".score", el);
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i];
+    $$(".opt", box).forEach((b) => b.addEventListener("click", () => { if (box.classList.contains("done")) return; box.classList.add("done"); answered++; const k = +b.dataset.k; if (k === q.a) score++; b.classList.add(k === q.a ? "ok" : "no"); $$(".opt", box)[q.a].classList.add("ok"); sc.textContent = `Score: ${score} / ${answered} answered (of ${o.qs.length})`; })); });
+  $("[data-a=again]", el).onclick = () => { score = answered = 0; sc.textContent = ""; $$(".q", el).forEach((b) => { b.classList.remove("done"); $$(".opt", b).forEach((x) => x.classList.remove("ok", "no")); }); };
+}
+
+/* ---------- calculations ---------- */
+function calc(el, o) {
+  el.classList.add("calc");
+  el.innerHTML = o.qs.map((q, i) => `<div class="q" data-i="${i}"><p>${i + 1}. ${q.q}</p>
+    <div class="row"><input type="text" inputmode="decimal" aria-label="Answer ${i + 1}" placeholder="${q.ph || "answer"}">${q.unit ? `<span>${q.unit}</span>` : ""}<button class="b pri" data-a="c">Check</button><button class="b" data-a="h">Hint</button><button class="b" data-a="s">Show working</button><span class="fb" aria-live="polite"></span></div>
+    <div class="sol" data-s="h">${q.hint || "Write the formula first, then substitute."}</div><div class="sol" data-s="s">${q.sol}</div></div>`).join("");
+  $$(".q", el).forEach((box) => { const q = o.qs[+box.dataset.i], inp = $("input", box), fb = $(".fb", box);
+    const check = () => { const v = parseFloat(inp.value.replace(/[,$%\s−]/g, (m) => (m === "−" ? "-" : ""))); const good = !isNaN(v) && Math.abs(v - q.a) <= (q.tol ?? 0.01); fb.textContent = good ? "✓ Correct" : "✗ Not quite"; fb.className = "fb " + (good ? "ok" : "no"); };
+    $("[data-a=c]", box).onclick = check; inp.addEventListener("keydown", (e) => e.key === "Enter" && check());
+    $("[data-a=h]", box).onclick = () => $("[data-s=h]", box).classList.toggle("show");
+    $("[data-a=s]", box).onclick = () => $("[data-s=s]", box).classList.toggle("show"); });
+}
+
+/* ---------- flashcards ---------- */
+function cards(el, o) {
+  let deck = o.cards.map((c) => c), i = 0, back = false, known = new Set();
+  el.classList.add("fc");
+  el.innerHTML = `<div class="face" tabindex="0" role="button" aria-label="Flip card"></div><div class="row" style="margin-top:10px"><button class="b" data-a="p">◀</button><button class="b" data-a="f">Flip</button><button class="b" data-a="n">▶</button><button class="b" data-a="s">Shuffle</button><button class="b pri" data-a="k">I know this</button><span class="note" data-c></span></div>`;
+  const face = $(".face", el), cnt = $("[data-c]", el);
+  const paint = () => { const c = deck[i]; face.className = "face" + (back ? " back" : ""); face.innerHTML = `<div><small>${back ? "Definition" : "Term"}</small>${back ? c[1] : "<b>" + c[0] + "</b>"}</div>`; cnt.textContent = `${i + 1} / ${deck.length} · known ${known.size}`; };
+  const flip = () => { back = !back; paint(); };
+  face.onclick = flip; face.onkeydown = (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), flip());
+  $("[data-a=f]", el).onclick = flip;
+  $("[data-a=n]", el).onclick = () => { i = (i + 1) % deck.length; back = false; paint(); };
+  $("[data-a=p]", el).onclick = () => { i = (i + deck.length - 1) % deck.length; back = false; paint(); };
+  $("[data-a=s]", el).onclick = () => { deck = shuffle(deck); i = 0; back = false; paint(); };
+  $("[data-a=k]", el).onclick = () => { known.add(deck[i][0]); i = (i + 1) % deck.length; back = false; paint(); };
+  paint();
+}
+
+window.Lib = { initTabs, SV, ptsPath, stepper, slider, classify, match, order, quiz, calc, cards, fmtN, esc };
+
+/* Generic axes-and-curves helper for micro diagrams. Plot({xmax,ymax,xl,yl}) returns mapping and drawing functions that build SVG strings. */
+function Plot(o) {
+  const W = o.W || 760, H = o.H || 400, l = o.l || 66, r = o.r || 36, t = o.t || 26, b = o.b || 50;
+  const X = (x) => l + (x / o.xmax) * (W - l - r), Y = (y) => H - b - (y / o.ymax) * (H - t - b);
+  const P = { W, H, X, Y };
+  P.axes = () => SV.line(X(0), Y(o.ymax), X(0), Y(0)) + SV.line(X(0), Y(0), X(o.xmax), Y(0))
+    + SV.text(X(0) + 8, t - 6, o.yl || "Price / costs (£)", "sm") + SV.text(X(o.xmax), Y(0) + 34, o.xl || "Quantity", "sm", { "text-anchor": "end" });
+  P.curve = (f, cls = "c1", x0 = 0, x1 = o.xmax, extra) => {
+    const pts = [];
+    for (let i = 0; i <= 80; i++) { const x = x0 + (x1 - x0) * i / 80, y = f(x); if (isFinite(y) && y >= -0.001 && y <= o.ymax) pts.push([X(x), Y(y)]); }
+    return pts.length > 1 ? SV.path(ptsPath(pts), cls, extra) : "";
+  };
+  P.seg = (xa, ya, xb, yb, cls = "c1", extra) => SV.line(X(xa), Y(ya), X(xb), Y(yb), cls, extra);
+  P.label = (x, y, txt, cls = "lbl bd t1", anchor = "start") => SV.text(X(x) + 4, Y(y) + 4, txt, cls, { "text-anchor": anchor });
+  P.guide = (x, y, extra) => SV.line(X(0), Y(y), X(x), Y(y), "gr", extra) + SV.line(X(x), Y(y), X(x), Y(0), "gr", extra);
+  P.dot = (x, y, cls = "dot1", r = 6, extra) => SV.circle(X(x), Y(y), r, cls, extra);
+  P.tx = (x, txt, cls = "sm") => SV.text(X(x), Y(0) + 18, txt, cls, { "text-anchor": "middle" });
+  P.ty = (y, txt, cls = "sm") => SV.text(X(0) - 8, Y(y) + 4, txt, cls, { "text-anchor": "end" });
+  P.rect = (xa, ya, xb, yb, cls = "f1", extra) => SV.rect(X(xa), Y(yb), X(xb) - X(xa), Y(ya) - Y(yb), cls, extra);
+  return P;
+}
+
+/* ---------- supply chain diagram ---------- */
+const NODES = {
+  farm: { x: 10, y: 140, t: "Wheat farm" }, mill: { x: 195, y: 140, t: "Flour mill" },
+  us: { x: 380, y: 140, t: "Our bakery chain" }, shop: { x: 565, y: 140, t: "Supermarket" },
+  rival: { x: 380, y: 30, t: "Rival bakery" }, other: { x: 380, y: 250, t: "Software firm" },
+};
+function box(k, hi, op) {
+  const n = NODES[k], w = 150, h = 50;
+  return SV.rect(n.x, n.y, w, h, hi ? "f4" : "f1", { rx: 8, opacity: op === undefined ? 1 : op }) + SV.rect(n.x, n.y, w, h, "", { rx: 8, fill: "none", stroke: hi ? "var(--warn)" : "var(--accent)", "stroke-width": hi ? 3 : 1.5, opacity: op === undefined ? 1 : op })
+    + SV.text(n.x + w / 2, n.y + 30, n.t, "lbl bd", { "text-anchor": "middle", opacity: op === undefined ? 1 : op });
+}
+function arrow(a, b, op, cls = "c3") {
+  const A = NODES[a], B = NODES[b];
+  let x1, y1, x2, y2;
+  if (A.y === B.y) { x1 = A.x + (B.x > A.x ? 150 : 0); y1 = A.y + 25; x2 = B.x + (B.x > A.x ? 0 : 150); y2 = y1; }
+  else { x1 = A.x + 75; y1 = A.y + (B.y > A.y ? 50 : 0); x2 = x1; y2 = B.y + (B.y > A.y ? 0 : 50); }
+  return `<g opacity="${op}">` + SV.line(x1, y1, x2, y2, cls) + SV.arrowHead(x2, y2, x2 > x1 ? "r" : x2 < x1 ? "l" : y2 > y1 ? "d" : "u", cls === "c3" ? "dot3" : "dot2") + "</g>";
+}
+const flow = () => SV.text(10, 112, "Supply chain: materials  →  production  →  retail", "sm");
+function chainDraw(s) {
+  let o = flow();
+    ["farm", "mill", "shop"].forEach((k) => (o += box(k, false)));
+  o += box("us", true);
+  o += box("rival", false, 0.25 + 0.75 * Math.max(s.h, 0)) + box("other", false, 0.25 + 0.75 * Math.max(s.c, 0));
+  o += arrow("us", "mill", s.b); o += arrow("us", "shop", s.f); o += arrow("us", "rival", s.h); o += arrow("us", "other", s.c);
+  o += SV.text(380 + 75, 14, "SAME stage", "sm bd t3", { "text-anchor": "middle", opacity: s.h });
+  o += SV.text(380 + 75, 326, "UNRELATED industry", "sm bd t3", { "text-anchor": "middle", opacity: s.c });
+  o += SV.text(195 + 75, 126, "BACKWARD", "sm bd t3", { "text-anchor": "middle", opacity: s.b });
+  o += SV.text(565 + 75, 126, "FORWARD", "sm bd t3", { "text-anchor": "middle", opacity: s.f });
+  return o;
+}
+Lib.stepper($("#stA"), { w: 760, h: 330, label: "Four directions of integration", base: { b: 0, f: 0, h: 0, c: 0 }, tween: 700, draw: chainDraw, steps: [
+  { cap: "Our bakery chain sits in the <b>middle of a supply chain</b>: it buys flour from a mill (which buys wheat from farms) and sells bread through supermarkets. It also has rivals and could buy firms in unrelated industries.", s: { b: 0, f: 0, h: 0, c: 0 } },
+  { cap: "<b>Backward vertical integration</b>: buy the flour mill. The firm moves <b>towards raw materials</b>, securing supply and quality and cutting out the supplier's profit margin.", s: { b: 1, f: 0, h: 0, c: 0 } },
+  { cap: "<b>Forward vertical integration</b>: buy the retailer. The firm moves <b>towards the consumer</b>, securing outlets and keeping the retail margin.", s: { b: 0, f: 1, h: 0, c: 0 } },
+  { cap: "<b>Horizontal integration</b>: merge with a rival bakery at the <b>same stage</b>. This brings economies of scale and a bigger market share, but may attract the competition authority.", s: { b: 0, f: 0, h: 1, c: 0 } },
+  { cap: "<b>Conglomerate integration</b>: buy a firm in an <b>unrelated</b> industry. It spreads risk, but there is little cost saving and managers may lack expertise.", s: { b: 0, f: 0, h: 0, c: 1 } },
+] });
+
+/* ---------- principal-agent ---------- */
+function paDraw(s) {
+  let o = "";
+  const b = (x, y, w, h, t1, t2, cls, op) => SV.rect(x, y, w, h, cls, { rx: 10, opacity: op }) + SV.text(x + w / 2, y + 28, t1, "lbl bd", { "text-anchor": "middle", opacity: op }) + SV.text(x + w / 2, y + 50, t2, "sm", { "text-anchor": "middle", opacity: op });
+  o += b(40, 40, 220, 80, "Shareholders", "PRINCIPALS: the owners", "f1", 1);
+  o += b(500, 40, 220, 80, "Managers", "AGENTS: run the firm", "f4", 1);
+  o += SV.line(260, 80, 500, 80, "c1") + SV.arrowHead(500, 80, "r", "dot1") + SV.text(380, 70, "hire and pay", "sm", { "text-anchor": "middle" });
+  o += SV.text(40, 150, "Owners want:", "lbl bd t1", { opacity: s.a }) + SV.text(40, 172, "profit and a rising share price", "lbl", { opacity: s.a });
+  o += SV.text(720, 150, "Managers may want:", "lbl bd t4", { "text-anchor": "end", opacity: s.b }) + SV.text(720, 172, "pay, status, job security, a bigger firm", "lbl", { "text-anchor": "end", opacity: s.b });
+  o += SV.rect(250, 190, 260, 60, "f2", { rx: 10, opacity: s.c }) + SV.text(380, 215, "Information gap", "lbl bd t2", { "text-anchor": "middle", opacity: s.c }) + SV.text(380, 236, "managers know more than owners", "sm", { "text-anchor": "middle", opacity: s.c });
+  o += SV.text(380, 285, "Result: revenue or sales maximisation instead of profit", "lbl bd t2", { "text-anchor": "middle", opacity: s.d });
+  o += SV.text(380, 325, "Fix: bonuses, share options, non-executive directors, audits, takeover threat", "lbl bd t3", { "text-anchor": "middle", opacity: s.e });
+  return o;
+}
+Lib.stepper($("#stB"), { w: 760, h: 350, label: "The principal-agent problem", base: { a: 0, b: 0, c: 0, d: 0, e: 0 }, tween: 700, draw: paDraw, steps: [
+  { cap: "In a large company the <b>owners (principals)</b> are not the people running it. They hire <b>managers (agents)</b> to make decisions on their behalf. This is the <b>divorce of ownership from control</b>.", s: { a: 0, b: 0, c: 0, d: 0, e: 0 } },
+  { cap: "Shareholders usually want <b>profit and a rising share price</b>.", s: { a: 1, b: 0, c: 0, d: 0, e: 0 } },
+  { cap: "Managers may care more about their own <b>pay, status and security</b>, which often rise with the size of the firm.", s: { a: 1, b: 1, c: 0, d: 0, e: 0 } },
+  { cap: "Managers know much more about the firm than shareholders do: <b>asymmetric information</b>. They are hard to monitor.", s: { a: 1, b: 1, c: 1, d: 0, e: 0 } },
+  { cap: "The firm may therefore pursue <b>revenue or sales maximisation</b> or risky takeovers, rather than the profit shareholders want.", s: { a: 1, b: 1, c: 1, d: 1, e: 0 } },
+  { cap: "Shareholders can narrow the gap by <b>linking pay to profit or share price</b>, appointing non-executive directors, requiring audits and, as a last resort, selling shares so a takeover becomes likely.", s: { a: 1, b: 1, c: 1, d: 1, e: 1 } },
+] });
+
+/* ---------- explore: route chooser ---------- */
+const ROUTES = {
+  organic: { n: "Organic growth", hi: [], arrows: [], note: "The chain opens new branches itself.", gain: "<ul><li>Low risk, keeps control and culture</li><li>No integration costs</li><li>Funded by retained profit</li></ul>", risk: "<ul><li>Slow; rivals may grow faster</li><li>Limited by finance and market size</li></ul>" },
+  backward: { n: "Backward vertical integration: buy the flour mill", arrows: ["mill"], gain: "<ul><li>Secures supply and quality</li><li>May lower input costs and protect against supplier price rises</li><li>Can deny rivals supplies</li></ul>", risk: "<ul><li>Needs milling expertise</li><li>May be costly to buy</li><li>Locked into one source even if it stops being cheapest</li></ul>" },
+  forward: { n: "Forward vertical integration: buy the supermarket", arrows: ["shop"], gain: "<ul><li>Guaranteed outlet</li><li>Keeps the retailer's margin</li><li>More control over display and customer data</li></ul>", risk: "<ul><li>Retail skills are different</li><li>Other supermarkets may stop stocking the bread</li><li>Large investment</li></ul>" },
+  horizontal: { n: "Horizontal integration: merge with a rival bakery", arrows: ["rival"], gain: "<ul><li>Economies of scale</li><li>Bigger market share and market power</li><li>Removes a competitor</li></ul>", risk: "<ul><li>Competition authority may investigate or block it</li><li>Culture clash, job losses</li><li>Diseconomies of scale if the firm becomes too big</li></ul>" },
+  conglomerate: { n: "Conglomerate integration: buy a software firm", arrows: ["other"], gain: "<ul><li>Spreads risk across unrelated markets</li><li>Uses spare cash</li><li>Less likely to be blocked by competition rules</li></ul>", risk: "<ul><li>No expertise in the new market</li><li>Little cost saving</li><li>Managers stretched; shareholders could diversify themselves</li></ul>" },
+};
+function route(k) {
+  const r = ROUTES[k];
+  let o = flow() + ["farm", "mill", "shop", "rival", "other"].map((n) => box(n, false, 0.5)).join("") + box("us", true);
+  if (r.arrows[0]) {
+    o += box(r.arrows[0], true) + arrow("us", r.arrows[0], 1);
+  } else {
+    o += SV.text(380 + 75, 218, "grows from its own resources:", "sm bd t3", { "text-anchor": "middle" }) + SV.text(380 + 75, 234, "new shops, new products", "sm bd t3", { "text-anchor": "middle" });
+  }
+  $("#routeSvg").innerHTML = o;
+  $("#routeName").textContent = r.n + (r.note ? ". " + r.note : "");
+  $("#routeGain").innerHTML = r.gain; $("#routeRisk").innerHTML = r.risk;
+  $$("#routeBtns button").forEach((b) => b.classList.toggle("pri", b.dataset.k === k));
+}
+Object.entries(ROUTES).forEach(([k, r]) => {
+  const b = document.createElement("button"); b.className = "b"; b.dataset.k = k; b.textContent = r.n.split(":")[0]; b.onclick = () => route(k); $("#routeBtns").appendChild(b);
+});
+route("organic");
+
+const CONS = [
+  ["A bespoke tailor in a market town wants to open ten shops.", "Size of the market", "Demand for hand-made suits is small and local. More shops would split the same customers, so extra revenue may not cover extra costs. A better route could be online sales or a higher-priced niche."],
+  ["A successful ice-cream maker wants to buy a rival but has little spare cash.", "Access to finance", "A takeover needs large funds. Options include a share issue, bank loans or private equity, each with costs: lost control, interest payments, or tougher conditions."],
+  ["The owner of a family garage says: 'I do not want to answer to anyone.'", "Owner objectives", "Taking outside investors or borrowing heavily means giving up some control. If the owner values independence over profit, growth may be deliberately limited."],
+  ["Two of the four biggest online retailers announce a merger.", "Regulation", "The competition authority (CMA in the UK) could investigate because it would reduce competition, and may block the deal or require some businesses to be sold."],
+];
+$("#constraints").innerHTML = CONS.map((c, i) => `<details class="eq"><summary>${c[0]}</summary><div class="body"><p><b>Constraint:</b> <span class="kw">${c[1]}</span></p><p>${c[2]}</p></div></details>`).join("");
+
+/* ---------- practise ---------- */
+Lib.classify($("#cl1"), { prompt: "Place each case in the right group.", buckets: [{ label: "Organic" }, { label: "Forward vertical" }, { label: "Backward vertical" }, { label: "Horizontal" }, { label: "Conglomerate" }], done: "Remember the test: same stage, towards the consumer, towards the supplier, or unrelated.", items: [
+  { text: "A bakery opens a new shop paid for from retained profit", b: 0 }, { text: "A restaurant chain launches a delivery app of its own", b: 0 },
+  { text: "A brewer buys a chain of pubs", b: 1 }, { text: "A film studio buys a cinema chain", b: 1 },
+  { text: "A car maker buys a steel producer", b: 2 }, { text: "A coffee chain buys coffee plantations", b: 2 },
+  { text: "Two supermarket chains merge", b: 3 }, { text: "An airline buys a rival airline", b: 3 },
+  { text: "A tobacco company buys a food company", b: 4 }, { text: "A software firm buys a clothing brand", b: 4 },
+] });
+Lib.classify($("#cl2"), { prompt: "Which type of organisation?", buckets: [{ label: "Private sector, profit-making" }, { label: "Public sector" }, { label: "Not-for-profit" }], items: [
+  { text: "Barclays plc", b: 0 }, { text: "Self-employed plumber", b: 0 }, { text: "Unilever", b: 0 },
+  { text: "A local council leisure centre", b: 1 }, { text: "A state-run hospital", b: 1 }, { text: "A state school", b: 1 },
+  { text: "Cancer Research UK", b: 2 }, { text: "A social enterprise reinvesting profit in homeless support", b: 2 }, { text: "A village hall run by volunteers", b: 2 },
+] });
+Lib.match($("#m1"), { prompt: "Match each term to its meaning.", pairs: [
+  ["Principal", "The owner who hires someone to act for them (a shareholder)"],
+  ["Agent", "The person who makes decisions on the owners' behalf (a manager)"],
+  ["Asymmetric information", "One party knows more than the other"],
+  ["Demerger", "Splitting a firm into separate businesses"],
+  ["Takeover", "One firm buying control of another"],
+  ["Organic growth", "Expansion from the firm's own resources"],
+] });
+Lib.order($("#o1"), { prompt: "Order the chain of reasoning.", items: [
+  "Shareholders (principals) hire managers (agents) to run the company",
+  "Managers know more about the firm than shareholders do",
+  "Managers pursue pay, status and size rather than profit",
+  "The firm moves towards revenue or sales maximisation",
+  "Profit and shareholder returns are lower than they could be",
+], done: "A clear chain: each step causes the next." });
+Lib.quiz($("#qz1"), { qs: [
+  { q: "A brewer buys a chain of pubs. This is:", opts: ["Backward vertical integration", "Forward vertical integration", "Horizontal integration", "Conglomerate integration"], a: 1, why: "Pubs are nearer the consumer in the supply chain." },
+  { q: "A bakery chain buys a flour mill. This is:", opts: ["Forward vertical", "Backward vertical", "Horizontal", "Organic growth"], a: 1, why: "Millers are suppliers, nearer the raw materials." },
+  { q: "Which is a likely drawback of conglomerate integration?", opts: ["It makes the firm less risky", "Managers may lack expertise in the new industry", "It always removes a competitor", "It always lowers unit costs"], a: 1, why: "Unrelated businesses give little cost saving and need different skills." },
+  { q: "The principal-agent problem exists because:", opts: ["Shareholders run the firm", "Managers and shareholders may have different objectives", "Firms cannot make profit", "Regulators control managers"], a: 1, why: "Owners and managers can want different things, and managers know more." },
+  { q: "Which would be a constraint on growth?", opts: ["A growing market", "Easy access to cheap finance", "An owner who prefers control to expansion", "Economies of scale"], a: 2, why: "Owner objectives can limit growth." },
+  { q: "Which is a reason for a demerger?", opts: ["To gain economies of scale", "To refocus on the core business", "To take over a rival", "To increase diversification"], a: 1, why: "Demergers often follow diseconomies of scale or lost focus." },
+  { q: "A charity that reinvests surplus in its cause is best described as:", opts: ["Public sector", "Not-for-profit", "A monopoly", "A conglomerate"], a: 1, why: "It is private-sector but not-for-profit." },
+  { q: "Which is a merger between a firm and a direct competitor?", opts: ["Horizontal", "Forward vertical", "Conglomerate", "Backward vertical"], a: 0, why: "Same stage, same industry." },
+] });
+Lib.cards($("#fc1"), { cards: [
+  ["Organic growth", "Expansion using the firm's own resources, such as new products or outlets."],
+  ["Merger", "Two firms agree to combine into one."],
+  ["Takeover (acquisition)", "One firm buys control of another, sometimes against its wishes."],
+  ["Horizontal integration", "Joining with a firm at the same stage of production in the same industry."],
+  ["Forward vertical integration", "Joining with a firm nearer the consumer in the supply chain."],
+  ["Backward vertical integration", "Joining with a firm nearer the raw materials, such as a supplier."],
+  ["Conglomerate integration", "Joining with a firm in an unrelated industry."],
+  ["Principal", "The owner (shareholder) who hires someone to act on their behalf."],
+  ["Agent", "The manager who acts on behalf of the owners."],
+  ["Principal-agent problem", "Agents may pursue their own aims rather than the owners' aims."],
+  ["Asymmetric information", "One party in a transaction knows more than the other."],
+  ["Demerger", "A firm splits into two or more separate businesses."],
+  ["Private sector", "Businesses owned and run by individuals or shareholders."],
+  ["Public sector", "Organisations owned and controlled by the government."],
+  ["Not-for-profit", "Organisations that reinvest any surplus in their aims, such as charities."],
+  ["Core business", "The main activity a firm is best at and most dependent on."],
+] });
+
+Lib.initTabs();
+</script>
+</body></html>

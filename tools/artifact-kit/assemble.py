@@ -3,7 +3,7 @@ Sources: <name>.body.html (tabs and sections) + <name>.js (content and activitie
 import sys, pathlib
 name, title, slug = sys.argv[1:4]
 d = pathlib.Path(__file__).parent
-css, lib = (d/"lib.css").read_text(), (d/"lib.js").read_text()
+css, lib = (d/"lib.css").read_text(), (d/"lib.js").read_text() + "\n" + (d/"econ.js").read_text()
 body, js = (d/f"{name}.body.html").read_text(), (d/f"{name}.js").read_text()
 html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

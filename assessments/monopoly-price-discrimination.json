@@ -1,0 +1,165 @@
+{
+ "slug": "monopoly-price-discrimination",
+ "title": "Monopoly and Price Discrimination: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "A monopolist maximises profit where:",
+   "opts": [
+    "P = MC",
+    "MC = MR",
+    "MR = 0",
+    "AC is at its minimum"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Equilibrium",
+   "ok": "Correct: Profit is maximised where MC = MR.",
+   "fb": "Profit is maximised where MC = MR. Review the Learn tab.",
+   "model": "MC = MR"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "For a monopolist the price is read from:",
+   "opts": [
+    "MR",
+    "MC",
+    "AR (the demand curve)",
+    "AC"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Equilibrium",
+   "ok": "Correct: Go up from the output to the AR curve.",
+   "fb": "Go up from the output to the AR curve. Review the Learn tab.",
+   "model": "AR (the demand curve)"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "The deadweight loss of monopoly is:",
+   "opts": [
+    "Supernormal profit",
+    "The welfare lost because output is below the competitive level",
+    "Producer surplus",
+    "The area under MC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Efficiency",
+   "ok": "Correct: It is the triangle of welfare no one receives.",
+   "fb": "It is the triangle of welfare no one receives. Review the Learn tab.",
+   "model": "The welfare lost because output is below the competitive level"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "Which is a condition for price discrimination?",
+   "opts": [
+    "Perfect competition",
+    "The same elasticity in every group",
+    "The ability to prevent resale",
+    "Falling costs"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Price discrimination",
+   "ok": "Correct: Otherwise low-price buyers could resell to high-price buyers.",
+   "fb": "Otherwise low-price buyers could resell to high-price buyers. Review the Learn tab.",
+   "model": "The ability to prevent resale"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "In third-degree price discrimination the group with less elastic demand is charged:",
+   "opts": [
+    "A lower price",
+    "A higher price",
+    "The same price",
+    "Marginal cost"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Price discrimination",
+   "ok": "Correct: Less elastic buyers respond less to price, so a higher price raises revenue.",
+   "fb": "Less elastic buyers respond less to price, so a higher price raises revenue. Review the Learn tab.",
+   "model": "A higher price"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "A natural monopoly exists where:",
+   "opts": [
+    "Firms collude",
+    "LRAC falls over the whole range of market demand",
+    "The government owns the firm",
+    "There are many small firms"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Natural monopoly",
+   "ok": "Correct: Economies of scale are so large one firm is cheapest.",
+   "fb": "Economies of scale are so large one firm is cheapest. Review the Learn tab.",
+   "model": "LRAC falls over the whole range of market demand"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "Which is a possible benefit of monopoly?",
+   "opts": [
+    "Lower output",
+    "Economies of scale and R&D funded by supernormal profit",
+    "Deadweight loss",
+    "X-inefficiency"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Costs and benefits",
+   "ok": "Correct: Scale economies and dynamic efficiency.",
+   "fb": "Scale economies and dynamic efficiency. Review the Learn tab.",
+   "model": "Economies of scale and R&D funded by supernormal profit"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "A monopolist sells 50 units at £30 each with average cost of £22. Calculate supernormal profit (£).",
+   "ans": 400,
+   "tol": 0.5,
+   "marks": 1,
+   "topic": "Profit",
+   "hint": "Enter a number.",
+   "ok": "Correct: (30 − 22) × 50 = £400.",
+   "fb": "(30 − 22) × 50 = £400. Check the worked examples.",
+   "model": "400"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "A cinema sells 200 adult tickets at £10 and 150 student tickets at £6. Calculate total revenue (£).",
+   "ans": 2900,
+   "tol": 0.5,
+   "marks": 1,
+   "topic": "Revenue",
+   "hint": "Enter a number.",
+   "ok": "Correct: 2,000 + 900 = £2,900.",
+   "fb": "2,000 + 900 = £2,900. Check the worked examples.",
+   "model": "2900"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "A monopolist faces MR = 20 − 4Q. Calculate MR at Q = 3 (£).",
+   "ans": 8,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "Revenue",
+   "hint": "Enter a number.",
+   "ok": "Correct: MR = 20 − 12 = £8.",
+   "fb": "MR = 20 − 12 = £8. Check the worked examples.",
+   "model": "8"
+  }
+ ]
+}
