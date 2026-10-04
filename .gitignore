@@ -1,0 +1,5 @@
+.DS_Store
+__pycache__/
+
+# Pearson papers, textbooks and organisers: local reference only, copyrighted and large
+Resources/
