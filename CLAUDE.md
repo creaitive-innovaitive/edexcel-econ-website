@@ -15,7 +15,7 @@ Own Supabase project (edexcel-econ, separate from the Cambridge site) with the s
 
 ## Content status
 
-Theme 3 reviews are written (3.1, 3.4 in four parts, 3.5, 3.6); 3.2 and 3.3 are one ported page (`revenue-costs-profits`) placed under both chapters, with its PDFs. Exam technique pages and PDFs come from the old eunice-economics site. Model answers are original practice questions, not past-paper wording. Themes 1, 2 and 4 are still empty. Assessments need `supabase/assessments_seed.sql` pasted into the SQL Editor after each build that changes them.
+Theme 3 reviews are written (3.1, 3.2, 3.3, 3.4 in four parts, 3.5, 3.6), all in the CS layout: Learn, Watch, Explore, Practise, Real world, Exam questions, Tips & keywords. `tools/artifact-kit/realworld.py` adds the Real world tab to t31 and t34 to t36 (t32 and t33 have it inline). The old 3.2/3.3 PDFs sit in `objectives-costs-downloads`. Target layout for every subject and level is the Cambridge A-Level CS artifact tab set. Exam technique pages and PDFs come from the old eunice-economics site. Model answers are original practice questions, not past-paper wording. Themes 1, 2 and 4 are still empty. Assessments need `supabase/assessments_seed.sql` pasted into the SQL Editor after each build that changes them.
 
 ## Past paper index
 

@@ -77,8 +77,14 @@ INVESTING = {"nav": "Investing", "title": "Investing", "accent": "green", "blurb
 # Profile page); anything else is a supplementary resource. 'at': spec reference, e.g. "1.2.3".
 A = "a-econ"
 ARTIFACTS = [
-    {"src": "revenue-costs-profits", "role": "review", "at": "3.3", "title": "Business Objectives, Revenues, Costs and Profits", "kind": "Interactive",
-     "desc": "Spec 3.2 and 3.3: TR, AR and MR, cost curves, economies of scale, profit and shut-down points, objectives, with diagram walkthroughs, flashcards, a quiz and printable class notes.",
+    {"src": "business-objectives", "role": "review", "at": "3.2", "title": "Business Objectives", "kind": "Interactive",
+     "desc": "Spec 3.2: profit, revenue and sales maximisation on one diagram, satisficing, and why managers and owners may want different things.",
+     "places": [(A, "3-2")]},
+    {"src": "revenues-costs-profits", "role": "review", "at": "3.3", "title": "Revenues, Costs and Profits", "kind": "Interactive",
+     "desc": "Spec 3.3: TR, AR and MR, the cost curves and diminishing marginal productivity, LRAC and scale, normal and supernormal profit, and shut-down points.",
+     "places": [(A, "3-3")]},
+    {"src": "objectives-costs-downloads", "title": "Class Notes and Worksheets (3.2 and 3.3)", "kind": "Downloads", "at": "3.3.99",
+     "desc": "Printable class notes, keywords and calculations worksheets, and exam questions with mark scheme points.",
      "places": [(A, "3-3"), (A, "3-2")]},
 
     {"src": "business-growth", "role": "review", "at": "3.1", "title": "Business Growth", "kind": "Interactive",

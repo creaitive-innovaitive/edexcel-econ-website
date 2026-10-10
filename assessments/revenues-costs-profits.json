@@ -1,0 +1,165 @@
+{
+ "slug": "revenues-costs-profits",
+ "title": "Revenues, Costs and Profits: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "For a firm facing a downward-sloping demand curve, MR is:",
+   "opts": [
+    "Equal to AR",
+    "Below AR",
+    "Above AR",
+    "Always zero"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Revenue",
+   "ok": "Correct: Cutting price applies to all units, so MR is below AR.",
+   "fb": "Cutting price applies to all units, so MR is below AR. Review the Learn tab.",
+   "model": "Below AR"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "Total revenue is at its maximum where:",
+   "opts": [
+    "MR = MC",
+    "MR = 0",
+    "AR = AC",
+    "MC = AC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Revenue and PED",
+   "ok": "Correct: At MR = 0 demand is unit elastic.",
+   "fb": "At MR = 0 demand is unit elastic. Review the Learn tab.",
+   "model": "MR = 0"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "Average cost equals:",
+   "opts": [
+    "AVC − AFC",
+    "AVC + AFC",
+    "TC × Q",
+    "MC + AFC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Costs",
+   "ok": "Correct: AC = AVC + AFC.",
+   "fb": "AC = AVC + AFC. Review the Learn tab.",
+   "model": "AVC + AFC"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "MC cuts AC at:",
+   "opts": [
+    "Its maximum",
+    "Its minimum",
+    "Any point",
+    "Never"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Costs",
+   "ok": "Correct: MC pulls the average down when below and up when above.",
+   "fb": "MC pulls the average down when below and up when above. Review the Learn tab.",
+   "model": "Its minimum"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "The U-shape of MC is caused by:",
+   "opts": [
+    "Economies of scale",
+    "Diminishing marginal productivity",
+    "Fixed costs",
+    "Inflation"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Costs",
+   "ok": "Correct: More workers eventually add less to output.",
+   "fb": "More workers eventually add less to output. Review the Learn tab.",
+   "model": "Diminishing marginal productivity"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "In the short run a firm should shut down if:",
+   "opts": [
+    "AR < AC",
+    "AR < AVC",
+    "AR < MC",
+    "AR = AC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Shut-down",
+   "ok": "Correct: It then fails to cover even variable costs.",
+   "fb": "It then fails to cover even variable costs. Review the Learn tab.",
+   "model": "AR < AVC"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "Which is an external economy of scale?",
+   "opts": [
+    "Bulk buying by one firm",
+    "A pool of skilled workers near an industry cluster",
+    "A larger machine",
+    "A bigger marketing budget"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Scale",
+   "ok": "Correct: External economies depend on the size of the industry.",
+   "fb": "External economies depend on the size of the industry. Review the Learn tab.",
+   "model": "A pool of skilled workers near an industry cluster"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "A firm sells 50 units at £12 each. Calculate total revenue (£).",
+   "ans": 600,
+   "tol": 0.1,
+   "marks": 1,
+   "topic": "Revenue",
+   "hint": "Enter a number.",
+   "ok": "Correct: TR = P × Q = £600.",
+   "fb": "TR = P × Q = £600. Check the worked examples.",
+   "model": "600"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "TFC is £60 and TVC is £180 at an output of 30. Calculate average total cost (£).",
+   "ans": 8,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Costs",
+   "hint": "Enter a number.",
+   "ok": "Correct: TC = 240, AC = 240 ÷ 30 = £8.",
+   "fb": "TC = 240, AC = 240 ÷ 30 = £8. Check the worked examples.",
+   "model": "8"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "Total cost rises from £500 to £530 when output rises from 100 to 102 units. Calculate marginal cost (£).",
+   "ans": 15,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Costs",
+   "hint": "Enter a number.",
+   "ok": "Correct: MC = 30 ÷ 2 = £15.",
+   "fb": "MC = 30 ÷ 2 = £15. Check the worked examples.",
+   "model": "15"
+  }
+ ]
+}

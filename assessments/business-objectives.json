@@ -1,0 +1,165 @@
+{
+ "slug": "business-objectives",
+ "title": "Business Objectives: assessment",
+ "pass_pct": 70,
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mcq",
+   "q": "Profit is maximised where:",
+   "opts": [
+    "MR = 0",
+    "MC = MR",
+    "AR = AC",
+    "MC = AC"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Profit maximisation",
+   "ok": "Correct: MC = MR.",
+   "fb": "MC = MR. Review the Learn tab.",
+   "model": "MC = MR"
+  },
+  {
+   "id": "q2",
+   "type": "mcq",
+   "q": "Total revenue is maximised where:",
+   "opts": [
+    "MC = MR",
+    "MR = 0",
+    "AR = AC",
+    "AC is lowest"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Revenue maximisation",
+   "ok": "Correct: When MR is zero, extra sales add no revenue.",
+   "fb": "When MR is zero, extra sales add no revenue. Review the Learn tab.",
+   "model": "MR = 0"
+  },
+  {
+   "id": "q3",
+   "type": "mcq",
+   "q": "A sales-maximising firm (making no loss) produces where:",
+   "opts": [
+    "MR = 0",
+    "MC = MR",
+    "AR = AC",
+    "MC = 0"
+   ],
+   "ans": "2",
+   "marks": 1,
+   "topic": "Sales maximisation",
+   "ok": "Correct: AR = AC: only normal profit.",
+   "fb": "AR = AC: only normal profit. Review the Learn tab.",
+   "model": "AR = AC"
+  },
+  {
+   "id": "q4",
+   "type": "mcq",
+   "q": "Compared with profit maximisation, sales maximisation gives:",
+   "opts": [
+    "Higher price and lower output",
+    "Lower price and higher output",
+    "Higher price and higher output",
+    "The same output"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Objectives",
+   "ok": "Correct: The firm moves down the demand curve.",
+   "fb": "The firm moves down the demand curve. Review the Learn tab.",
+   "model": "Lower price and higher output"
+  },
+  {
+   "id": "q5",
+   "type": "mcq",
+   "q": "A reason managers might prefer revenue maximisation is that:",
+   "opts": [
+    "Their pay and status may rise with firm size",
+    "It always maximises profit",
+    "Shareholders demand it",
+    "It reduces costs"
+   ],
+   "ans": "0",
+   "marks": 1,
+   "topic": "Principal-agent",
+   "ok": "Correct: Managers' aims can differ from owners'.",
+   "fb": "Managers' aims can differ from owners'. Review the Learn tab.",
+   "model": "Their pay and status may rise with firm size"
+  },
+  {
+   "id": "q6",
+   "type": "mcq",
+   "q": "Satisficing means aiming for:",
+   "opts": [
+    "Maximum profit",
+    "A satisfactory level of profit",
+    "Maximum revenue",
+    "Zero profit"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Satisficing",
+   "ok": "Correct: Enough profit to keep owners content.",
+   "fb": "Enough profit to keep owners content. Review the Learn tab.",
+   "model": "A satisfactory level of profit"
+  },
+  {
+   "id": "q7",
+   "type": "mcq",
+   "q": "A revenue-maximising firm operates on the part of demand that is:",
+   "opts": [
+    "Inelastic",
+    "Elastic or unit elastic",
+    "Perfectly inelastic",
+    "Perfectly elastic only"
+   ],
+   "ans": "1",
+   "marks": 1,
+   "topic": "Revenue maximisation",
+   "ok": "Correct: MR ≥ 0 means PED ≥ 1.",
+   "fb": "MR ≥ 0 means PED ≥ 1. Review the Learn tab.",
+   "model": "Elastic or unit elastic"
+  },
+  {
+   "id": "q8",
+   "type": "num",
+   "q": "A firm sells 6 units at £28 with average cost £13.33. Calculate profit to the nearest pound (£).",
+   "ans": 88,
+   "tol": 0.6,
+   "marks": 1,
+   "topic": "Profit",
+   "hint": "Enter a number.",
+   "ok": "Correct: (28 − 13.33) × 6 ≈ £88.",
+   "fb": "(28 − 13.33) × 6 ≈ £88. Check the worked examples.",
+   "model": "88"
+  },
+  {
+   "id": "q9",
+   "type": "num",
+   "q": "At revenue maximisation the firm sells 10 units at £20 with average cost £16. Calculate profit (£).",
+   "ans": 40,
+   "tol": 0.5,
+   "marks": 1,
+   "topic": "Profit",
+   "hint": "Enter a number.",
+   "ok": "Correct: (20 − 16) × 10 = £40.",
+   "fb": "(20 − 16) × 10 = £40. Check the worked examples.",
+   "model": "40"
+  },
+  {
+   "id": "q10",
+   "type": "num",
+   "q": "Demand is AR = 40 − 2Q, so MR = 40 − 4Q. At what output is total revenue maximised?",
+   "ans": 10,
+   "tol": 0.01,
+   "marks": 1,
+   "topic": "Revenue maximisation",
+   "hint": "Enter a number.",
+   "ok": "Correct: MR = 0 gives Q = 10.",
+   "fb": "MR = 0 gives Q = 10. Check the worked examples.",
+   "model": "10"
+  }
+ ]
+}
