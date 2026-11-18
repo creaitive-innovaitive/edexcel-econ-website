@@ -109,6 +109,9 @@ ARTIFACTS = [
      "desc": "Spec 3.6: merger control, price caps and profit regulation, privatisation, tendering, regulatory capture, with a price-cap lab and policy comparison.",
      "places": [(A, "3-6")]},
 
+    {"src": "rail-natural-monopoly", "title": "Exam Question: Is the Rail Network a Natural Monopoly?", "kind": "Exam question", "at": "3.4.5",
+     "desc": "Worked 12-mark data response (Edexcel 6d): mark split, using Extract A paragraph 3, the LRAC diagram, practice and a colour-coded model answer.",
+     "places": [(A, "3-4")]},
     {"src": "past-papers-3-1", "title": "Past Papers: 3.1 Business growth", "kind": "Past papers", "at": "3.1.99",
      "desc": "11 Paper 1 and Paper 3 questions on this topic, 2017 to 2025, with marks, command words and where to find them.",
      "places": [(A, "3-1")]},
